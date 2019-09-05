@@ -26,6 +26,7 @@ Xiaochan Zhang (u6855326): front end programming
 * Course suggestion algorithm: recommending COMP courses based on what you have taken so far.
 
 *Tasks for next week:*
+
 Jingwei Wang:
 Search open source calendar app;
 
