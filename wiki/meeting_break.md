@@ -1,8 +1,11 @@
 **Meeting Minutes 1 (Mid-Semester Break)**
 
 Meeting location: Davey Lodge Common Room
+
 Meeting Date: 05/09/2019
+
 Meeting Time: 15:00 - 17:00
+
 Attendees: Jingwei Wang, Yongchao Lyu, Yuqing Zhai, Xiaochan Zhang
 
 *Discussion:*
