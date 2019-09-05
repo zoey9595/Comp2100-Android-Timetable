@@ -1,17 +1,18 @@
 **Meeting Minutes 1 (Mid-Semester Break)**
+
 Meeting location: Davey Lodge Common Room
 Meeting Date: 05/09/2019
 Meeting Time: 15:00 - 17:00
 Attendees: Jingwei Wang, Yongchao Lyu, Yuqing Zhai, Xiaochan Zhang
 
 *Discussion:*
+
 `Team member and responsibility`:
-| Member | Responsibility |
-| ------ | ------ |
-| Jingwei Wang (u6891978) | back end programming|
-|Yongchao Lyu (u6874539)|back end programming|
-| Yuqing Zhai (u6865190) | front end programming| 
-|Xiaochan Zhang (u6855326)|front end programming|)
+
+Jingwei Wang (u6891978): back end programming
+Yongchao Lyu (u6874539): back end programming
+Yuqing Zhai (u6865190): front end programming
+Xiaochan Zhang (u6855326): front end programming
 
 `Mean function of our timetatble`:
 1. A workable timetalbe app that have all default features:
