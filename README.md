@@ -1,6 +1,7 @@
 # Time-tabling assistant
 
 **Team members:**
+
 Jingwei Wang: u6891978 
 
 Yongchao Lyu: u6874539 
