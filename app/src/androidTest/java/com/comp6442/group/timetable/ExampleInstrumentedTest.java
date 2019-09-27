@@ -1,4 +1,4 @@
-package com.example.u6865190.timetable;
+package com.comp6442.group.timetable;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.u6865190.timetable", appContext.getPackageName());
+        assertEquals("com.comp6442.group.timetable", appContext.getPackageName());
     }
 }

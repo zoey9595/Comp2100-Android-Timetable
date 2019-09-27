@@ -1,4 +1,4 @@
-package com.example.u6865190.timetable;
+package com.comp6442.group.timetable;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
