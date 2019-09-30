@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,13 +15,14 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class EnrolActivity extends AppCompatActivity {
 
-    private TextView mTv;
+    private TextView mTvCourseID, mTvLectureDetails;
     private Button mBtnEnrol, mBtnCancel, mBtnAdd;
-    private ArrayList courseList;
+    private ArrayList courseList, lectureList;
     private Button mSpinnerCourse;
 
 
@@ -30,14 +32,17 @@ public class EnrolActivity extends AppCompatActivity {
         setContentView(R.layout.activity_enrol);
         setTitle("Enrol");
 
-        mTv = findViewById(R.id.tv_courseID);
+        mTvCourseID = findViewById(R.id.tv_courseID);
+        mTvLectureDetails = findViewById(R.id.tv_lectureDetails);
         mBtnEnrol = findViewById(R.id.btn_enrol);
         mBtnCancel = findViewById(R.id.btn_cancel);
         mBtnAdd = findViewById(R.id.btn_add);
         mSpinnerCourse = findViewById(R.id.btn_search_course);
 
-        Course course = Course.getCourseInstance(this);
+        final Course course = Course.getCourseInstance(this);
         courseList = (ArrayList) course.getCourseList();
+
+        mTvLectureDetails.setMovementMethod(new ScrollingMovementMethod());
 
         mSpinnerCourse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +77,13 @@ public class EnrolActivity extends AppCompatActivity {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        mTv.setText(stringArrayAdapter.getItem(i));
+                        mTvCourseID.setText(stringArrayAdapter.getItem(i));
+                        lectureList = (ArrayList) course.getLessons(stringArrayAdapter.getItem(i));
+                        StringBuilder builder = new StringBuilder();
+                        for (Object s: lectureList){
+                            builder.append(s+"\n");
+                        }
+                        mTvLectureDetails.setText(builder.toString());
                         dialog.dismiss();
                     }
                 });
