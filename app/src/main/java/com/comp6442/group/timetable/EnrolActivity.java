@@ -12,19 +12,20 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class EnrolActivity extends AppCompatActivity {
 
     private TextView mTvCourseID, mTvLectureDetails;
-    private Button mBtnEnrol, mBtnCancel, mBtnAdd;
-    private ArrayList courseList, lectureList;
-    private Button mSpinnerCourse;
-
+    private Button mBtnSearchCourse, mBtnSearchTutorial, mBtnEnrol, mBtnCancel, mBtnAdd;
+    private ArrayList courseList, lectureList, tutorialList;
+    private String courseID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +38,17 @@ public class EnrolActivity extends AppCompatActivity {
         mBtnEnrol = findViewById(R.id.btn_enrol);
         mBtnCancel = findViewById(R.id.btn_cancel);
         mBtnAdd = findViewById(R.id.btn_add);
-        mSpinnerCourse = findViewById(R.id.btn_search_course);
+        mBtnSearchCourse = findViewById(R.id.btn_course);
+        mBtnSearchTutorial = findViewById(R.id.btn_tutorial);
+        final ScrollView scrollView = findViewById(R.id.scrollable);
+        final LinearLayout linearLayout = findViewById(R.id.ll_scroll);
 
         final Course course = Course.getCourseInstance(this);
         courseList = (ArrayList) course.getCourseList();
 
         mTvLectureDetails.setMovementMethod(new ScrollingMovementMethod());
 
-        mSpinnerCourse.setOnClickListener(new View.OnClickListener() {
+        mBtnSearchCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Dialog dialog = new Dialog(view.getContext());
@@ -77,18 +81,33 @@ public class EnrolActivity extends AppCompatActivity {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        mTvCourseID.setText(stringArrayAdapter.getItem(i));
-                        lectureList = (ArrayList) course.getLessons(stringArrayAdapter.getItem(i));
+                        courseID = stringArrayAdapter.getItem(i);
+                        mTvCourseID.setText(courseID);
+                        lectureList = (ArrayList) course.getLessons(courseID);
                         StringBuilder builder = new StringBuilder();
                         for (Object s: lectureList){
                             builder.append(s+"\n");
                         }
                         mTvLectureDetails.setText(builder.toString());
+                        linearLayout.removeAllViews();
                         dialog.dismiss();
                     }
                 });
                 dialog.setContentView(view1);
                 dialog.show();
+            }
+        });
+
+        mBtnSearchTutorial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tutorialList = (ArrayList) course.getLessons(courseID);
+                for (int i=0; i<tutorialList.size();i++){
+                    CheckBox checkBox = new CheckBox(view.getContext());
+                    checkBox.setId(i);
+                    checkBox.setText(tutorialList.get(i).toString());
+                    linearLayout.addView(checkBox);
+                }
             }
         });
     }

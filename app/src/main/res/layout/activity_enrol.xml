@@ -15,7 +15,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_search_course"
+            android:id="@+id/btn_course"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/courseid" />
@@ -39,13 +39,24 @@
         android:maxLines="5" />
 
     <Button
-        android:id="@+id/tv_tutorialTime"
+        android:id="@+id/btn_tutorial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_lectureDetails"
         android:layout_marginBottom="10dp"
         android:text="@string/tutorial" />
 
+    <ScrollView
+        android:id="@+id/scrollable"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/btn_tutorial">
+        <LinearLayout
+            android:id="@+id/ll_scroll"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:orientation="vertical"/>
+    </ScrollView>
     <!--add tick box-->
 
     <Button
@@ -55,7 +66,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="20dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
         android:text="@string/enrol" />
 
     <Button
@@ -64,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="40dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
         android:layout_toRightOf="@id/btn_enrol"
         android:text="@string/cancel" />
 
@@ -75,7 +86,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/icon_add_course" />
 
 </RelativeLayout>
