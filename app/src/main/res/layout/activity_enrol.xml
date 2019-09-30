@@ -1,11 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="10dp"
     tools:context=".EnrolActivity">
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_search_course"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/courseid" />
+
+        <TextView
+            android:id="@+id/tv_courseID"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
+            android:text="..."
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_lectureTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll1"
+        android:layout_marginBottom="10dp"
+        android:text="Test" />
+
+    <Button
+        android:id="@+id/tv_tutorialTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_lectureTime"
+        android:layout_marginBottom="10dp"
+        android:text="@string/tutorial" />
+
+    <!--add tick box-->
+
+    <Button
+        android:id="@+id/btn_enrol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="40dp"
+        android:text="@string/enrol" />
+
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginBottom="40dp"
+        android:layout_toRightOf="@id/btn_enrol"
+        android:text="@string/cancel" />
+
+    <Button
+        android:id="@+id/btn_addnewcourse"
+        android:layout_width="55dp"
+        android:layout_height="52dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/icon_add_course" />
+
+</RelativeLayout>

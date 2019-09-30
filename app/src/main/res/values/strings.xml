@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Timetable</string>
     <string name="title_home">Home</string>
+    <string name="courseid">Search CourseID</string>
+    <string name="tutorial">Search Tutorial</string>
+    <string name="enrol">Enrol</string>
+    <string name="cancel">Cancel</string>
 </resources>
