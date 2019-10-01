@@ -18,7 +18,10 @@
             android:id="@+id/btn_course"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/courseid" />
+            android:text="@string/courseid"
+            android:padding="5dp"
+            android:background="@drawable/bg_btn"
+            android:textColor="@color/colorPrimaryDark"/>
 
         <TextView
             android:id="@+id/tv_courseID"
@@ -43,8 +46,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_lectureDetails"
+        android:padding="5dp"
         android:layout_marginBottom="10dp"
-        android:text="@string/tutorial" />
+        android:text="@string/tutorial"
+        android:background="@drawable/bg_btn"
+        android:textColor="@color/colorPrimaryDark"/>
 
     <ScrollView
         android:id="@+id/scrollable"
@@ -65,7 +71,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
-        android:text="@string/enrol" />
+        android:text="@string/enrol"
+        android:background="@drawable/bg_btn"
+        android:textColor="@color/colorPrimaryDark"/>
 
     <Button
         android:id="@+id/btn_cancel"
@@ -74,7 +82,9 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
         android:layout_toRightOf="@id/btn_tutorial"
-        android:text="@string/cancel" />
+        android:text="@string/cancel"
+        android:background="@drawable/bg_btn"
+        android:textColor="@color/colorPrimaryDark"/>
 
     <Button
         android:id="@+id/btn_addnewcourse"
@@ -82,6 +92,7 @@
         android:layout_height="52dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/icon_add_course" />
 
