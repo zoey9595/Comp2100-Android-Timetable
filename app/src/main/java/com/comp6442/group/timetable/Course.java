@@ -121,22 +121,20 @@ public class Course {
             for (int index = 0; index < lessonArray.length(); index++) {
                 JSONObject lesson = (JSONObject) lessonArray.get(index);
                 String lectureName =(String) lesson.get("name");
+
                 Map<String, String> lessonInfo = new HashMap<>();
 
-                if(lectureName.contains("Lec"))
+                String combine ="";
+                String name = lectureName.substring(lectureName.length()-7);
+
+                String weekday =Utility.WeekdayDisplay((String) lesson.get("weekday"));
+                String start = (String) lesson.get("start");
+                String end = (String) lesson.get("end");
+                if(name.contains("Lec"))
                 {
-                    Iterator keys = lesson.keys();
-                    while (keys.hasNext()) {
-                        String key = (String) keys.next();
-                        String name = lectureName.substring(lectureName.length()-7);
-                        String weekday =Utility.WeekdayDisplay((String) lesson.get("weekday"));
-                        String start = (String) lesson.get("start");
-                        String end = (String) lesson.get("end");
-                        String combine = name+", "+weekday+", "+start+", "+end;
+                    combine = name+", "+weekday+", "+start+"-"+end;
+                    if(!lectureList.contains(combine))
                         lectureList.add(combine);
-
-                    }
-
                 }
             }
 
@@ -156,20 +154,15 @@ public class Course {
                 String lectureName =(String) lesson.get("name");
                 Map<String, String> lessonInfo = new HashMap<>();
 
-                if(lectureName.contains("Tut") || lectureName.contains("Wor"))
+                if(lectureName.contains("Tut") || lectureName.contains("Wor")|| lectureName.contains("Com")|| lectureName.contains("Dro"))
                 {
-                    Iterator keys = lesson.keys();
-                    while (keys.hasNext()) {
-                        String key = (String) keys.next();
-                        String name = lectureName.substring(lectureName.length()-7);
-                        String weekday =Utility.WeekdayDisplay((String) lesson.get("weekday"));
-                        String start = (String) lesson.get("start");
-                        String end = (String) lesson.get("end");
-                        String combine = name+", "+weekday+", "+start+", "+end;
+                    String name = lectureName.substring(lectureName.length()-7);
+                    String weekday =Utility.WeekdayDisplay((String) lesson.get("weekday"));
+                    String start = (String) lesson.get("start");
+                    String end = (String) lesson.get("end");
+                    String combine = name+", "+weekday+", "+start+"-"+end;
+                    if(!lectureList.contains(combine))
                         lectureList.add(combine);
-
-                    }
-
                 }
             }
 
