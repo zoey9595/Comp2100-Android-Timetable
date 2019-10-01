@@ -111,4 +111,71 @@ public class Course {
         }
         return lessonList;
     }
+
+    //added on 1 Oct 2019
+    public List<String> getLecDetails(String courseKey) { //get lecture details: LecA/01, Mon, 13:00 - 15:00
+        List<String> lectureList = new ArrayList<>();
+        try {
+            JSONObject courseDetail = (JSONObject) this.courses.get(courseKey);
+            JSONArray lessonArray = (JSONArray) courseDetail.get("lessons");
+            for (int index = 0; index < lessonArray.length(); index++) {
+                JSONObject lesson = (JSONObject) lessonArray.get(index);
+                String lectureName =(String) lesson.get("name");
+                Map<String, String> lessonInfo = new HashMap<>();
+
+                if(lectureName.contains("Lec"))
+                {
+                    Iterator keys = lesson.keys();
+                    while (keys.hasNext()) {
+                        String key = (String) keys.next();
+                        String name = lectureName.substring(lectureName.length()-7);
+                        String weekday =Utility.WeekdayDisplay((String) lesson.get("weekday"));
+                        String start = (String) lesson.get("start");
+                        String end = (String) lesson.get("end");
+                        String combine = name+", "+weekday+", "+start+", "+end;
+                        lectureList.add(combine);
+
+                    }
+
+                }
+            }
+
+        } catch (Exception ex) {
+            Log.e(getClass().getSimpleName(), ex.getMessage());
+        }
+        return lectureList;
+    }
+
+    public List<String> getTutWorDetails(String courseKey) {  //get tutorial and workshop details: ComA/01, Mon, 13:00 - 15:00
+        List<String> lectureList = new ArrayList<>();
+        try {
+            JSONObject courseDetail = (JSONObject) this.courses.get(courseKey);
+            JSONArray lessonArray = (JSONArray) courseDetail.get("lessons");
+            for (int index = 0; index < lessonArray.length(); index++) {
+                JSONObject lesson = (JSONObject) lessonArray.get(index);
+                String lectureName =(String) lesson.get("name");
+                Map<String, String> lessonInfo = new HashMap<>();
+
+                if(lectureName.contains("Tut") || lectureName.contains("Wor"))
+                {
+                    Iterator keys = lesson.keys();
+                    while (keys.hasNext()) {
+                        String key = (String) keys.next();
+                        String name = lectureName.substring(lectureName.length()-7);
+                        String weekday =Utility.WeekdayDisplay((String) lesson.get("weekday"));
+                        String start = (String) lesson.get("start");
+                        String end = (String) lesson.get("end");
+                        String combine = name+", "+weekday+", "+start+", "+end;
+                        lectureList.add(combine);
+
+                    }
+
+                }
+            }
+
+        } catch (Exception ex) {
+            Log.e(getClass().getSimpleName(), ex.getMessage());
+        }
+        return lectureList;
+    }
 }
