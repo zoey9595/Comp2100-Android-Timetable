@@ -87,7 +87,7 @@ public class EnrolActivity extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         courseID = stringArrayAdapter.getItem(i);
                         mTvCourseID.setText(courseID);
-                        lectureList = (ArrayList) course.getLessons(courseID);
+                        lectureList = (ArrayList) course.getLecDetails(courseID);
                         StringBuilder builder = new StringBuilder();
                         for (Object s : lectureList) {
                             builder.append(s + "\n");
@@ -105,7 +105,7 @@ public class EnrolActivity extends AppCompatActivity {
         mBtnSearchTutorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tutorialList = (ArrayList) course.getLessons(courseID);
+                tutorialList = (ArrayList) course.getTutWorDetails(courseID);
                 for (int i = 0; i < tutorialList.size(); i++) {
                     CheckBox checkBox = new CheckBox(view.getContext());
                     checkBox.setId(i);
