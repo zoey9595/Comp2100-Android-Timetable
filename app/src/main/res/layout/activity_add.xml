@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context=".AddActivity">
+
+    <LinearLayout
+        android:id="@+id/ll_add"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_add1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/icon_add_courseid"/>
+
+            <EditText
+                android:id="@+id/edit_cid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:hint="Course ID"
+                android:background="@null"
+                android:textSize="20sp"
+                android:textAllCaps="true"
+                android:drawablePadding="10dp"/>
+
+            <Spinner
+                android:id="@+id/spinner_semester"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_add2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/icon_add_coursename"/>
+
+            <EditText
+                android:id="@+id/edit_cname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:hint="Course Name"
+                android:background="@null"
+                android:textSize="20sp"
+                android:textAllCaps="true"
+                android:drawablePadding="10dp"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/colorGrey"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:text="Course Detail:"
+            android:textSize="20sp"
+            android:textColor="@color/colorGrey" />
+
+        <LinearLayout
+            android:id="@+id/ll_add3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/btn_adddetail"
+        android:layout_marginLeft="80dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/bg_btn"
+        android:text="save"
+        android:textColor="@color/colorPrimaryDark"
+        android:onClick="saveButton"/>
+
+    <Button
+        android:id="@+id/btn_adddetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="70dp"
+        android:layout_marginBottom="30dp"
+        android:text="Add Detail"
+        android:background="@drawable/bg_btn"
+        android:textColor="@color/colorPrimaryDark"
+        android:onClick="addDetail"/>
+
+</RelativeLayout>

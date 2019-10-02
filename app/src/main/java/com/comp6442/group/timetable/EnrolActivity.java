@@ -1,6 +1,7 @@
 package com.comp6442.group.timetable;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -38,7 +39,7 @@ public class EnrolActivity extends AppCompatActivity {
         mTvLectureDetails = findViewById(R.id.tv_lectureDetails);
         mBtnEnrol = findViewById(R.id.btn_enrol);
         mBtnCancel = findViewById(R.id.btn_cancel);
-        mBtnAdd = findViewById(R.id.btn_add);
+        mBtnAdd = findViewById(R.id.btn_addnewcourse);//这个button是不是错了？ 我改了一下（xiaochan）
         mBtnSearchCourse = findViewById(R.id.btn_course);
         mBtnSearchTutorial = findViewById(R.id.btn_tutorial);
         final ScrollView scrollView = findViewById(R.id.scrollable);
@@ -113,6 +114,15 @@ public class EnrolActivity extends AppCompatActivity {
                     checkBox.setTextColor(-1979711488);
                     linearLayout.addView(checkBox);
                 }
+            }
+        });
+        // go to add activity (xiaochan)
+        mBtnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = null;
+                intent = new Intent(EnrolActivity.this, AddActivity.class);
+                startActivity(intent);
             }
         });
     }

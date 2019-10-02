@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         } else if (id == R.id.btn_question) {
             // do something else
+
         }
         return super.onOptionsItemSelected(item);
     }
