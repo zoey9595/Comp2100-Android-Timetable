@@ -1,17 +1,14 @@
 package com.comp6442.group.timetable;
 
 import android.content.Context;
-import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 public class TimeTableLayout extends LinearLayout {
     private static final int TABLE_COL = 8;
@@ -72,7 +69,7 @@ public class TimeTableLayout extends LinearLayout {
             tableRow.setGravity(Gravity.CENTER);
             tableRow.setOrientation(LinearLayout.HORIZONTAL);
             tableRow.setLayoutParams(i == 0 ? titleRowParam : bodyRowParam);
-            tableRow.setBackgroundResource(i % 2 != 0 ? R.color.cloud : R.color.white);
+            tableRow.setBackgroundResource(i % 2 != 0 ? R.color.colorCloud : R.color.colorWhite);
 
             for (int j = 0; j < TABLE_COL; j++) {
                 LessonBlock tableCell = new LessonBlock(getContext());
