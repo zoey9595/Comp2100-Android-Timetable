@@ -4,4 +4,10 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorBlack">#000000</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="darken">#333333</color>
+    <color name="cloud">#F9F9F9</color>
+    <color name="silver">#BDC3C7</color>
+
 </resources>
