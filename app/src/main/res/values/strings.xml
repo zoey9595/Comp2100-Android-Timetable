@@ -15,4 +15,86 @@
         <item>X4</item>
     </string-array>
 
+    <!--Not sure this is all the class type;-->
+    <string-array name="class1">
+        <item>Com</item>
+        <item>Lec</item>
+        <item>Lan</item>
+        <item>Onl</item>
+        <item>Pra</item>
+        <item>Sem</item>
+        <item>Stu</item>
+        <item>Tut</item>
+        <item>Wor</item>
+    </string-array>
+
+    <string-array name="class2">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+        <item>E</item>
+        <item>...</item>
+        <item>X</item>
+    </string-array>
+
+    <string-array name="class3">
+        <item>01</item>
+        <item>02</item>
+        <item>03</item>
+        <item>04</item>
+        <item>05</item>
+        <item>...</item>
+        <item>30</item>
+    </string-array>
+
+    <string-array name="day">
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+    </string-array>
+
+    <string-array name="start">
+        <item>8:00</item>
+        <item>9:00</item>
+        <item>10:00</item>
+        <item>11:00</item>
+        <item>12:00</item>
+        <item>13:00</item>
+        <item>14:00</item>
+        <item>15:00</item>
+        <item>16:00</item>
+        <item>17:00</item>
+        <item>18:00</item>
+        <item>19:00</item>
+        <item>20:00</item>
+        <item>21:00</item>
+    </string-array>
+
+    <string-array name="end">
+        <item>9:00</item>
+        <item>9:30</item>
+        <item>10:00</item>
+        <item>10:30</item>
+        <item>11:00</item>
+        <item>11:30</item>
+        <item>12:00</item>
+        <item>12:30</item>
+        <item>13:00</item>
+        <item>13:30</item>
+        <item>14:00</item>
+        <item>15:00</item>
+        <item>16:00</item>
+        <item>17:00</item>
+        <item>18:00</item>
+        <item>19:00</item>
+        <item>20:00</item>
+        <item>21:00</item>
+        <item>22:00</item>
+    </string-array>
+
+
+
 </resources>
