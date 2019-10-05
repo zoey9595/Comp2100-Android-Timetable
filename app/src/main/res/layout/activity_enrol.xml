@@ -6,13 +6,29 @@
     android:padding="10dp"
     tools:context=".EnrolActivity">
 
+    <TextView
+        android:id="@+id/tv_titleenrolledCourses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enrolledcoursestitle"
+        android:layout_marginTop="5dp" />
+    <TextView
+        android:id="@+id/tv_enrolledCourses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enrolledcourses"
+        android:layout_below="@id/tv_titleenrolledCourses"
+        android:layout_marginBottom="5dp"/>
+
+    <!--Add S1/S2/recommendation function switch-->
+
     <LinearLayout
         android:id="@+id/ll1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_below="@id/tv_enrolledCourses">
 
         <Button
             android:id="@+id/btn_course"

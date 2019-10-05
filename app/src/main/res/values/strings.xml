@@ -5,6 +5,8 @@
     <string name="tutorial">Search Tutorial</string>
     <string name="enrol">Enrol</string>
     <string name="cancel">Cancel</string>
+    <string name="enrolledcoursestitle">You have enrolled in:</string>
+    <string name="enrolledcourses">Seems you need to enrol some courses :)</string>
 
     <string-array name="semester">
         <item>S1</item>

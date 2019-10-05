@@ -1,3 +1,7 @@
+/**
+ * Author: Yuqing Zhai
+ * UID： u6865190
+ */
 package com.comp6442.group.timetable;
 
 import android.app.Dialog;
@@ -10,7 +14,6 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import android.widget.CheckBox;
@@ -20,13 +23,15 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class EnrolActivity extends AppCompatActivity {
 
-    private TextView mTvCourseID, mTvLectureDetails;
+    private TextView mTvCourseID, mTvLectureDetails, mTvEnrolledCourses;
     private Button mBtnSearchCourse, mBtnSearchTutorial, mBtnEnrol, mBtnCancel, mBtnAdd;
-    private ArrayList courseList, lectureList, tutorialList;
+    private ArrayList<String> courseList, lectureList, tutorialList;
     private String courseID;
+    private HashMap<String, ArrayList<String>> userCourseList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +42,10 @@ public class EnrolActivity extends AppCompatActivity {
         // Set up variables
         mTvCourseID = findViewById(R.id.tv_courseID);
         mTvLectureDetails = findViewById(R.id.tv_lectureDetails);
+        mTvEnrolledCourses = findViewById(R.id.tv_enrolledCourses);
         mBtnEnrol = findViewById(R.id.btn_enrol);
         mBtnCancel = findViewById(R.id.btn_cancel);
-        mBtnAdd = findViewById(R.id.btn_addnewcourse);//这个button是不是错了？ 我改了一下（xiaochan）
+        mBtnAdd = findViewById(R.id.btn_addnewcourse);
         mBtnSearchCourse = findViewById(R.id.btn_course);
         mBtnSearchTutorial = findViewById(R.id.btn_tutorial);
         final ScrollView scrollView = findViewById(R.id.scrollable);
@@ -48,6 +54,17 @@ public class EnrolActivity extends AppCompatActivity {
         // Get a list containing all ANU courses
         final Course course = Course.getCourseInstance(this);
         courseList = (ArrayList) course.getCourseList();
+
+        // Get a list containing all student enrolled courses
+        final User user = User.getUserInstance(this);
+        userCourseList = (HashMap) user.getUserCourses();
+        // Display enrolled courses
+        StringBuilder enrolledBuilder = new StringBuilder();
+        for (String s : userCourseList.keySet()) {
+            String courseName = course.getCourseName(s);
+            enrolledBuilder.append(s + " - " + courseName + "\n");
+        }
+        mTvEnrolledCourses.setText(enrolledBuilder.toString());
 
         // Make lecture details can be scrolled
         mTvLectureDetails.setMovementMethod(new ScrollingMovementMethod());
@@ -61,9 +78,12 @@ public class EnrolActivity extends AppCompatActivity {
                 View searchableView = inflater.inflate(R.layout.searchable_list_dialog, null);
                 final ListView mLvCourse = searchableView.findViewById(R.id.lv_course);
                 final SearchView mSvCourse = searchableView.findViewById(R.id.sv_course);
+
                 // Set adapter
-                final ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_list_item_1, courseList);
-                mLvCourse.setAdapter(stringArrayAdapter);
+                final MyAdapter myAdapter = new MyAdapter(view.getContext(), course, courseList);
+                mLvCourse.setAdapter(myAdapter);
+                mLvCourse.setTextFilterEnabled(true);
+
                 // Make course searchview listen to text change
                 mSvCourse.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
@@ -75,9 +95,11 @@ public class EnrolActivity extends AppCompatActivity {
                     @Override
                     public boolean onQueryTextChange(String newText) {
                         if (TextUtils.isEmpty(newText)) {
-                            stringArrayAdapter.getFilter().filter(null);
+                            mLvCourse.clearTextFilter();
+                            //myAdapter.getFilter().filter(null);
                         } else {
-                            stringArrayAdapter.getFilter().filter(newText);
+                            //mLvCourse.setFilterText(newText);
+                            myAdapter.getFilter().filter(newText);
                         }
                         return true;
                     }
@@ -86,11 +108,11 @@ public class EnrolActivity extends AppCompatActivity {
                 mLvCourse.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        courseID = stringArrayAdapter.getItem(i);
+                        courseID = (String) myAdapter.getItem(i);
                         mTvCourseID.setText(courseID);
                         lectureList = (ArrayList) course.getLecDetails(courseID);
                         StringBuilder builder = new StringBuilder();
-                        for (Object s : lectureList) {
+                        for (String s : lectureList) {
                             builder.append(s + "\n");
                         }
                         mTvLectureDetails.setText(builder.toString());
@@ -102,21 +124,23 @@ public class EnrolActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
         // dynamically increase the amount of tutorial checkboxes
         mBtnSearchTutorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                linearLayout.removeAllViews();
                 tutorialList = (ArrayList) course.getTutWorDetails(courseID);
                 for (int i = 0; i < tutorialList.size(); i++) {
                     CheckBox checkBox = new CheckBox(view.getContext());
                     checkBox.setId(i);
-                    checkBox.setText(tutorialList.get(i).toString());
+                    checkBox.setText(tutorialList.get(i));
                     checkBox.setTextColor(-1979711488);
                     linearLayout.addView(checkBox);
                 }
             }
         });
-        // go to add activity (xiaochan)
+        // go to AddActivity (Xiaochan Zhang)
         mBtnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
