@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -50,11 +51,34 @@ public class User {
 
     public Map<String, List> getUserCourses() {
         Map<String, List> selectedCourses = new HashMap<>();
-        Iterator<String> courseNames = this.userCourses.keys();
-        return new HashMap<>();
+        try {
+            Iterator<String> courseIds = this.userCourses.keys();
+            while (courseIds.hasNext()) {
+                String courseId = courseIds.next();
+
+                List<String> courseTypes = new ArrayList<>();
+                JSONArray course = (JSONArray) this.userCourses.get(courseId);
+                for (int index = 0; index < course.length(); index++)
+                    courseTypes.add((String) course.get(index));
+
+                selectedCourses.put(courseId, courseTypes);
+            }
+
+        } catch (Exception ex) {
+            Log.e(getClass().getSimpleName(), ex.getMessage());
+        }
+
+        return selectedCourses;
     }
 
-    public boolean setUserCourses() {
+    public boolean setUserCourses(Map<String, List> userCourse) {
+        try {
+
+        } catch (Exception ex) {
+            Log.e(getClass().getSimpleName(), ex.getMessage());
+            return false;
+        }
+
         return true;
     }
 }
