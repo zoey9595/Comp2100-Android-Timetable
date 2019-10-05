@@ -11,13 +11,10 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mTextMessage = (TextView) findViewById(R.id.message);
     }
 
     // create an action bar button
@@ -33,12 +30,13 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = null;
         int id = item.getItemId();
         if (id == R.id.btn_add) {
-            // do something here
+            // Start EnrolActivity
             intent = new Intent(MainActivity.this, EnrolActivity.class);
             startActivity(intent);
         } else if (id == R.id.btn_question) {
-            // do something else
-
+            // Start GuideActivity
+            intent = new Intent(MainActivity.this, GuideActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
