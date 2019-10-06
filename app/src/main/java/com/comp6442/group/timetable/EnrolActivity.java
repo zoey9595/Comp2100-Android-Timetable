@@ -14,6 +14,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import android.widget.CheckBox;
@@ -27,8 +28,9 @@ import java.util.HashMap;
 
 public class EnrolActivity extends AppCompatActivity {
 
-    private TextView mTvCourseID, mTvLectureDetails, mTvEnrolledCourses;
+    private TextView mTvCourseID, mTvLectureDetails;
     private Button mBtnSearchCourse, mBtnSearchTutorial, mBtnEnrol, mBtnCancel, mBtnAdd;
+    private ListView mLvEnrolledCourses, mLvTutorial;
     private ArrayList<String> courseList, lectureList, tutorialList;
     private String courseID;
     private HashMap<String, ArrayList<String>> userCourseList;
@@ -42,14 +44,15 @@ public class EnrolActivity extends AppCompatActivity {
         // Set up variables
         mTvCourseID = findViewById(R.id.tv_courseID);
         mTvLectureDetails = findViewById(R.id.tv_lectureDetails);
-        mTvEnrolledCourses = findViewById(R.id.tv_enrolledCourses);
+        mLvEnrolledCourses = findViewById(R.id.lv_enrolledCourses);
+        mLvTutorial = findViewById(R.id.lv_tutorials);
         mBtnEnrol = findViewById(R.id.btn_enrol);
         mBtnCancel = findViewById(R.id.btn_cancel);
         mBtnAdd = findViewById(R.id.btn_addnewcourse);
         mBtnSearchCourse = findViewById(R.id.btn_course);
         mBtnSearchTutorial = findViewById(R.id.btn_tutorial);
-        final ScrollView scrollView = findViewById(R.id.scrollable);
-        final LinearLayout linearLayout = findViewById(R.id.ll_scroll);
+        //final ScrollView scrollView = findViewById(R.id.scrollable2);
+        //final LinearLayout linearLayout = findViewById(R.id.ll_scroll);
 
         // Get a list containing all ANU courses
         final Course course = Course.getCourseInstance(this);
@@ -59,12 +62,18 @@ public class EnrolActivity extends AppCompatActivity {
         final User user = User.getUserInstance(this);
         userCourseList = (HashMap) user.getUserCourses();
         // Display enrolled courses
-        StringBuilder enrolledBuilder = new StringBuilder();
+        String[] enrolledCourses = new String[userCourseList.size()];
+        int i = 0;
         for (String s : userCourseList.keySet()) {
             String courseName = course.getCourseName(s);
-            enrolledBuilder.append(s + " - " + courseName + "\n");
+            enrolledCourses[i] = courseName;
+            i++;
         }
-        mTvEnrolledCourses.setText(enrolledBuilder.toString());
+//        ArrayAdapter<String> enrolAdapter = new ArrayAdapter<>(this,
+//                android.R.layout.simple_list_item_multiple_choice, enrolledCourses);
+        ArrayAdapter<String> enrolAdapter = new ArrayAdapter<>(this,
+                R.layout.custom_row_layout, enrolledCourses);
+        mLvEnrolledCourses.setAdapter(enrolAdapter);
 
         // Make lecture details can be scrolled
         mTvLectureDetails.setMovementMethod(new ScrollingMovementMethod());
@@ -116,7 +125,6 @@ public class EnrolActivity extends AppCompatActivity {
                             builder.append(s + "\n");
                         }
                         mTvLectureDetails.setText(builder.toString());
-                        linearLayout.removeAllViews();
                         dialog.dismiss();
                     }
                 });
@@ -129,15 +137,18 @@ public class EnrolActivity extends AppCompatActivity {
         mBtnSearchTutorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                linearLayout.removeAllViews();
+                //linearLayout.removeAllViews();
                 tutorialList = (ArrayList) course.getTutWorDetails(courseID);
-                for (int i = 0; i < tutorialList.size(); i++) {
-                    CheckBox checkBox = new CheckBox(view.getContext());
-                    checkBox.setId(i);
-                    checkBox.setText(tutorialList.get(i));
-                    checkBox.setTextColor(-1979711488);
-                    linearLayout.addView(checkBox);
-                }
+                ArrayAdapter<String> tutorialAdapter = new ArrayAdapter<>(view.getContext(),
+                        R.layout.custom_row_layout, tutorialList);
+                mLvTutorial.setAdapter(tutorialAdapter);
+//                for (int i = 0; i < tutorialList.size(); i++) {
+//                    CheckBox checkBox = new CheckBox(view.getContext());
+//                    checkBox.setId(i);
+//                    checkBox.setText(tutorialList.get(i));
+//                    checkBox.setTextColor(-1979711488);
+//                    linearLayout.addView(checkBox);
+//                }
             }
         });
         // go to AddActivity (Xiaochan Zhang)

@@ -12,13 +12,16 @@
         android:layout_height="wrap_content"
         android:hint="@string/enrolledcoursestitle"
         android:layout_marginTop="5dp" />
-    <TextView
-        android:id="@+id/tv_enrolledCourses"
+
+    <ListView
+        android:id="@+id/lv_enrolledCourses"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="140dp"
+        android:choiceMode="multipleChoice"
         android:hint="@string/enrolledcourses"
         android:layout_below="@id/tv_titleenrolledCourses"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginBottom="5dp"
+        android:paddingTop="3dp"/>
 
     <!--Add S1/S2/recommendation function switch-->
 
@@ -28,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal"
-        android:layout_below="@id/tv_enrolledCourses">
+        android:layout_below="@id/lv_enrolledCourses">
 
         <Button
             android:id="@+id/btn_course"
@@ -53,7 +56,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ll1"
-        android:layout_marginBottom="10dp"
         android:scrollbars="vertical"
         android:maxLines="5" />
 
@@ -68,8 +70,16 @@
         android:background="@drawable/bg_btn"
         android:textColor="@color/colorPrimaryDark"/>
 
-    <ScrollView
-        android:id="@+id/scrollable"
+    <ListView
+        android:id="@+id/lv_tutorials"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:choiceMode="multipleChoice"
+        android:layout_below="@id/btn_tutorial"
+        android:layout_marginBottom="10dp" />
+
+    <!--<ScrollView
+        android:id="@+id/scrollable2"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_below="@id/btn_tutorial">
@@ -78,7 +88,7 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:orientation="vertical"/>
-    </ScrollView>
+    </ScrollView>-->
 
     <Button
         android:id="@+id/btn_enrol"
