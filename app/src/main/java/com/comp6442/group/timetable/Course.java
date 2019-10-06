@@ -116,23 +116,15 @@ public class Course {
     public List<String> getLecDetails(String courseKey) { //get lecture details: LecA/01, Mon, 13:00 - 15:00
         List<String> lectureList = new ArrayList<>();
         try {
-            JSONObject courseDetail = (JSONObject) this.courses.get(courseKey);
-            JSONArray lessonArray = (JSONArray) courseDetail.get("lessons");
-            for (int index = 0; index < lessonArray.length(); index++) {
-                JSONObject lesson = (JSONObject) lessonArray.get(index);
-                String lectureName =(String) lesson.get("name");
-
+            List<Map<String, String>> lessonList = new ArrayList<>();
+            lessonList= getLessons(courseKey);
+            for (int i = 0; i < lessonList.size(); i++) {
                 Map<String, String> lessonInfo = new HashMap<>();
-
-                String combine ="";
-                String name = lectureName.substring(lectureName.length()-7);
-
-                String weekday =Utility.WeekdayDisplay((String) lesson.get("weekday"));
-                String start = (String) lesson.get("start");
-                String end = (String) lesson.get("end");
-                if(name.contains("Lec"))
+                lessonInfo = reformatLessonInfo(lessonList.get(i));
+                if(lessonInfo.get(Utility.NAME_TYPE).equals(Utility.LEC))
                 {
-                    combine = name+", "+weekday+", "+start+"-"+end;
+                    String combine = lessonInfo.get(Utility.NAME_TYPE)+lessonInfo.get(Utility.NAME_ALP)+'/'+lessonInfo.get(Utility.NAME_INDEX)
+                            +", "+lessonInfo.get(Utility.WEEKDAY)+", "+lessonInfo.get(Utility.START)+"-"+lessonInfo.get(Utility.END);
                     if(!lectureList.contains(combine))
                         lectureList.add(combine);
                 }
@@ -147,20 +139,15 @@ public class Course {
     public List<String> getTutWorDetails(String courseKey) {  //get tutorial and workshop details: ComA/01, Mon, 13:00 - 15:00
         List<String> lectureList = new ArrayList<>();
         try {
-            JSONObject courseDetail = (JSONObject) this.courses.get(courseKey);
-            JSONArray lessonArray = (JSONArray) courseDetail.get("lessons");
-            for (int index = 0; index < lessonArray.length(); index++) {
-                JSONObject lesson = (JSONObject) lessonArray.get(index);
-                String lectureName =(String) lesson.get("name");
+            List<Map<String, String>> lessonList = new ArrayList<>();
+            lessonList= getLessons(courseKey);
+            for (int i = 0; i < lessonList.size(); i++) {
                 Map<String, String> lessonInfo = new HashMap<>();
-
-                if(lectureName.contains("Tut") || lectureName.contains("Wor")|| lectureName.contains("Com")|| lectureName.contains("Dro"))
+                lessonInfo = reformatLessonInfo(lessonList.get(i));
+                if(!lessonInfo.get(Utility.NAME_TYPE).equals(Utility.LEC))
                 {
-                    String name = lectureName.substring(lectureName.length()-7);
-                    String weekday =Utility.WeekdayDisplay((String) lesson.get("weekday"));
-                    String start = (String) lesson.get("start");
-                    String end = (String) lesson.get("end");
-                    String combine = name+", "+weekday+", "+start+"-"+end;
+                    String combine = lessonInfo.get(Utility.NAME_TYPE)+lessonInfo.get(Utility.NAME_ALP)+'/'+lessonInfo.get(Utility.NAME_INDEX)
+                            +", "+lessonInfo.get(Utility.WEEKDAY)+", "+lessonInfo.get(Utility.START)+"-"+lessonInfo.get(Utility.END);
                     if(!lectureList.contains(combine))
                         lectureList.add(combine);
                 }
@@ -170,5 +157,45 @@ public class Course {
             Log.e(getClass().getSimpleName(), ex.getMessage());
         }
         return lectureList;
+    }
+
+    //added on 6 Oct 2019
+    public List<Map<String, String>> getLecDetailsInsplit(String courseKey) { //get lecture details: LecA/01, Mon, 13:00 - 15:00
+        List<Map<String, String>> lectureDetailList = new ArrayList<>();
+        try {
+            JSONObject courseDetail = (JSONObject) this.courses.get(courseKey);
+            List<Map<String, String>> lessonList = new ArrayList<>();
+            lessonList= getLessons(courseKey);
+            for (int i = 0; i < lessonList.size(); i++) {
+                Map<String, String> lessonInfo = new HashMap<>();
+                lessonInfo = reformatLessonInfo(lessonList.get(i));
+                lessonInfo.put(Utility.COURSE_NAME, (String) courseDetail.get(Utility.FULL_NAME));
+                lectureDetailList.add(lessonInfo);
+            }
+
+        } catch (Exception ex) {
+            Log.e(getClass().getSimpleName(), ex.getMessage());
+        }
+        return lectureDetailList;
+    }
+
+    public Map<String, String> reformatLessonInfo(Map<String, String> lesson)
+    {
+        Map<String, String> reformatedLesson = new HashMap<>();
+        try{
+            String fullName = (String) lesson.get(Utility.FULL_NAME); //COMP1110_S1-ComA/01
+
+            reformatedLesson.put(Utility.NAME_TYPE, fullName.substring(fullName.length()-7,fullName.length()-4)); //Com
+            reformatedLesson.put(Utility.NAME_ALP, fullName.substring(fullName.length()-4,fullName.length()-3));//A
+            reformatedLesson.put(Utility.NAME_INDEX, fullName.substring(fullName.length()-2));//01
+            reformatedLesson.put(Utility.WEEKDAY, Utility.WeekdayDisplay((String) lesson.get(Utility.WEEKDAY)));
+            reformatedLesson.put(Utility.START, (String) lesson.get(Utility.START));
+            reformatedLesson.put(Utility.END, (String) lesson.get(Utility.END));
+        }catch (Exception ex)
+        {
+            Log.e(getClass().getSimpleName(), ex.getMessage());
+        }
+        return reformatedLesson;
+
     }
 }
