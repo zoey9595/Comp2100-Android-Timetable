@@ -1,12 +1,14 @@
 <resources>
     <string name="app_name">Timetable</string>
     <string name="title_home">Home</string>
-    <string name="courseid">Search CourseID</string>
+    <string name="course_id">Search CourseID</string>
     <string name="tutorial">Search Tutorial</string>
     <string name="enrol">Enrol</string>
     <string name="cancel">Cancel</string>
-    <string name="enrolledcoursestitle">You have enrolled in:</string>
-    <string name="enrolledcourses">Seems you need to enrol some courses :)</string>
+    <string name="enrolled_courses_title">You have enrolled in:</string>
+    <string name="enrolled_courses">Seems you need to enrol some courses :)</string>
+    <string name="recommend_courses_title">We would recommend you to enrol:</string>
+    <string name="recommend_courses">You need to enrol some courses, then we can make recommendation:)</string>
 
     <string-array name="semester">
         <item>S1</item>

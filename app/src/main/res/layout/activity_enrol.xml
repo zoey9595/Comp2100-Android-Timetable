@@ -6,47 +6,80 @@
     android:padding="10dp"
     tools:context=".EnrolActivity">
 
-    <TextView
-        android:id="@+id/tv_titleenrolledCourses"
+    <LinearLayout
+        android:id="@+id/ll0"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/enrolledcoursestitle"
-        android:layout_marginTop="5dp" />
+        android:layout_height="20dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp" >
+        <TextView
+            android:id="@+id/tv_titleEnrolledCourses"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:hint="@string/enrolled_courses_title" />
+
+        <Button
+            android:id="@+id/btn_deleteEnroledCourses"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="0dp"
+            android:background="@drawable/bg_btn_selector"
+            android:text="Delete"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="10sp"
+            android:layout_marginLeft="180dp"/>
+    </LinearLayout>
 
     <ListView
         android:id="@+id/lv_enrolledCourses"
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:choiceMode="multipleChoice"
-        android:hint="@string/enrolledcourses"
-        android:layout_below="@id/tv_titleenrolledCourses"
+        android:hint="@string/enrolled_courses"
+        android:layout_below="@id/ll0"
         android:layout_marginBottom="5dp"
         android:paddingTop="3dp"/>
 
-    <!--Add S1/S2/recommendation function switch-->
+    <TextView
+        android:id="@+id/tv_titleRecommendCourses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/recommend_courses_title"
+        android:layout_below="@id/lv_enrolledCourses"
+        android:layout_marginBottom="5dp" />
+
+    <ListView
+        android:id="@+id/lv_recommendCourses"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:divider="@null"
+        android:paddingLeft="5dp"
+        android:hint="@string/recommend_courses"
+        android:layout_below="@id/tv_titleRecommendCourses"
+        android:layout_marginBottom="5dp" />
 
     <LinearLayout
         android:id="@+id/ll1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal"
-        android:layout_below="@id/lv_enrolledCourses">
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/lv_recommendCourses">
 
         <Button
             android:id="@+id/btn_course"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/courseid"
+            android:text="@string/course_id"
             android:padding="5dp"
-            android:background="@drawable/bg_btn"
+            android:background="@drawable/bg_btn_selector"
             android:textColor="@color/colorPrimaryDark"/>
 
         <TextView
             android:id="@+id/tv_courseID"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="5dp"
             android:text="..."
             android:gravity="center"/>
     </LinearLayout>
@@ -62,18 +95,18 @@
     <Button
         android:id="@+id/btn_tutorial"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_below="@id/tv_lectureDetails"
         android:padding="5dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:text="@string/tutorial"
-        android:background="@drawable/bg_btn"
+        android:background="@drawable/bg_btn_selector"
         android:textColor="@color/colorPrimaryDark"/>
 
     <ListView
         android:id="@+id/lv_tutorials"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="140dp"
         android:choiceMode="multipleChoice"
         android:layout_below="@id/btn_tutorial"
         android:layout_marginBottom="10dp" />
@@ -93,33 +126,34 @@
     <Button
         android:id="@+id/btn_enrol"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="15dp"
         android:text="@string/enrol"
-        android:background="@drawable/bg_btn"
+        android:background="@drawable/bg_btn_selector"
         android:textColor="@color/colorPrimaryDark"/>
 
     <Button
         android:id="@+id/btn_cancel"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="15dp"
         android:layout_toRightOf="@id/btn_tutorial"
+        android:background="@drawable/bg_btn_selector"
         android:text="@string/cancel"
-        android:background="@drawable/bg_btn"
-        android:textColor="@color/colorPrimaryDark"/>
+        android:textColor="@color/colorPrimaryDark" />
 
     <Button
         android:id="@+id/btn_addnewcourse"
-        android:layout_width="55dp"
-        android:layout_height="52dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/icon_add_course" />
 
 </RelativeLayout>

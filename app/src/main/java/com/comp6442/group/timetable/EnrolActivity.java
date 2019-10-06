@@ -28,10 +28,10 @@ import java.util.HashMap;
 
 public class EnrolActivity extends AppCompatActivity {
 
-    private TextView mTvCourseID, mTvLectureDetails;
-    private Button mBtnSearchCourse, mBtnSearchTutorial, mBtnEnrol, mBtnCancel, mBtnAdd;
-    private ListView mLvEnrolledCourses, mLvTutorial;
-    private ArrayList<String> courseList, lectureList, tutorialList;
+    private TextView mTvCourseID, mTvLectureDetails, mTvRecommend;
+    private Button mBtnSearchCourse, mBtnSearchTutorial, mBtnDelete, mBtnEnrol, mBtnCancel, mBtnAdd;
+    private ListView mLvEnrolledCourses, mLvTutorial, mLvRecommend;
+    private ArrayList<String> courseList, lectureList, tutorialList, recommendList;
     private String courseID;
     private HashMap<String, ArrayList<String>> userCourseList;
 
@@ -44,15 +44,16 @@ public class EnrolActivity extends AppCompatActivity {
         // Set up variables
         mTvCourseID = findViewById(R.id.tv_courseID);
         mTvLectureDetails = findViewById(R.id.tv_lectureDetails);
+        mTvRecommend = findViewById(R.id.tv_titleEnrolledCourses);
         mLvEnrolledCourses = findViewById(R.id.lv_enrolledCourses);
         mLvTutorial = findViewById(R.id.lv_tutorials);
+        mLvRecommend = findViewById(R.id.lv_recommendCourses);
+        mBtnDelete = findViewById(R.id.btn_deleteEnroledCourses);
         mBtnEnrol = findViewById(R.id.btn_enrol);
         mBtnCancel = findViewById(R.id.btn_cancel);
         mBtnAdd = findViewById(R.id.btn_addnewcourse);
         mBtnSearchCourse = findViewById(R.id.btn_course);
         mBtnSearchTutorial = findViewById(R.id.btn_tutorial);
-        //final ScrollView scrollView = findViewById(R.id.scrollable2);
-        //final LinearLayout linearLayout = findViewById(R.id.ll_scroll);
 
         // Get a list containing all ANU courses
         final Course course = Course.getCourseInstance(this);
@@ -69,16 +70,24 @@ public class EnrolActivity extends AppCompatActivity {
             enrolledCourses[i] = courseName;
             i++;
         }
-//        ArrayAdapter<String> enrolAdapter = new ArrayAdapter<>(this,
-//                android.R.layout.simple_list_item_multiple_choice, enrolledCourses);
         ArrayAdapter<String> enrolAdapter = new ArrayAdapter<>(this,
                 R.layout.custom_row_layout, enrolledCourses);
         mLvEnrolledCourses.setAdapter(enrolAdapter);
 
+        // Make recommendation
+        recommendList = new ArrayList<>();
+        recommendList.add("COMP8715_S1-Computing Project");
+        recommendList.add("COMP8110_S1-Managing Software Projects in a System Context");
+        recommendList.add("COMP8420_S1-Neural Networks, Deep Learning and Bio-inspired Computing");
+        recommendList.add("COMP8600_S1-Statistical Machine Learning\n");
+        ArrayAdapter<String> recommendAdapter = new ArrayAdapter<>(this,
+                android.R.layout.test_list_item,recommendList);
+        mLvRecommend.setAdapter(recommendAdapter);
+
         // Make lecture details can be scrolled
         mTvLectureDetails.setMovementMethod(new ScrollingMovementMethod());
 
-        // Set up an OnClickListener on the searchview
+        // Set up an OnClickListener on the SearchView
         mBtnSearchCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,7 +102,7 @@ public class EnrolActivity extends AppCompatActivity {
                 mLvCourse.setAdapter(myAdapter);
                 mLvCourse.setTextFilterEnabled(true);
 
-                // Make course searchview listen to text change
+                // Make course SearchView listen to text change
                 mSvCourse.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String newText) {
@@ -113,7 +122,7 @@ public class EnrolActivity extends AppCompatActivity {
                         return true;
                     }
                 });
-                // make listview show the selected course lecture time
+                // make ListView show the selected course lecture time
                 mLvCourse.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
