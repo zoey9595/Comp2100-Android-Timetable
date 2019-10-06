@@ -7,4 +7,5 @@
     android:textColor="@color/colorDarkGrey"
     android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
     android:gravity="center_vertical"
-    android:paddingLeft="5dp" />
+    android:paddingLeft="5dp"
+    android:checked="false"/>
