@@ -80,7 +80,7 @@ public class MyAdapter extends BaseAdapter implements Filterable {
     public View getView(int i, View view, ViewGroup viewGroup) {
         MyCourseHolder holder;
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.two_lines_listview_layout, viewGroup, false);
+            view = LayoutInflater.from(context).inflate(R.layout.layout_two_lines_listview, viewGroup, false);
             holder = new MyCourseHolder();
             holder.courseID = view.findViewById(R.id.text1);
             holder.courseName = view.findViewById(R.id.text2);
