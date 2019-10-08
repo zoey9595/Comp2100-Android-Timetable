@@ -17,7 +17,6 @@ import java.util.Map;
 
 public class User {
     private static User userInstance = null;
-
     private static Course courseInstance;
     private JSONObject userCourses = new JSONObject();
 
@@ -80,5 +79,83 @@ public class User {
         }
 
         return true;
+    }
+
+    //Added on 8 Oct 2019
+    // need Map<String, List> toEnrollCourseInfo
+    // "COMP6442_S2": ["LecA/01", "ComA/08"],
+    //  "COMP6240_S2": ["LecA/01", "ComA/25"],
+    //  "COMP6490_S2": ["LecA/01", "LecB/01", "ComA/02"],
+    //  "COMP6670_S2": ["LecA/01", "LecB/01", "ComA/01"]
+    public Map<String,String> isConflict(List<Map<String,String>> timeToEnrollList)
+    {
+        List<Map<String,String>> timeEnrolledList = getLessonsByUser();
+
+        Map<String,String> conflict = new HashMap<>();
+        String message="";
+        String isConflict = "false";
+        for (int i = 0; i < timeToEnrollList.size(); i++) {
+            String startToEnroll = timeToEnrollList.get(i).get(Utility.START);
+            String endToEnroll = timeToEnrollList.get(i).get(Utility.END);
+            String toEnrollLesson = timeToEnrollList.get(i).get(Utility.FULL_NAME);
+
+            for (int j = 0; j < timeEnrolledList.size(); j++) {
+                String startEnrolled = timeEnrolledList.get(j).get(Utility.START);
+                String endEnrolled = timeEnrolledList.get(j).get(Utility.END);
+                String enrolledLesson = timeEnrolledList.get(j).get(Utility.FULL_NAME);
+
+                //Enrolled : 13:00 - 15:00
+                //To Enroll :  12:00 - 14:00 or 12:00 - 15:00 or 12:00 - 17:00
+                if(Utility.compareTimeInString(startToEnroll,startEnrolled) <0 &&
+                        Utility.compareTimeInString(endToEnroll,startEnrolled) >=0)
+                    isConflict = "true";
+
+                //Enrolled : 13:00 - 15:00
+                //To Enroll :  14:00 - 16:00 or 14:30 - 16:00
+                if(Utility.compareTimeInString(startToEnroll,startEnrolled) >0 &&
+                        Utility.compareTimeInString(startToEnroll,endEnrolled) < 0)
+                    isConflict = "true";
+
+                //Enrolled : 13:00 - 15:00
+                //To Enroll :  13:00 - ...
+                if(Utility.compareTimeInString(startToEnroll,startEnrolled) ==0)
+                    isConflict = "true";
+
+                //Enrolled : 13:00 - 15:00
+                //To Enroll : ... - 15:00
+                if(Utility.compareTimeInString(endToEnroll,startEnrolled) ==0)
+                    isConflict = "true";
+
+                if(isConflict.equals("true"))
+                {
+                    String conflictMessage= toEnrollLesson + "is conflicted"+enrolledLesson +" with " +startEnrolled+"- "+endEnrolled;
+
+                    conflict.put(Utility.STATUS,isConflict);
+                    conflict.put(Utility.MESSAGE,conflictMessage);
+                    break;
+                }
+            }
+            if(isConflict.equals("true"))
+                break;
+        }
+        return conflict;
+    }
+
+    public List<Map<String, String>> getLessonsByUser()
+    {
+        List<Map<String, String>> enrolledLessonInfoList = new ArrayList<>();
+        Map<String, List> enrolledCourseInfo = getUserCourses();
+
+        //get all lessons info by courseID
+        for (String s : enrolledCourseInfo.keySet()) {
+            List<String> lessons = enrolledCourseInfo.get(s);
+            for (int i = 0; i < lessons.size(); i++) {
+                Map<String, String> enrolledLessonInfo = courseInstance.getLessonsByCourseIdAndLessonName(s,lessons.get(i));
+                if(enrolledCourseInfo.size()>0)
+                    enrolledLessonInfoList.add(enrolledLessonInfo);
+            }
+
+        }
+        return enrolledLessonInfoList;
     }
 }

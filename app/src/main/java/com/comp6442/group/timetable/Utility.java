@@ -1,5 +1,9 @@
 package com.comp6442.group.timetable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Utility {
 
     //Lesson Properties
@@ -12,6 +16,9 @@ public class Utility {
     public static final String END = "end";
 
     public static final String COURSE_NAME = "courseName";
+
+    public static final String STATUS = "status";
+    public static final String MESSAGE = "message";
 
     //Lecture Type
     public static final String LEC = "Lec";
@@ -40,5 +47,25 @@ public class Utility {
 
 
         return weekday;
+    }
+
+    public static long compareTimeInString(String time1, String time2){
+        long elapsed =0;
+
+        try{
+//            String startTime = "10:00";
+//            String endTime = "12:00";
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            Date d1 = sdf.parse(time1);
+            Date d2 = sdf.parse(time2);
+            elapsed = d1.getTime() - d2.getTime();
+            System.out.println(elapsed);
+
+        }
+        catch (ParseException e)
+        {
+
+        }
+        return elapsed;
     }
 }

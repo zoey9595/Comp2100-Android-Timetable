@@ -198,4 +198,27 @@ public class Course {
         return reformatedLesson;
 
     }
+
+    //Added on 8 Oct 2019
+    public Map<String, String> getLessonsByCourseIdAndLessonName(String courseKey,String lessonName) {
+        Map<String, String> lessonInfo = new HashMap<>();
+        try {
+            JSONObject courseDetail = (JSONObject) this.courses.get(courseKey);
+            JSONArray lessonArray = (JSONArray) courseDetail.get("lessons");
+            for (int index = 0; index < lessonArray.length(); index++) {
+                JSONObject lesson = (JSONObject) lessonArray.get(index);
+                String lessonFullName = (String) lesson.get(Utility.FULL_NAME);
+
+                if(lessonFullName.contains(lessonName))
+                {
+                    lessonInfo.put(Utility.FULL_NAME, (String) lesson.get(Utility.FULL_NAME));
+                    lessonInfo.put(Utility.START, (String) lesson.get(Utility.START));
+                    lessonInfo.put(Utility.END, (String) lesson.get(Utility.END));
+                }
+            }
+        } catch (Exception ex) {
+            Log.e(getClass().getSimpleName(), ex.getMessage());
+        }
+        return lessonInfo;
+    }
 }
