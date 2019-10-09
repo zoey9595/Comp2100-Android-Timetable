@@ -189,13 +189,11 @@ public class Course {
             String nameAlp = "";
             if(splitName[1].length()>=4)
             {
+                nameAlp = splitName[1].substring(3,splitName[1].length());
                 splitName[1] = splitName[1].substring(0, splitName[1].length() - 1);
-                nameAlp = splitName[1].substring(2,splitName[1].length());
-
-
             }
-            reformatedLesson.put(Utility.NAME_TYPE, fullName.substring(fullName.length()-7,fullName.length()-4)); //Com
-            reformatedLesson.put(Utility.NAME_ALP, fullName.substring(fullName.length()-4,fullName.length()-3));//A
+            reformatedLesson.put(Utility.NAME_TYPE, splitName[1]); //Com
+            reformatedLesson.put(Utility.NAME_ALP, nameAlp);//A
             reformatedLesson.put(Utility.NAME_INDEX, splitName[2]);//01
             reformatedLesson.put(Utility.WEEKDAY, Utility.WeekdayDisplay((String) lesson.get(Utility.WEEKDAY)));
             reformatedLesson.put(Utility.START, (String) lesson.get(Utility.START));
