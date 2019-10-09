@@ -52,7 +52,6 @@
         android:id="@+id/lv_recommendCourses"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:divider="@null"
         android:paddingLeft="5dp"
         android:hint="@string/recommend_courses"
         android:layout_below="@id/tv_titleRecommendCourses"
