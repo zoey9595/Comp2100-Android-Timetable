@@ -128,7 +128,7 @@ public class User {
 
                     if(isConflict.equals("true"))
                     {
-                        String conflictMessage= toEnrollLesson + "is conflicted"+enrolledLesson +" with " +startEnrolled+"- "+endEnrolled;
+                        String conflictMessage= toEnrollLesson + " is conflicted with "+enrolledLesson +"(" +startEnrolled+" - "+endEnrolled + ")";
 
                         conflict.put(Utility.STATUS,isConflict);
                         conflict.put(Utility.MESSAGE,conflictMessage);
