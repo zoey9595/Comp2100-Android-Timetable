@@ -221,6 +221,7 @@ public class Course {
                     lessonInfo.put(Utility.FULL_NAME, (String) lesson.get(Utility.FULL_NAME));
                     lessonInfo.put(Utility.START, (String) lesson.get(Utility.START));
                     lessonInfo.put(Utility.END, (String) lesson.get(Utility.END));
+                    lessonInfo.put(Utility.WEEKDAY,(String) lesson.get(Utility.WEEKDAY));
                 }
             }
         } catch (Exception ex) {
