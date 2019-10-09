@@ -147,18 +147,19 @@ public class TimeTableLayout extends LinearLayout {
             int row = startTime - TIME_START;
             int col = WEEK_DAYS.indexOf(lesson.get("weekday").substring(0, 3)) + 1;
 
-            LinearLayout tableRow = (LinearLayout) courseContainer.getChildAt(row);
             for (int i = 0; i < duration; i++) {
+                LinearLayout tableRow = (LinearLayout) courseContainer.getChildAt(row + i);
                 if (tableRow != null) {
-                    LessonBlock tableCell = (LessonBlock) tableRow.getChildAt(col + i);
+                    LessonBlock tableCell = (LessonBlock) tableRow.getChildAt(col);
                     tableCell.setVisibility(View.INVISIBLE);
                     tableCell.setText(lesson.get("name")
                             .replace("_S1", "")
                             .replace("_S2", ""));
-//                    tableCell.setBackgroundColor(colorArray[colorIndex++]);
+                    tableCell.setBackgroundColor(colorArray[colorIndex]);
                     tableCell.setVisibility(View.VISIBLE);
                 }
             }
+            colorIndex++;
         }
     }
 }
