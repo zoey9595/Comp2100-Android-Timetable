@@ -94,41 +94,46 @@ public class User {
             String startToEnroll = timeToEnrollList.get(i).get(Utility.START);
             String endToEnroll = timeToEnrollList.get(i).get(Utility.END);
             String toEnrollLesson = timeToEnrollList.get(i).get(Utility.FULL_NAME);
+            String toEnrollWeekday = timeToEnrollList.get(i).get(Utility.WEEKDAY);
 
             for (int j = 0; j < timeEnrolledList.size(); j++) {
                 String startEnrolled = timeEnrolledList.get(j).get(Utility.START);
                 String endEnrolled = timeEnrolledList.get(j).get(Utility.END);
                 String enrolledLesson = timeEnrolledList.get(j).get(Utility.FULL_NAME);
+                String enrolledWeekday = timeEnrolledList.get(j).get(Utility.WEEKDAY);
 
-                //Enrolled : 13:00 - 15:00
-                //To Enroll :  12:00 - 14:00 or 12:00 - 15:00 or 12:00 - 17:00
-                if(Utility.compareTimeInString(startToEnroll,startEnrolled) <0 &&
-                        Utility.compareTimeInString(endToEnroll,startEnrolled) >=0)
-                    isConflict = "true";
-
-                //Enrolled : 13:00 - 15:00
-                //To Enroll :  14:00 - 16:00 or 14:30 - 16:00
-                if(Utility.compareTimeInString(startToEnroll,startEnrolled) >0 &&
-                        Utility.compareTimeInString(startToEnroll,endEnrolled) < 0)
-                    isConflict = "true";
-
-                //Enrolled : 13:00 - 15:00
-                //To Enroll :  13:00 - ...
-                if(Utility.compareTimeInString(startToEnroll,startEnrolled) ==0)
-                    isConflict = "true";
-
-                //Enrolled : 13:00 - 15:00
-                //To Enroll : ... - 15:00
-                if(Utility.compareTimeInString(endToEnroll,startEnrolled) ==0)
-                    isConflict = "true";
-
-                if(isConflict.equals("true"))
+                if(toEnrollWeekday.equals(enrolledWeekday))
                 {
-                    String conflictMessage= toEnrollLesson + "is conflicted"+enrolledLesson +" with " +startEnrolled+"- "+endEnrolled;
+                    //Enrolled : 13:00 - 15:00
+                    //To Enroll :  12:00 - 14:00 or 12:00 - 15:00 or 12:00 - 17:00
+                    if(Utility.compareTimeInString(startToEnroll,startEnrolled) <0 &&
+                            Utility.compareTimeInString(endToEnroll,startEnrolled) >=0)
+                        isConflict = "true";
 
-                    conflict.put(Utility.STATUS,isConflict);
-                    conflict.put(Utility.MESSAGE,conflictMessage);
-                    break;
+                    //Enrolled : 13:00 - 15:00
+                    //To Enroll :  14:00 - 16:00 or 14:30 - 16:00
+                    if(Utility.compareTimeInString(startToEnroll,startEnrolled) >0 &&
+                            Utility.compareTimeInString(startToEnroll,endEnrolled) < 0)
+                        isConflict = "true";
+
+                    //Enrolled : 13:00 - 15:00
+                    //To Enroll :  13:00 - ...
+                    if(Utility.compareTimeInString(startToEnroll,startEnrolled) ==0)
+                        isConflict = "true";
+
+                    //Enrolled : 13:00 - 15:00
+                    //To Enroll : ... - 15:00
+                    if(Utility.compareTimeInString(endToEnroll,startEnrolled) ==0)
+                        isConflict = "true";
+
+                    if(isConflict.equals("true"))
+                    {
+                        String conflictMessage= toEnrollLesson + " is conflicted with "+enrolledLesson +"(" +startEnrolled+" - "+endEnrolled + ")";
+
+                        conflict.put(Utility.STATUS,isConflict);
+                        conflict.put(Utility.MESSAGE,conflictMessage);
+                        break;
+                    }
                 }
             }
             if(isConflict.equals("true"))
@@ -184,18 +189,23 @@ public class User {
     {
         boolean hasError = false;
         Map<String,String> conflict = new HashMap<>();
+        Map<String,String> saveStatus = new HashMap<>();
+        conflict = isConflict(toEnrollCourse);
         if(conflict.size()>0)
             hasError = true;
 
         if(hasError)
-            conflict = isConflict(toEnrollCourse);
+        {
+            saveStatus.put(Utility.STATUS,"false");
+            saveStatus.put(Utility.MESSAGE,conflict.get("message"));
+        }
         else
-            {
-                conflict.put(Utility.STATUS,"false");
-                conflict.put(Utility.MESSAGE,"Save Successful!");
-            }
+        {
+            saveStatus.put(Utility.STATUS,"true");
+            saveStatus.put(Utility.MESSAGE,"Save Successful!");
+        }
 
-        return conflict;
+        return saveStatus;
     }
 
 }

@@ -14,6 +14,7 @@ import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.SparseBooleanArray;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,6 +28,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class EnrolActivity extends AppCompatActivity {
 
@@ -75,12 +78,12 @@ public class EnrolActivity extends AppCompatActivity {
 
         // Make recommendation
         recommendList = new ArrayList<>();
-        recommendList.add("COMP8715_S1-Computing Project");
-        recommendList.add("COMP8110_S1-Managing Software Projects in a System Context");
-        recommendList.add("COMP8420_S1-Neural Networks, Deep Learning and Bio-inspired Computing");
-        recommendList.add("COMP8600_S1-Statistical Machine Learning\n");
-        ArrayAdapter<String> recommendAdapter = new ArrayAdapter<>(this,
-                android.R.layout.test_list_item, recommendList);
+        recommendList.add("COMP8715_S1");
+        recommendList.add("COMP8110_S1");
+        recommendList.add("COMP8420_S1");
+        recommendList.add("COMP8600_S1");
+        //ArrayAdapter<String> recommendAdapter = new ArrayAdapter<>(this, android.R.layout.test_list_item, recommendList);
+        MyAdapter recommendAdapter = new MyAdapter(this, course, recommendList);
         mLvRecommend.setAdapter(recommendAdapter);
 
         // Make lecture details can be scrolled
@@ -138,6 +141,8 @@ public class EnrolActivity extends AppCompatActivity {
                 });
                 dialog.setContentView(searchableView);
                 dialog.show();
+                // If the courseID is changed, delete all tutorials in the tutorial ListView.
+                if (tutorialList != null) tutorialList.clear();
             }
         });
 
@@ -201,7 +206,7 @@ public class EnrolActivity extends AppCompatActivity {
         // Set enrol button
         mBtnEnrol.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 final AlertDialog.Builder alertDialog = new AlertDialog.Builder(EnrolActivity.this);
                 alertDialog.setTitle("Enrol");
                 alertDialog.setIcon(R.drawable.icon_enrol_course);
@@ -210,7 +215,7 @@ public class EnrolActivity extends AppCompatActivity {
                 alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ArrayList<String> newEnrolCourses = new ArrayList<>();
+                        List<String> newEnrolCourses = new ArrayList<>();
                         String selectedcourseID = mTvCourseID.getText().toString();
                         String selectedCourseDetails = mTvLectureDetails.getText().toString().substring(0, 7);
                         newEnrolCourses.add(selectedCourseDetails);
@@ -224,11 +229,21 @@ public class EnrolActivity extends AppCompatActivity {
                                 }
                             }
                         }
+                        Map<String, List> temp = new HashMap<>();
+                        temp.put(selectedcourseID, newEnrolCourses);
                         // Add the selected course to userCourseList
-                        userCourseList.put(selectedcourseID, newEnrolCourses);
-                        System.out.println(userCourseList.toString());
-                        // Return to the main activity
-                        finish();
+                        Map<String, String> temp2 = user.save(temp);
+                        if (temp2.get("status").equals("false")) {
+                            // Make a custom toast
+                            MyToast myToast = MyToast.makeText(view.getContext(), temp2.get("message"), Toast.LENGTH_SHORT);
+                            myToast.setGravity(Gravity.CENTER, 0, 0);
+                            myToast.show();
+                            //Toast.makeText(view.getContext(), temp2.get("message"), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(view.getContext(), temp2.get("message"), Toast.LENGTH_SHORT).show();
+                            // Return to the main activity
+                            finish();
+                        }
                     }
                 });
                 alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
