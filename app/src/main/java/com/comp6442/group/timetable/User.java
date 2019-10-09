@@ -189,16 +189,23 @@ public class User {
     {
         boolean hasError = false;
         Map<String,String> conflict = new HashMap<>();
+        Map<String,String> saveStatus = new HashMap<>();
         conflict = isConflict(toEnrollCourse);
         if(conflict.size()>0)
             hasError = true;
+
+        if(hasError)
+        {
+            saveStatus.put(Utility.STATUS,"false");
+            saveStatus.put(Utility.MESSAGE,conflict.get("message"));
+        }
         else
         {
-            conflict.put(Utility.STATUS,"false");
-            conflict.put(Utility.MESSAGE,"Save Successful!");
+            saveStatus.put(Utility.STATUS,"true");
+            saveStatus.put(Utility.MESSAGE,"Save Successful!");
         }
 
-        return conflict;
+        return saveStatus;
     }
 
 }
