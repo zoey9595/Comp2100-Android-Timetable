@@ -81,17 +81,14 @@ public class User {
         return true;
     }
 
-    //  Added on 8 Oct 2019
-    //  need Map<String, List> toEnrollCourseInfo
-    //  "COMP6442_S2": ["LecA/01", "ComA/08"],
-    //  "COMP6240_S2": ["LecA/01", "ComA/25"],
-    //  "COMP6490_S2": ["LecA/01", "LecB/01", "ComA/02"],
-    //  "COMP6670_S2": ["LecA/01", "LecB/01", "ComA/01"]
-    public Map<String, String> isConflict(List<Map<String, String>> timeToEnrollList) {
-        List<Map<String, String>> timeEnrolledList = getLessonsByUser();
+    //Added on 8 Oct 2019
+    //check if the lectures to be enrolled are conflicted with existing lectures
+    public Map<String,String> isConflict(List<Map<String,String>> timeToEnrollList)
+    {
+        List<Map<String,String>> timeEnrolledList = getLessonsByUser();
 
-        Map<String, String> conflict = new HashMap<>();
-        String message = "";
+        Map<String,String> conflict = new HashMap<>();
+        String message="";
         String isConflict = "false";
         for (int i = 0; i < timeToEnrollList.size(); i++) {
             String startToEnroll = timeToEnrollList.get(i).get(Utility.START);
@@ -105,41 +102,43 @@ public class User {
 
                 //Enrolled : 13:00 - 15:00
                 //To Enroll :  12:00 - 14:00 or 12:00 - 15:00 or 12:00 - 17:00
-                if (Utility.compareTimeInString(startToEnroll, startEnrolled) < 0 &&
-                        Utility.compareTimeInString(endToEnroll, startEnrolled) >= 0)
+                if(Utility.compareTimeInString(startToEnroll,startEnrolled) <0 &&
+                        Utility.compareTimeInString(endToEnroll,startEnrolled) >=0)
                     isConflict = "true";
 
                 //Enrolled : 13:00 - 15:00
                 //To Enroll :  14:00 - 16:00 or 14:30 - 16:00
-                if (Utility.compareTimeInString(startToEnroll, startEnrolled) > 0 &&
-                        Utility.compareTimeInString(startToEnroll, endEnrolled) < 0)
+                if(Utility.compareTimeInString(startToEnroll,startEnrolled) >0 &&
+                        Utility.compareTimeInString(startToEnroll,endEnrolled) < 0)
                     isConflict = "true";
 
                 //Enrolled : 13:00 - 15:00
                 //To Enroll :  13:00 - ...
-                if (Utility.compareTimeInString(startToEnroll, startEnrolled) == 0)
+                if(Utility.compareTimeInString(startToEnroll,startEnrolled) ==0)
                     isConflict = "true";
 
                 //Enrolled : 13:00 - 15:00
                 //To Enroll : ... - 15:00
-                if (Utility.compareTimeInString(endToEnroll, startEnrolled) == 0)
+                if(Utility.compareTimeInString(endToEnroll,startEnrolled) ==0)
                     isConflict = "true";
 
-                if (isConflict.equals("true")) {
-                    String conflictMessage = toEnrollLesson + " is conflicted with " + enrolledLesson + "(" + startEnrolled + " - " + endEnrolled + ")";
+                if(isConflict.equals("true"))
+                {
+                    String conflictMessage= toEnrollLesson + "is conflicted"+enrolledLesson +" with " +startEnrolled+"- "+endEnrolled;
 
-                    conflict.put(Utility.STATUS, isConflict);
-                    conflict.put(Utility.MESSAGE, conflictMessage);
+                    conflict.put(Utility.STATUS,isConflict);
+                    conflict.put(Utility.MESSAGE,conflictMessage);
                     break;
                 }
             }
-            if (isConflict.equals("true"))
+            if(isConflict.equals("true"))
                 break;
         }
         return conflict;
     }
 
-    public List<Map<String, String>> getLessonsByUser() {
+    public List<Map<String, String>> getLessonsByUser()
+    {
         List<Map<String, String>> enrolledLessonInfoList = new ArrayList<>();
         Map<String, List<String>> enrolledCourseInfo = getUserCourses();
 
@@ -147,8 +146,8 @@ public class User {
         for (String s : enrolledCourseInfo.keySet()) {
             List<String> lessons = enrolledCourseInfo.get(s);
             for (int i = 0; i < lessons.size(); i++) {
-                Map<String, String> enrolledLessonInfo = courseInstance.getLessonsByCourseIdAndLessonName(s, lessons.get(i));
-                if (enrolledCourseInfo.size() > 0)
+                Map<String, String> enrolledLessonInfo = courseInstance.getLessonsByCourseIdAndLessonName(s,lessons.get(i));
+                if(enrolledCourseInfo.size()>0)
                     enrolledLessonInfoList.add(enrolledLessonInfo);
             }
 
@@ -156,24 +155,45 @@ public class User {
         return enrolledLessonInfoList;
     }
 
-    //  "COMP6670_S2": ["LecA/01", "LecB/01", "ComA/01"]
-    public Map<String, String> isConflict(HashMap<String, ArrayList<String>> toEnrollCourse) {
-        Map<String, String> conflict = new HashMap<>();
+    //  get lectures to be enrolled and check conflict
+    public Map<String,String> isConflict(Map<String,List> toEnrollCourse)
+    {
+        Map<String,String> conflict = new HashMap<>();
 
 
-        List<Map<String, String>> timeToEnrollList = new ArrayList<>();
+        List<Map<String,String>> timeToEnrollList = new ArrayList<>();
         //get all lessons info by courseID
         for (String s : toEnrollCourse.keySet()) {
             List<String> lessons = toEnrollCourse.get(s);
             for (int i = 0; i < lessons.size(); i++) {
-                Map<String, String> enrolledLessonInfo = courseInstance.getLessonsByCourseIdAndLessonName(s, lessons.get(i));
-                if (enrolledLessonInfo.size() > 0)
+                Map<String, String> enrolledLessonInfo = courseInstance.getLessonsByCourseIdAndLessonName(s,lessons.get(i));
+                if(enrolledLessonInfo.size()>0)
                     timeToEnrollList.add(enrolledLessonInfo);
             }
 
         }
 
         conflict = isConflict(timeToEnrollList);
+
+        return conflict;
+    }
+
+
+    //enroll course
+    public Map<String,String> save(Map<String,List> toEnrollCourse)
+    {
+        boolean hasError = false;
+        Map<String,String> conflict = new HashMap<>();
+        if(conflict.size()>0)
+            hasError = true;
+
+        if(hasError)
+            conflict = isConflict(toEnrollCourse);
+        else
+            {
+                conflict.put(Utility.STATUS,"false");
+                conflict.put(Utility.MESSAGE,"Save Successful!");
+            }
 
         return conflict;
     }

@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class EnrolActivity extends AppCompatActivity {
@@ -214,7 +215,7 @@ public class EnrolActivity extends AppCompatActivity {
                 alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ArrayList<String> newEnrolCourses = new ArrayList<>();
+                        List<String> newEnrolCourses = new ArrayList<>();
                         String selectedcourseID = mTvCourseID.getText().toString();
                         String selectedCourseDetails = mTvLectureDetails.getText().toString().substring(0, 7);
                         newEnrolCourses.add(selectedCourseDetails);
@@ -228,17 +229,18 @@ public class EnrolActivity extends AppCompatActivity {
                                 }
                             }
                         }
-                        HashMap<String, ArrayList<String>> temp = new HashMap<>();
+                        Map<String, List> temp = new HashMap<>();
                         temp.put(selectedcourseID, newEnrolCourses);
                         // Add the selected course to userCourseList
-                        Map<String, String> temp2 = user.isConflict(temp);
-                        if (temp2.get("status").equals("true")) {
+                        Map<String, String> temp2 = user.save(temp);
+                        if (temp2.get("status").equals("false")) {
                             // Make a custom toast
-                            MyToast myToast = MyToast.makeText(view.getContext(), temp2.get("message"), Toast.LENGTH_LONG);
+                            MyToast myToast = MyToast.makeText(view.getContext(), temp2.get("message"), Toast.LENGTH_SHORT);
                             myToast.setGravity(Gravity.CENTER, 0, 0);
                             myToast.show();
+                            //Toast.makeText(view.getContext(), temp2.get("message"), Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(view.getContext(), "Congratulations! There is no conflict!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(view.getContext(), temp2.get("message"), Toast.LENGTH_SHORT).show();
                             // Return to the main activity
                             finish();
                         }
