@@ -5,14 +5,21 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class TimeTableLayout extends LinearLayout {
+
     private static final int TABLE_COL = 8;
     private static final int TABLE_ROW = 16;
+    private static final int TIME_START = 7;
+    private static final List<String> WEEK_DAYS =
+            Arrays.asList("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
 
     private static int TITLE_ROW_HEIGHT;
     private static int BODY_ROW_HEIGHT;
@@ -43,8 +50,8 @@ public class TimeTableLayout extends LinearLayout {
 //            if (initializeListener != null) {
 //                initializeListener.onTableInitialized();
 //            }
-//
-//            showCourse(studentCourse);
+
+            showCourse();
         }
     }
 
@@ -76,7 +83,7 @@ public class TimeTableLayout extends LinearLayout {
 
                 // Set texts of the first column, time index of the timetable
                 if (j == 0 && i > 0)
-                    tableCell.setText(String.format("%d:00", i + 7));
+                    tableCell.setText(String.format("%d:00", i + TIME_START));
 
                 tableCell.setZ(5.0f);
                 tableCell.setLayoutParams(cellParam);
@@ -89,10 +96,70 @@ public class TimeTableLayout extends LinearLayout {
 
         // Set texts of the first row, weekday index of the timetable
         LinearLayout titleLayout = (LinearLayout) courseContainer.getChildAt(0);
-        List<String> weekdays = Arrays.asList("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
-        for (int index = 1; index < 8; index++) {
+        for (int index = 1; index < TABLE_COL; index++) {
             LessonBlock lessonBlock = (LessonBlock) titleLayout.getChildAt(index);
-            lessonBlock.setText(weekdays.get(index - 1));
+            lessonBlock.setText(WEEK_DAYS.get(index - 1));
+        }
+    }
+
+    private void resetCourseTable() {
+        for (int row = 1; row < TABLE_ROW; row++) {
+            for (int col = 1; col < TABLE_COL; col++) {
+                LinearLayout tableRow = (LinearLayout) courseContainer.getChildAt(row);
+                if (tableRow != null) {
+                    LessonBlock tableCell = (LessonBlock) tableRow.getChildAt(col);
+                    tableCell.resetLessonBlock();
+                }
+            }
+        }
+        requestLayout();
+    }
+
+    private int[] getColorArray(int colorCount) {
+        int[] LessonColors = getContext().getResources().getIntArray(R.array.LessonColors);
+        List<Integer> defaultColor = new ArrayList<>();
+        for (int color : LessonColors)
+            defaultColor.add(color);
+
+        int[] colorArray = new int[colorCount];
+        for (int i = 0; i < colorCount; i++) {
+            int random = (int) (Math.random() * defaultColor.size());
+            colorArray[i] = defaultColor.remove(random);
+        }
+
+        return colorArray;
+    }
+
+    private void showCourse() {
+        resetCourseTable();
+
+        int currentWeek = UserCourse.getCurrentWeek();
+        UserCourse userCourse = new UserCourse(getContext());
+        List<Map<String, String>> activeLessons = userCourse.getActiveLessons(currentWeek);
+
+        int colorIndex = 0;
+        int[] colorArray = getColorArray(activeLessons.size());
+
+        for (Map<String, String> lesson: activeLessons) {
+            int startTime = Integer.parseInt(lesson.get("start").split(":")[0].trim());
+            int duration = Integer.parseInt(lesson.get("duration").split(":")[0].trim());
+
+            int row = startTime - TIME_START;
+            int col = WEEK_DAYS.indexOf(lesson.get("weekday").substring(0, 3)) + 1;
+
+            for (int i = 0; i < duration; i++) {
+                LinearLayout tableRow = (LinearLayout) courseContainer.getChildAt(row + i);
+                if (tableRow != null) {
+                    LessonBlock tableCell = (LessonBlock) tableRow.getChildAt(col);
+                    tableCell.setVisibility(View.INVISIBLE);
+                    tableCell.setText(lesson.get("name")
+                            .replace("_S1", "")
+                            .replace("_S2", ""));
+                    tableCell.setBackgroundColor(colorArray[colorIndex]);
+                    tableCell.setVisibility(View.VISIBLE);
+                }
+            }
+            colorIndex++;
         }
     }
 }

@@ -1,3 +1,10 @@
+/**
+ * Author: Yuqing Zhai
+ * UID: u6865190
+ *
+ * MyAdapter is a custom adapter for ListView to make it searchable.
+ *
+ */
 package com.comp6442.group.timetable;
 
 import android.content.Context;
