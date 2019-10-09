@@ -82,11 +82,7 @@ public class User {
     }
 
     //Added on 8 Oct 2019
-    // need Map<String, List> toEnrollCourseInfo
-    // "COMP6442_S2": ["LecA/01", "ComA/08"],
-    //  "COMP6240_S2": ["LecA/01", "ComA/25"],
-    //  "COMP6490_S2": ["LecA/01", "LecB/01", "ComA/02"],
-    //  "COMP6670_S2": ["LecA/01", "LecB/01", "ComA/01"]
+    //check if the lectures to be enrolled are conflicted with existing lectures
     public Map<String,String> isConflict(List<Map<String,String>> timeToEnrollList)
     {
         List<Map<String,String>> timeEnrolledList = getLessonsByUser();
@@ -159,8 +155,8 @@ public class User {
         return enrolledLessonInfoList;
     }
 
-    //  "COMP6670_S2": ["LecA/01", "LecB/01", "ComA/01"]
-    public Map<String,String>  isConflict(Map<String,List> toEnrollCourse)
+    //  get lectures to be enrolled and check conflict
+    public Map<String,String> isConflict(Map<String,List> toEnrollCourse)
     {
         Map<String,String> conflict = new HashMap<>();
 
@@ -178,6 +174,26 @@ public class User {
         }
 
         conflict = isConflict(timeToEnrollList);
+
+        return conflict;
+    }
+
+
+    //enroll course
+    public Map<String,String> save(Map<String,List> toEnrollCourse)
+    {
+        boolean hasError = false;
+        Map<String,String> conflict = new HashMap<>();
+        if(conflict.size()>0)
+            hasError = true;
+
+        if(hasError)
+            conflict = isConflict(toEnrollCourse);
+        else
+            {
+                conflict.put(Utility.STATUS,"false");
+                conflict.put(Utility.MESSAGE,"Save Successful!");
+            }
 
         return conflict;
     }
