@@ -158,4 +158,28 @@ public class User {
         }
         return enrolledLessonInfoList;
     }
+
+    //  "COMP6670_S2": ["LecA/01", "LecB/01", "ComA/01"]
+    public Map<String,String>  isConflict(Map<String,List> toEnrollCourse)
+    {
+        Map<String,String> conflict = new HashMap<>();
+
+
+        List<Map<String,String>> timeToEnrollList = new ArrayList<>();
+        //get all lessons info by courseID
+        for (String s : toEnrollCourse.keySet()) {
+            List<String> lessons = toEnrollCourse.get(s);
+            for (int i = 0; i < lessons.size(); i++) {
+                Map<String, String> enrolledLessonInfo = courseInstance.getLessonsByCourseIdAndLessonName(s,lessons.get(i));
+                if(enrolledLessonInfo.size()>0)
+                    timeToEnrollList.add(enrolledLessonInfo);
+            }
+
+        }
+
+        conflict = isConflict(timeToEnrollList);
+
+        return conflict;
+    }
+
 }

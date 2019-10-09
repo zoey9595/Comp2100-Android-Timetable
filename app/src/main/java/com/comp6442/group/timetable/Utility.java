@@ -41,7 +41,7 @@ public class Utility {
                 weekday = "Thu";
                 break;
             case "Friday":
-                weekday = "Mon";
+                weekday = "Fri";
                 break;
         }
 
