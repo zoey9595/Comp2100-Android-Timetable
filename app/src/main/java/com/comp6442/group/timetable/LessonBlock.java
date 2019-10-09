@@ -1,6 +1,7 @@
 package com.comp6442.group.timetable;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.support.v4.content.ContextCompat;
@@ -29,5 +30,12 @@ public class LessonBlock extends AppCompatTextView {
                 new int[]{android.R.attr.state_enabled},
                 new ColorDrawable(color));
         setBackgroundDrawable(background);
+    }
+
+    public void resetLessonBlock() {
+        setText(null);
+        setTag(null);
+        super.setBackgroundColor(Color.TRANSPARENT);
+        setOnClickListener(null);
     }
 }
