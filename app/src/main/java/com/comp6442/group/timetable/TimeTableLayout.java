@@ -26,6 +26,7 @@ public class TimeTableLayout extends LinearLayout {
     private LinearLayout courseContainer;
 
     private boolean isInitialized = false;
+    private OnClickListener onClickListener = null;
 
     public TimeTableLayout(Context context) {
         super(context);
@@ -46,12 +47,9 @@ public class TimeTableLayout extends LinearLayout {
             TITLE_ROW_HEIGHT = Math.round(BODY_ROW_HEIGHT * 0.75f);
 
             initCourseTable();
-            isInitialized = true;
-//            if (initializeListener != null) {
-//                initializeListener.onTableInitialized();
-//            }
-
             showCourse();
+
+            isInitialized = true;
         }
     }
 
@@ -60,6 +58,10 @@ public class TimeTableLayout extends LinearLayout {
         super.onFinishInflate();
         Log.i(getClass().getSimpleName(), "onFinishInflate");
         courseContainer = findViewById(R.id.course_container);
+    }
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
     }
 
     private void initCourseTable() {
@@ -152,10 +154,12 @@ public class TimeTableLayout extends LinearLayout {
                 if (tableRow != null) {
                     LessonBlock tableCell = (LessonBlock) tableRow.getChildAt(col);
                     tableCell.setVisibility(View.INVISIBLE);
+                    tableCell.setTag(lesson);
                     tableCell.setText(lesson.get("name")
                             .replace("_S1", "")
                             .replace("_S2", ""));
                     tableCell.setBackgroundColor(colorArray[colorIndex]);
+                    tableCell.setOnClickListener(this.onClickListener);
                     tableCell.setVisibility(View.VISIBLE);
                 }
             }

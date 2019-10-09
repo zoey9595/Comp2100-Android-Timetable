@@ -2,9 +2,15 @@ package com.comp6442.group.timetable;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,6 +18,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TimeTableLayout timeTable = findViewById(R.id.timeTable);
+        timeTable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Map<String, String> lesson = (HashMap<String, String>)view.getTag();
+                showInfoDialog(view.getId(), lesson.get("name"), lesson);
+            }
+        });
+    }
+
+    private void showInfoDialog(int id, String courseName, Map<String, String> lesson) {
+        String message = String.format(
+                Locale.ENGLISH, "%s%s\n%s%s\n%s%s\n%s%s",
+                "Lesson: ", lesson.get("name"),
+                "Start Time:", lesson.get("start"),
+                "End Time: ", lesson.get("end"),
+                "Location: ", lesson.get("location"));
+        AlertDialog.Builder courseDialogBuilder = new AlertDialog.Builder(this)
+                .setTitle(courseName)
+                .setMessage(message)
+                .setPositiveButton("Detail", null);
+        courseDialogBuilder.show();
     }
 
     // create an action bar button
