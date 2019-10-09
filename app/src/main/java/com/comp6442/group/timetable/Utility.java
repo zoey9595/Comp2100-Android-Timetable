@@ -135,8 +135,8 @@ public class Utility {
         lessonTpye.add(ONL);
         lessonTpye.add(ADH);
         lessonTpye.add(SCR);
-//        lessonTpye.add(PRAC);
-//        lessonTpye.add(FIELDWORK);
+        lessonTpye.add(PRAC);
+        lessonTpye.add(FIELDWORK);
         return lessonTpye;
     }
 

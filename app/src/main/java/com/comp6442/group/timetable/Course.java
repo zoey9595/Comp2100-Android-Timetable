@@ -34,7 +34,7 @@ public class Course {
                 jsonFileLine = bReader.readLine();
             }
 
-            this.courses = new JSONObject(stringBuilder.toString());;
+            this.courses = new JSONObject(stringBuilder.toString());
 
         } catch (Exception ex) {
             Log.e(getClass().getSimpleName(), ex.getMessage());
@@ -189,7 +189,7 @@ public class Course {
             String nameAlp = "";
             if(splitName[1].length()>=4)
             {
-                nameAlp = splitName[1].substring(3,splitName[1].length());
+                nameAlp = splitName[1].substring(splitName[1].length()-1,splitName[1].length());
                 splitName[1] = splitName[1].substring(0, splitName[1].length() - 1);
             }
             reformatedLesson.put(Utility.NAME_TYPE, splitName[1]); //Com
