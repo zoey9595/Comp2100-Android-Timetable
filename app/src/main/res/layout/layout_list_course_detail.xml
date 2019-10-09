@@ -92,19 +92,11 @@
                 android:layout_marginLeft="0dp" />
 
             <Button
-                android:id="@+id/btn_add_class"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginLeft="30dp"
-                android:background="@drawable/icon_add_add"
-                />
-
-            <Button
                 android:id="@+id/btn_del_class"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/icon_add_del"/>
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/icon_add_delete"/>
         </LinearLayout>
 
 

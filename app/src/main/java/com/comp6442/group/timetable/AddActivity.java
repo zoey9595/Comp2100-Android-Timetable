@@ -24,6 +24,7 @@ import static com.comp6442.group.timetable.Utility.NAME_TYPE;
 
 public class AddActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    public static List<Map<String, String>> classDetails;
     //declare all the variables of widgets
     private Spinner spinner_semester,spinner_day;
     private Button btn_find;
@@ -32,6 +33,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     private ListView mLvCDetail;
     private List<Map<String,String>> classDetailList;
     private String courseName, courseID;
+    private Object str;
 
 
     /* This is a method that init all the widget
@@ -60,10 +62,16 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
 
         final Course course = Course.getCourseInstance(this);
 
+
+
+
         //button setting
         btn_find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
 
                 //search course ID and add course name if the ID is correct
                 courseID = edit_CID.getText().toString()+"_"+ spinner_semester.getSelectedItem().toString();
@@ -75,17 +83,12 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                 }else{
                     edit_CName.setText(courseName);
                 }
-
                 //search course ID and add details in the list if it is correct
                 classDetailList = course.getLecDetailsInsplit(courseID);
-                int listSize = classDetailList.size();
 
-                    for (int i=0;i<classDetailList.size();i++){
-                        System.out.println(classDetailList.get(i).get(NAME_TYPE)+classDetailList.get(i).get(NAME_INDEX));
-                    }
-
-
-
+                //adapter
+                AddAdapter addAdapter = new AddAdapter(v.getContext(),course,classDetailList);
+                mLvCDetail.setAdapter(addAdapter);
 
 
 
@@ -102,21 +105,10 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         //改变coursename
 
 
-        //spinner that choose day
 
-//        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.day, android.R.layout.simple_spinner_item);
-//        adapter2.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-//        spinner_day.setAdapter(adapter2);
-//        spinner_day.setOnItemSelectedListener(this);
-
-        //set listview of course detail
-
-        mLvCDetail.setAdapter(new AddAdapter(AddActivity.this));
 
 
     }
-
-
 
 
 
