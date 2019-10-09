@@ -18,6 +18,7 @@ import java.util.Map;
 
 public class Course {
     private static Course courseInstance = null;
+    private static User userInstance = null;
     private JSONObject courses = new JSONObject();
 
     private Course(Context context) {
@@ -33,7 +34,7 @@ public class Course {
                 jsonFileLine = bReader.readLine();
             }
 
-            this.courses = new JSONObject(stringBuilder.toString());
+            this.courses = new JSONObject(stringBuilder.toString());;
 
         } catch (Exception ex) {
             Log.e(getClass().getSimpleName(), ex.getMessage());
@@ -184,10 +185,18 @@ public class Course {
         Map<String, String> reformatedLesson = new HashMap<>();
         try{
             String fullName = (String) lesson.get(Utility.FULL_NAME); //COMP1110_S1-ComA/01
+            String [] splitName= splitLessonName(fullName);
+            String nameAlp = "";
+            if(splitName[1].length()>=4)
+            {
+                splitName[1] = splitName[1].substring(0, splitName[1].length() - 1);
+                nameAlp = splitName[1].substring(2,splitName[1].length());
 
+
+            }
             reformatedLesson.put(Utility.NAME_TYPE, fullName.substring(fullName.length()-7,fullName.length()-4)); //Com
             reformatedLesson.put(Utility.NAME_ALP, fullName.substring(fullName.length()-4,fullName.length()-3));//A
-            reformatedLesson.put(Utility.NAME_INDEX, fullName.substring(fullName.length()-2));//01
+            reformatedLesson.put(Utility.NAME_INDEX, splitName[2]);//01
             reformatedLesson.put(Utility.WEEKDAY, Utility.WeekdayDisplay((String) lesson.get(Utility.WEEKDAY)));
             reformatedLesson.put(Utility.START, (String) lesson.get(Utility.START));
             reformatedLesson.put(Utility.END, (String) lesson.get(Utility.END));
@@ -221,4 +230,54 @@ public class Course {
         }
         return lessonInfo;
     }
+
+    //get course list that have not enrolled yet // get context from EnroActivity : this
+    public List<String> getUnEnrolledCourseList(Context context) {
+        Iterator iterator = this.courses.keys();
+        List<String> courseList = new ArrayList<>();
+
+        //get all enrolled courses
+        userInstance = User.getUserInstance(context);
+        Map<String, List<String>> enrolledCourse = userInstance.getUserCourses();
+        while (iterator.hasNext())
+        {
+            boolean isEnrolled = false;
+            String courseId = (String) iterator.next();
+            //remove the courses that enrolled already
+            for (String s : enrolledCourse.keySet()) {
+                String enrolledCourseId = s;
+                if(s.equals(courseId))
+                {
+                    isEnrolled =true;
+                    break;
+                }
+            }
+            if(!isEnrolled)
+                courseList.add(courseId);
+        }
+        Collections.sort(courseList);
+        return courseList;
+    }
+
+    //get master data of weekdays and nameType
+    public Map<String,List> getMasterList()
+    {
+        Map<String,List> master = new HashMap<>();
+        List<String> weekdays = new ArrayList<>();
+        List<String> lessonType = new ArrayList<>();
+        weekdays = Utility.getWeekdayList();
+        lessonType = Utility.getLessonTypeList();
+        master.put(Utility.WEEKDAY,weekdays);
+        master.put(Utility.NAME_TYPE,lessonType);
+        return master;
+    }
+
+    //get split lesson name
+    public static String[]  splitLessonName(String Name)
+    {
+        String[] names = new String[4];
+        names = Name.split("-|\\/+");
+        return names;
+    }
+
 }
