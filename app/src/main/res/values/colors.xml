@@ -11,4 +11,23 @@
     <color name="colorDarken">#333333</color>
     <color name="colorCloud">#F9F9F9</color>
     <color name="colorSilver">#BDC3C7</color>
+
+    <array name="LessonColors">
+        <item>#ffccbc</item>
+        <item>#ffe0b2</item>
+        <item>#ffecb3</item>
+        <item>#fff9c4</item>
+        <item>#f0f4c3</item>
+        <item>#dcedc8</item>
+        <item>#c8e6c9</item>
+        <item>#b2dfdb</item>
+        <item>#b2ebf2</item>
+        <item>#b3e5fc</item>
+        <item>#bbdefb</item>
+        <item>#c5cae9</item>
+        <item>#d1c4e9</item>
+        <item>#e1bee7</item>
+        <item>#f8bbd0</item>
+        <item>#ffcdd2</item>
+    </array>
 </resources>
