@@ -5,16 +5,6 @@
     android:gravity="center"
     android:background="#CE5656">
 
-    <ImageView
-        android:id="@+id/iv_toast"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/icon_notice"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="10dp"
-        />
     <TextView
         android:id="@+id/tv_toast"
         android:layout_width="wrap_content"
@@ -22,6 +12,7 @@
         android:textColor="#FFFFFF"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:layout_toRightOf="@id/iv_toast"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:gravity="center" />
 </RelativeLayout>
