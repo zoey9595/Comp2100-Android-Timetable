@@ -48,8 +48,8 @@ public class User {
         return userInstance;
     }
 
-    public Map<String, List> getUserCourses() {
-        Map<String, List> selectedCourses = new HashMap<>();
+    public Map<String, List<String>> getUserCourses() {
+        Map<String, List<String>> selectedCourses = new HashMap<>();
         try {
             Iterator<String> courseIds = this.userCourses.keys();
             while (courseIds.hasNext()) {
@@ -144,7 +144,7 @@ public class User {
     public List<Map<String, String>> getLessonsByUser()
     {
         List<Map<String, String>> enrolledLessonInfoList = new ArrayList<>();
-        Map<String, List> enrolledCourseInfo = getUserCourses();
+        Map<String, List<String>> enrolledCourseInfo = getUserCourses();
 
         //get all lessons info by courseID
         for (String s : enrolledCourseInfo.keySet()) {
