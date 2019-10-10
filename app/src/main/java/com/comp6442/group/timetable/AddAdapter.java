@@ -7,46 +7,39 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 
 public class AddAdapter extends BaseAdapter {
 
     private Context mContext;
     public Course course;
     private LayoutInflater mLayoutInflater;
-    public List<Map<String,String>> classDetails;
+    public List<Map<String,String>> courseDetails;
     public String courseID;
 
 
 
-    public AddAdapter(Context context,Course course, List<Map<String,String>> classDetails){
+    public AddAdapter(Context context,Course course, List<Map<String,String>> courseDetails){
         super();
         this.mContext = context;
         this.course = course;
-        this.classDetails = classDetails;
+        this.courseDetails = courseDetails;
         mLayoutInflater = LayoutInflater.from(context);
     }
-
-
-
 
     // length of list
     @Override
     public int getCount() {
-        return classDetails.size();
+        int i = courseDetails.size();
+        return i;
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return courseDetails.get(position);
     }
 
     @Override
@@ -54,11 +47,9 @@ public class AddAdapter extends BaseAdapter {
         return position;
     }
 
-    static class ViewHolder{
-        public Button btnClass,btnDay,btnDel;
-        public Spinner spTime1,spTime2,spDay;
-        public TextView tvStart, tvEnd, tvDay;
-        public EditText edtClass;
+    public class ViewHolder{
+        Button btnDel;
+        Spinner spStart,spEnd,spDay,spType,spAlph,spNum;
     }
 
     @Override
@@ -70,34 +61,57 @@ public class AddAdapter extends BaseAdapter {
 
             holder = new ViewHolder();
 
-
-            holder.btnDay = convertView.findViewById(R.id.btn_Day);
-            holder.btnClass = convertView.findViewById(R.id.btn_class);
-            holder.btnDel = convertView.findViewById(R.id.btn_del_class);
-            holder.spTime1 = convertView.findViewById(R.id.spinner_time1);
-            holder.spTime2 = convertView.findViewById(R.id.spinner_time2);
+            holder.btnDel = convertView.findViewById(R.id.btn_del);
+            holder.spStart = convertView.findViewById(R.id.spinner_start);
+            holder.spEnd = convertView.findViewById(R.id.spinner_end);
             holder.spDay = convertView.findViewById(R.id.spinner_day);
-            holder.tvStart = convertView.findViewById(R.id.tv_time1);
-            holder.tvEnd = convertView.findViewById(R.id.tv_time2);
-            holder.tvDay = convertView.findViewById(R.id.tv_day);
-            holder.edtClass = convertView.findViewById(R.id.edit_class);
+            holder.spType = convertView.findViewById(R.id.spinner_CType);
+            holder.spAlph = convertView.findViewById(R.id.spinner_CAlph);
+            holder.spNum = convertView.findViewById(R.id.spinner_CNum);
 
             convertView.setTag(holder);
 
         }else{
             holder = (ViewHolder) convertView.getTag();
         }
+        //Add values to spinners
+        // spinner of the day
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(mContext,R.array.day,android.R.layout.simple_spinner_item);
+        holder.spDay.setAdapter(adapter1);
+        int posDay = adapter1.getPosition(courseDetails.get(position).get(Utility.WEEKDAY));
+        holder.spDay.setSelection(posDay,true);
 
+        //spinner of the start time
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(mContext,R.array.start,android.R.layout.simple_spinner_item);
+        holder.spStart.setAdapter(adapter2);
+        int posStart = adapter2.getPosition(courseDetails.get(position).get(Utility.START));
+        holder.spStart.setSelection(posStart,true);
 
+        //spinner of the end time
+        ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(mContext,R.array.end,android.R.layout.simple_spinner_item);
+        holder.spEnd.setAdapter(adapter3);
+        int posEnd = adapter3.getPosition(courseDetails.get(position).get(Utility.END));
+        holder.spEnd.setSelection(posEnd,true);
 
+        //spinner of the class type
+        ArrayAdapter<CharSequence> adapter4 = ArrayAdapter.createFromResource(mContext,R.array.classType,android.R.layout.simple_spinner_item);
+        holder.spType.setAdapter(adapter4);
+        int posType = adapter4.getPosition(courseDetails.get(position).get(Utility.NAME_TYPE));
+        holder.spType.setSelection(posType,true);
 
-        // add values to weidgts
-        holder.edtClass.setText(classDetails.get(position).get(Utility.NAME_TYPE)+classDetails.get(position).get(Utility.NAME_ALP)+"/"+classDetails.get(position).get(Utility.NAME_INDEX));
-        holder.edtClass.setTextSize(15);
-        holder.tvDay.setText("Day:");
-        holder.tvStart.setText("from");
-        holder.tvEnd.setText("to");
+        ArrayAdapter<CharSequence> adapter5 = ArrayAdapter.createFromResource(mContext,R.array.classAph,android.R.layout.simple_spinner_item);
+        holder.spAlph.setAdapter(adapter5);
+        int posAlph = adapter5.getPosition(courseDetails.get(position).get(Utility.NAME_ALP));
+        holder.spAlph.setSelection(posAlph,true);
+
+        ArrayAdapter<CharSequence> adapter6 = ArrayAdapter.createFromResource(mContext,R.array.classNum,android.R.layout.simple_spinner_item);
+        holder.spNum.setAdapter(adapter6);
+        int posNum= adapter6.getPosition(courseDetails.get(position).get(Utility.NAME_INDEX));
+        holder.spNum.setSelection(posNum,true);
 
         return convertView;
     }
+
+    
+
 }

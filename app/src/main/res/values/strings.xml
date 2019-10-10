@@ -20,35 +20,90 @@
     </string-array>
 
     <!--Not sure this is all the class type;-->
-    <string-array name="class1">
-        <item>Com</item>
+    <string-array name="classType">
         <item>Lec</item>
-        <item>Lan</item>
-        <item>Onl</item>
-        <item>Pra</item>
-        <item>Sem</item>
-        <item>Stu</item>
         <item>Tut</item>
         <item>Wor</item>
+        <item>Sem</item>
+        <item>Com</item>
+        <item>Pra</item>
+        <item>Stu</item>
+        <item>Lan</item>
+        <item>Prac</item>
+        <item>Fie</item>
+        <item>Let</item>
+        <item>Dro</item>
+        <item>Exa</item>
+        <item>Sup</item>
+        <item>Aff</item>
+        <item>War</item>
+        <item>FIL</item>
+        <item>Fieldwork</item>
+        <item>Onl</item>
+        <item>AdH</item>
+        <item>Scr</item>
     </string-array>
 
-    <string-array name="class2">
+    <string-array name="classAph">
         <item>A</item>
         <item>B</item>
         <item>C</item>
         <item>D</item>
         <item>E</item>
-        <item>...</item>
+        <item>E</item>
+        <item>F</item>
+        <item>G</item>
+        <item>H</item>
+        <item>I</item>
+        <item>G</item>
+        <item>K</item>
+        <item>L</item>
+        <item>M</item>
+        <item>N</item>
+        <item>O</item>
+        <item>P</item>
+        <item>Q</item>
+        <item>R</item>
+        <item>S</item>
+        <item>T</item>
+        <item>U</item>
+        <item>V</item>
+        <item>W</item>
         <item>X</item>
+        <item>Y</item>
+        <item>Z</item>
     </string-array>
 
-    <string-array name="class3">
+    <string-array name="classNum">
         <item>01</item>
         <item>02</item>
         <item>03</item>
         <item>04</item>
         <item>05</item>
-        <item>...</item>
+        <item>06</item>
+        <item>07</item>
+        <item>08</item>
+        <item>09</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
         <item>30</item>
     </string-array>
 
@@ -61,20 +116,35 @@
     </string-array>
 
     <string-array name="start">
-        <item>8:00</item>
-        <item>9:00</item>
+        <item>08:00</item>
+        <item>08:30</item>
+        <item>09:00</item>
+        <item>9:30</item>
         <item>10:00</item>
+        <item>10:30</item>
         <item>11:00</item>
+        <item>11:30</item>
         <item>12:00</item>
+        <item>12:30</item>
         <item>13:00</item>
+        <item>13:30</item>
         <item>14:00</item>
+        <item>14:30</item>
         <item>15:00</item>
+        <item>15:30</item>
         <item>16:00</item>
+        <item>16:30</item>
         <item>17:00</item>
+        <item>17:30</item>
         <item>18:00</item>
+        <item>18:30</item>
         <item>19:00</item>
+        <item>19:30</item>
         <item>20:00</item>
+        <item>20:30</item>
         <item>21:00</item>
+        <item>21:30</item>
+        <item>22:00</item>
     </string-array>
 
     <string-array name="end">
@@ -89,13 +159,21 @@
         <item>13:00</item>
         <item>13:30</item>
         <item>14:00</item>
+        <item>14:30</item>
         <item>15:00</item>
+        <item>15:30</item>
         <item>16:00</item>
+        <item>16:30</item>
         <item>17:00</item>
+        <item>17:30</item>
         <item>18:00</item>
+        <item>18:30</item>
         <item>19:00</item>
+        <item>19:30</item>
         <item>20:00</item>
+        <item>20:30</item>
         <item>21:00</item>
+        <item>21:30</item>
         <item>22:00</item>
     </string-array>
 
