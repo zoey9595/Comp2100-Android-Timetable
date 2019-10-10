@@ -238,22 +238,34 @@ public class Course {
         //get all enrolled courses
         userInstance = User.getUserInstance(context);
         Map<String, List<String>> enrolledCourse = userInstance.getUserCourses();
+        List<String> enrolledCourseName = new ArrayList<>();
+
+
+        for (String s : enrolledCourse.keySet()) {
+            enrolledCourseName.add(s);
+        }
+
         while (iterator.hasNext())
         {
             boolean isEnrolled = false;
             String courseId = (String) iterator.next();
-            //remove the courses that enrolled already
-            for (String s : enrolledCourse.keySet()) {
-                String enrolledCourseId = s;
-                if(s.equals(courseId))
-                {
-                    isEnrolled =true;
-                    break;
+            if(enrolledCourseName.size()>0)
+            {
+                for (int i = 0; i < enrolledCourseName.size(); i++) {
+                    String [] name = splitCourseName(enrolledCourseName.get(i));
+                    if(courseId.contains(name[0].toString()))
+                    {
+                        isEnrolled = true;
+                    }
                 }
             }
+            //if not enroll, list the course in UI
             if(!isEnrolled)
                 courseList.add(courseId);
+
         }
+
+
         Collections.sort(courseList);
         return courseList;
     }
@@ -276,6 +288,14 @@ public class Course {
     {
         String[] names = new String[4];
         names = Name.split("-|\\/+");
+        return names;
+    }
+
+    //get split lesson name
+    public static String[]  splitCourseName(String Name)
+    {
+        String[] names = new String[4];
+        names = Name.split("_");
         return names;
     }
 
