@@ -1,6 +1,8 @@
 package com.comp6442.group.timetable;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -24,22 +26,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Map<String, String> lesson = (HashMap<String, String>)view.getTag();
-                showInfoDialog(view.getId(), lesson.get("name"), lesson);
+                showInfoDialog(lesson.get("name"), lesson);
             }
         });
     }
 
-    private void showInfoDialog(int id, String courseName, Map<String, String> lesson) {
+    private void showInfoDialog(String courseName, final Map<String, String> lesson) {
         String message = String.format(
-                Locale.ENGLISH, "%s%s\n%s%s\n%s%s\n%s%s",
-                "Lesson: ", lesson.get("name"),
-                "Start Time:", lesson.get("start"),
-                "End Time: ", lesson.get("end"),
-                "Location: ", lesson.get("location"));
+                Locale.ENGLISH, "%s%s\n%s%s\n%s%s",
+                "Start Time: ", lesson.get("start"),
+                "  End Time: ", lesson.get("end"),
+                "   Location: ", lesson.get("location"));
         AlertDialog.Builder courseDialogBuilder = new AlertDialog.Builder(this)
                 .setTitle(courseName)
                 .setMessage(message)
-                .setPositiveButton("Detail", null);
+                .setPositiveButton("Detail", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent browserIntent = new Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse(lesson.get("description")));
+                        startActivity(browserIntent);
+                    }
+                });
         courseDialogBuilder.show();
     }
 
