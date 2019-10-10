@@ -22,6 +22,10 @@ public class Utility {
     public static final String STATUS = "status";
     public static final String MESSAGE = "message";
 
+    //Compatibility
+    public static final String REQUISITE = "requisite";
+    public static final String INCOMPATIBILITY = "incompatibility";
+
     //weekdays
     public static final String MON = "Mon";
     public static final String TUE = "Tue";

@@ -10,19 +10,27 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 
 public class User {
     private static User userInstance = null;
     private static Course courseInstance;
+    private static Compatibility compatibilityInstance = null;
     private JSONObject userCourses = new JSONObject();
 
     private User(Context context) {
         try {
             courseInstance = Course.getCourseInstance(context);
+            compatibilityInstance = Compatibility.getCompatibilityInstance(context);
 
             InputStream inputStream = context.getResources().openRawResource(R.raw.user);
             BufferedReader bReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -83,7 +91,7 @@ public class User {
 
     //Added on 8 Oct 2019
     //check if the lectures to be enrolled are conflicted with existing lectures
-    public Map<String,String> isConflict(List<Map<String,String>> timeToEnrollList)
+    public Map<String,String> isTimeConflict(List<Map<String,String>> timeToEnrollList)
     {
         List<Map<String,String>> timeEnrolledList = getLessonsByUser();
 
@@ -178,7 +186,7 @@ public class User {
 
         }
 
-        conflict = isConflict(timeToEnrollList);
+        conflict = isTimeConflict(timeToEnrollList);
 
         return conflict;
     }
@@ -191,6 +199,12 @@ public class User {
         Map<String,String> conflict = new HashMap<>();
         Map<String,String> saveStatus = new HashMap<>();
         conflict = isConflict(toEnrollCourse);
+
+        String key ="";
+        for (String s : toEnrollCourse.keySet()) {
+             key = s;
+        }
+        conflict =  isCourseConflict(key);
         if(conflict.size()>0)
             hasError = true;
 
@@ -206,6 +220,169 @@ public class User {
         }
 
         return saveStatus;
+    }
+
+    public Map<String,String> isCourseConflict(String courseKey)
+    {
+        Map<String,String> conflict = new HashMap<>();
+
+        try
+        {
+            String courseId = courseKey.replaceAll("_S1","").replaceAll("_S2","");
+            Map<String,String> compatibility = compatibilityInstance.getCoursesCompatiblityById(courseId);
+            String requisite = compatibility.get(Utility.REQUISITE);
+            String incompatibility = compatibility.get(Utility.INCOMPATIBILITY);
+
+            List<String> requisiteCourses = new ArrayList<>();
+            List<String> incompatibilityCourses = new ArrayList<>();
+
+            requisiteCourses = getCompatibilityList(requisite);
+            incompatibilityCourses = getCompatibilityList(incompatibility);
+
+
+
+            //Check if incompatibility courses have been enrolled
+            String enrolledIncompatibleCourse="";
+            for (int i = 0; i <incompatibilityCourses.size() ; i++) {
+                boolean isIncompatibleCourseEnrolled = false;
+
+                String incompatibleCourseKey =incompatibilityCourses.get(i);
+
+                String userCourseKey = incompatibleCourseKey+"_S1";
+                isIncompatibleCourseEnrolled = isEnrolledCourse(userCourseKey);
+
+                if(!isIncompatibleCourseEnrolled)
+                {
+                    userCourseKey = incompatibleCourseKey+"_S2";
+                    isIncompatibleCourseEnrolled = isEnrolledCourse(userCourseKey);
+                }
+                if(isIncompatibleCourseEnrolled)
+                    enrolledIncompatibleCourse = incompatibleCourseKey;
+                if(i < incompatibilityCourses.size() -1)
+                    enrolledIncompatibleCourse+=", ";
+
+                //replace COMP1110 to true or false
+                incompatibility= incompatibility.replaceAll(incompatibleCourseKey,String.valueOf(isIncompatibleCourseEnrolled));
+            }
+
+            //Check if requisite courses have been enrolled
+            String enrolledRequisitedCourse="";
+            for (int i = 0; i <requisiteCourses.size() ; i++) {
+                boolean isRequisiteEnrolled = false;
+
+                String requisiteCourseKey =requisiteCourses.get(i);
+
+                String userCourseKey = requisiteCourseKey+"_S1";
+                isRequisiteEnrolled = isEnrolledCourse(userCourseKey);
+
+                if(!isRequisiteEnrolled)
+                {
+                    userCourseKey = requisiteCourseKey+"_S2";
+                    isRequisiteEnrolled = isEnrolledCourse(userCourseKey);
+                }
+
+                if(isRequisiteEnrolled)
+                {
+                    enrolledRequisitedCourse = requisiteCourseKey;
+                    if(i < requisiteCourses.size() -1)
+                        enrolledRequisitedCourse+=", ";
+                }
+
+
+                //replace COMP1110 to 'true' or 'false'
+                requisite= requisite.replaceAll(requisiteCourseKey,String.valueOf(isRequisiteEnrolled));
+            }
+
+            Boolean isRequisited = stringBooleanExpression(requisite);
+            Boolean isIncompatibility = stringBooleanExpression(incompatibility);
+
+            //both Requisite and incompatibility are not satisfied
+            if(!isRequisited && isIncompatibility)
+            {
+                String rMessage =compatibility.get(Utility.REQUISITE);
+                String iMessage =compatibility.get(Utility.INCOMPATIBILITY);
+                String  or = Pattern.quote("||");
+                String  and = Pattern.quote("&&");
+                rMessage = rMessage.replaceAll(or,"OR").replaceAll(and,"AND");
+                iMessage = iMessage.replaceAll(or,"OR").replaceAll(and,"AND");
+                conflict.put(Utility.STATUS,"false");
+                conflict.put(Utility.MESSAGE,"To enrol in this course you must have completed "+ rMessage
+                        +"; and You are not able to enrol in this course if you have completed "+iMessage);
+            } else if(!isRequisited)
+            {
+                String message =compatibility.get(Utility.REQUISITE);
+                String  or = Pattern.quote("||");
+                String  and = Pattern.quote("&&");
+                message = message.replace(or,"OR").replace(and,"AND");
+                conflict.put(Utility.STATUS,"false");
+                conflict.put(Utility.MESSAGE,"To enrol in this course you must have completed "+message);
+                return conflict;
+            }else if(isIncompatibility)
+            {
+                String message =compatibility.get(Utility.INCOMPATIBILITY);
+                String  or = Pattern.quote("||");
+                String  and = Pattern.quote("&&");
+                message = message.replaceAll(or,"OR").replaceAll(and,"AND");
+                conflict.put(Utility.STATUS,"false");
+                conflict.put(Utility.MESSAGE,"You are not able to enrol in this course if you have completed "+message);
+                return conflict;
+            }
+
+        } catch (Exception e) {
+
+        }
+        return conflict;
+    }
+
+    //get list of compatibility "COMP3670||( (COMP1110 || COMP1140 )&&( MATH1014 || MATH1115))"
+    public List<String> getCompatibilityList(String compatibility)
+    {
+        List<String> courseMatches = new ArrayList<>();
+
+        //pattern COMP1110, COMP1100, COMP6442
+        String rexPattern = "\\.*COMP\\d+";
+        Pattern pattern = Pattern.compile(rexPattern);
+        Matcher match = pattern.matcher(compatibility);
+
+        while (match.find())
+            courseMatches.add(match.group());
+
+        return courseMatches;
+    }
+
+    //check if the course has been enrolled
+    public boolean isEnrolledCourse(String courseKey)
+    {
+        boolean isEnrolledCourse = false;
+
+        try {
+            Iterator<String> courseIds = this.userCourses.keys();
+            while (courseIds.hasNext()) {
+                String courseId = courseIds.next();
+
+                if(courseId.equals(courseKey))
+                    isEnrolledCourse = true;
+            }
+
+        } catch (Exception ex) {
+            Log.e(getClass().getSimpleName(), ex.getMessage());
+        }
+
+        return isEnrolledCourse;
+    }
+
+    //convert (False||False && True) to Boolean
+    public Boolean stringBooleanExpression(String toBoolean)
+    {
+        try {
+            ScriptEngineManager manager = new ScriptEngineManager();
+            ScriptEngine engine = manager.getEngineByName("js");
+            Object result = engine.eval(toBoolean);
+            return  Boolean.TRUE.equals(result);
+
+        } catch (Exception e) { }
+
+        return false;
     }
 
 }
