@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/colorWhite">
 
         <LinearLayout
             android:id="@+id/ll_add1"
@@ -30,14 +31,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:hint="Course ID"
-                android:background="@null"
-                android:textSize="20sp"/>
+                android:maxLines="1"
+                android:background="@null" />
 
             <Spinner
                 android:id="@+id/spinner_semester"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp" />
+                android:layout_marginLeft="10dp" />
+
+            <Button
+                android:id="@+id/btn_findCourse"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/icon_add_search"
+                />
+
 
         </LinearLayout>
 
@@ -60,8 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:hint="Course Name"
-                android:background="@null"
-                android:textSize="20sp" />
+                android:background="@null" />
 
         </LinearLayout>
 
@@ -71,231 +79,44 @@
             android:layout_marginTop="10dp"
             android:background="@color/colorGrey"
             />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
-            android:text="Course Detail:"
-            android:textSize="20sp"
-            android:textColor="@color/colorGrey" />
-
-
-        <!--**************************-->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="       Class                            Day         "
-            android:textSize="18sp"
-            android:textColor="@color/colorPrimaryDark" />
-
+            
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <Spinner
-                android:id="@+id/spinner_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp"
-                />
-
-            <Spinner
-                android:id="@+id/spinner_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp" />
-
-            <Spinner
-                android:id="@+id/spinner_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp" />
-
-            <Spinner
-                android:id="@+id/spinner_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="5dp"
-                android:text="From:"
-                android:textSize="15sp"
+                android:text="Course Detail:"
+                android:textSize="18dp"
                 android:textColor="@color/colorGrey" />
-
-            <Spinner
-                android:id="@+id/spinner_5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="to"
-                android:textSize="15sp"
-                android:textColor="@color/colorGrey" />
-
-            <Spinner
-                android:id="@+id/spinner_6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp" />
 
             <Button
+                android:id="@+id/btn_add_class"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="190dp"
                 android:background="@drawable/icon_add_add"
                 />
-
-            <Button
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/icon_add_del"/>
-
-
+            
         </LinearLayout>
 
-
-        <!--***********************************-->
-        <ScrollView
+        <ListView
+            android:id="@+id/lv_c_detail"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="70dp"
-            android:layout_marginTop="100dp"
-            android:scrollbars="none">
-
-            <LinearLayout
-                android:id="@+id/ll_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/ll_detail1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/ll_detail1_class"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/btn_class"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:background="@drawable/icon_add_class"/>
-
-                        <EditText
-                            android:id="@+id/edit_class"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:hint="Class Name  e.g.LecA/01"
-                            android:background="@null"
-                            android:textSize="20sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_detail1_Day"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/btn_Day"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:background="@drawable/icon_add_day"/>
-
-                        <TextView
-                            android:id="@+id/edit_Day"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:text="Day："
-                            android:background="@color/colorWhite"
-                            android:textSize="20sp" />
-
-                        <Spinner
-                            android:id="@+id/spinner_day"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="0dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_detail1_time"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/btn_time"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:background="@drawable/icon_add_time"/>
-
-                        <TextView
-                            android:id="@+id/edit_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:text="Time：from"
-                            android:background="@color/colorWhite"
-                            android:textSize="20sp" />
-
-                        <Spinner
-                            android:id="@+id/spinner_time1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="0dp" />
-
-                        <TextView
-                            android:id="@+id/edit_time2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:text="to"
-                            android:background="@color/colorWhite"
-                            android:textSize="20sp" />
-
-                        <Spinner
-                            android:id="@+id/spinner_time2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="0dp" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-        </ScrollView>
-
-
-
-<!--******************************************************-->
-
-
-
+            android:layout_height="370dp"
+            android:layout_marginTop="10dp"
+            android:divider="@color/colorGrey"
+            android:dividerHeight="2dp">
+        </ListView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -308,8 +129,7 @@
         android:layout_marginBottom="15dp"
         android:text="save"
         android:background="@drawable/bg_btn"
-        android:textColor="@color/colorPrimaryDark"
-        android:onClick="cancelButton"/>
+        android:textColor="@color/colorPrimaryDark" />
 
     <Button
         android:id="@+id/btn_cancel"
@@ -321,8 +141,7 @@
         android:layout_marginBottom="15dp"
         android:background="@drawable/bg_btn"
         android:text="cancel"
-        android:textColor="@color/colorPrimaryDark"
-        android:onClick="saveButton"/>
+        android:textColor="@color/colorPrimaryDark" />
 
 
 
