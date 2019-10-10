@@ -1,0 +1,41 @@
+{
+  "basicCourses": [
+    "COMP6250",
+    "COMP6442",
+    "COMP6710",
+    "COMP8110",
+    "COMP8260",
+    "MATH6005",
+    "COMP6120/COMP8190",
+    "COMP6240/COMP6420",
+    "COMP6331/COMP6340",
+    "COMP8715/COMP8755/COMP8830"
+  ],
+  "machineLearning": [
+    "COMP6670",
+    "COMP8420",
+    "COMP6490",
+    "COMP8600",
+    "COMP8650",
+    "ENGN6528"
+  ],
+  "artificialIntelligence": [
+    "COMP6262",
+    "COMP6320",
+    "COMP8620",
+    "COMP8691"
+  ],
+  "dataScience": [
+    "COMP8410",
+    "COMP8430",
+    "COMP6490",
+    "COMP6320/COMP8420/COMP8600/COMP8620/COMP8650"
+  ],
+  "HumanCentredDesign": [
+    "COMP6353",
+    "COMP6390",
+    "COMP6461",
+    "COMP8100/COMP8173/COMP8190/COMP8420",
+    "VCPG6001/VCPG6004/VCPG8001"
+  ]
+}
