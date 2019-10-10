@@ -1,0 +1,22 @@
+{
+  "COMP1110": {
+    "name": "Structured Programming",
+    "requisite": "COMP1100 || COMP1130 || COMP1730",
+    "incompatibility":  "COMP1140 || COMP1510 || COMP2140 || COMP6710"
+  },
+  "COMP2310": {
+    "name": "Systems, Networks and Concurrency",
+    "requisite": "(COMP1130 || COMP1140 || COMP1110 || COMP1510) && COMP2300",
+    "incompatibility":  "COMP6310"
+  },
+  "COMP7230": {
+    "name": "Introduction to Programming for Data Scientists",
+    "requisite": "",
+    "incompatibility":  "(COMP1730 || COMP6730) && COMP1040"
+  },
+  "COMP4670": {
+    "name": "Introduction to Programming for Data Scientists",
+    "requisite": "COMP3670|| ((COMP1110 || COMP1140 )&&( MATH1014 || MATH1115))",
+    "incompatibility":  "COMP8600"
+  }
+}
