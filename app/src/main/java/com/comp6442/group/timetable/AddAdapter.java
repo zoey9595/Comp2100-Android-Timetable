@@ -55,12 +55,10 @@ public class AddAdapter extends BaseAdapter {
     }
 
     static class ViewHolder{
-
         public Button btnClass,btnDay,btnDel;
         public Spinner spTime1,spTime2,spDay;
         public TextView tvStart, tvEnd, tvDay;
         public EditText edtClass;
-
     }
 
     @Override
@@ -99,12 +97,6 @@ public class AddAdapter extends BaseAdapter {
         holder.tvDay.setText("Day:");
         holder.tvStart.setText("from");
         holder.tvEnd.setText("to");
-
-
-//        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(mContext, R.array.day, android.R.layout.simple_spinner_item);
-//        adapter2.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-//        holder.spDay.setAdapter(adapter2);
-//        holder.spDay.setOnItemSelectedListener();
 
         return convertView;
     }

@@ -1,7 +1,6 @@
 package com.comp6442.group.timetable;
 
-import android.content.res.ColorStateList;
-import android.graphics.Color;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -14,41 +13,35 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.comp6442.group.timetable.Utility.NAME_INDEX;
-import static com.comp6442.group.timetable.Utility.NAME_TYPE;
+
 
 public class AddActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    public static List<Map<String, String>> classDetails;
     //declare all the variables of widgets
-    private Spinner spinner_semester,spinner_day;
+    public static List<Map<String, String>> classDetails;
+    private Spinner spinner_semester;
     private Button btn_find;
     private EditText edit_CName;
     private EditText edit_CID;
     private ListView mLvCDetail;
     private List<Map<String,String>> classDetailList;
     private String courseName, courseID;
-    private Object str;
+    final Course course = Course.getCourseInstance(this);
 
 
-    /* This is a method that init all the widget
-     * */
-    private void initControl(){
+    // This is a method that init all the widget
+    private void bindViews(){
+
         //find all the widgets;
         spinner_semester = findViewById(R.id.spinner_semester);
-        spinner_day = findViewById(R.id.spinner_day);
         edit_CName = findViewById(R.id.edit_cname);
         edit_CID = findViewById(R.id.edit_cid);
         btn_find = findViewById(R.id.btn_findCourse);
         mLvCDetail = findViewById(R.id.lv_c_detail);
 
-
-        //
     }
 
 
@@ -58,20 +51,12 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         setContentView(R.layout.activity_add);
         setTitle("Add Course");
 
-        initControl();
-
-        final Course course = Course.getCourseInstance(this);
-
-
-
+        bindViews();
 
         //button setting
         btn_find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
 
                 //search course ID and add course name if the ID is correct
                 courseID = edit_CID.getText().toString()+"_"+ spinner_semester.getSelectedItem().toString();
@@ -93,7 +78,6 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
 
 
             }
-
         });
 
         //spinner that choose semester or spring/summer/autumn/winter section of the courses
@@ -119,9 +103,8 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         ((TextView)parent.getChildAt(0)).setTextColor(getColor(R.color.colorPrimaryDark));
     }
+
     @Override
     public void onNothingSelected(AdapterView<?> parent) {}
-
-
 
 }
