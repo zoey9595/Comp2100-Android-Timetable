@@ -299,4 +299,43 @@ public class Course {
         return names;
     }
 
+    public Map<String, String> save(List<Map<String,String>> course)
+    {
+        Map<String,String> saveStatus = new HashMap<>();
+        String courseKey =  course.get(0).get("courseKey");//ACST3001_S1
+        try
+        {
+            JSONObject courseDetails = new JSONObject();
+            JSONArray lessonArray = new JSONArray();
+            JSONObject lesson = new JSONObject();
+
+            if(course.size()>0)
+            {
+                courseDetails.put("id",course.get(0).get("id")); //ACST3001
+                courseDetails.put("name",course.get(0).get("courseName"));
+                courseDetails.put("semester",course.get(0).get("semester"));
+            }
+
+            for (int i = 0; i < course.size(); i++) {
+
+                lesson.put("name",course.get(i).get("name"));
+                lesson.put("description","");//no description of new course
+                lesson.put("weekday",course.get(i).get("weekday"));
+                lesson.put("start",course.get(i).get("start"));
+                lesson.put("end",course.get(i).get("end"));
+                lesson.put("duration",course.get(i).get("duration"));
+                lesson.put("weeks","");//no week info of new course
+                lesson.put("location","");//no location info of new course
+                lessonArray.put(lesson);
+            }
+
+            courseDetails.put("courseKey",courseDetails);
+
+        }catch (Exception ex)
+        {
+            Log.e(getClass().getSimpleName(), ex.getMessage());
+        }
+
+        return saveStatus;
+    }
 }
