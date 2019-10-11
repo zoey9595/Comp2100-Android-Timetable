@@ -86,7 +86,7 @@ public class EnrolActivity extends AppCompatActivity {
         mLl3Params.height = screenHeight / 20;
         mLl3.setLayoutParams(mLl3Params);
 
-        RelativeLayout.LayoutParams mLvEnrolledCoursesLayoutParams = (RelativeLayout.LayoutParams) mLvEnrolledCourses.getLayoutParams();
+        final RelativeLayout.LayoutParams mLvEnrolledCoursesLayoutParams = (RelativeLayout.LayoutParams) mLvEnrolledCourses.getLayoutParams();
         mLvEnrolledCoursesLayoutParams.height = screenHeight / 8;
         mLvEnrolledCourses.setLayoutParams(mLvEnrolledCoursesLayoutParams);
 
@@ -220,10 +220,13 @@ public class EnrolActivity extends AppCompatActivity {
                             if (mCtv.isChecked()) {
                                 // Delete selected courses from user.json
                                 enrolAdapter.remove(temp);
-                                enrolAdapter.notifyDataSetChanged();
-                                Toast.makeText(getBaseContext(), "position " + j + " is checked.", Toast.LENGTH_LONG).show();
                             }
                         }
+                        SparseBooleanArray tmp = mLvEnrolledCourses.getCheckedItemPositions();
+                        for (int k = 0; k<tmp.size(); k++) {
+                            mLvEnrolledCourses.setItemChecked(k,false);
+                        }
+                        enrolAdapter.notifyDataSetChanged();
                     }
                 });
                 alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
