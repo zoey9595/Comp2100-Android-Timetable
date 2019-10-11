@@ -7,63 +7,65 @@
     tools:context=".EnrolActivity">
 
     <LinearLayout
-        android:id="@+id/ll0"
+        android:id="@+id/ll1"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp" >
+        android:layout_height="@dimen/enrol_button_height"
+        android:orientation="horizontal">
         <TextView
             android:id="@+id/tv_titleEnrolledCourses"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:hint="@string/enrolled_courses_title" />
-
-        <Button
-            android:id="@+id/btn_deleteEnroledCourses"
-            android:layout_width="wrap_content"
+            android:text="@string/enrolled_courses_title"
+            android:textSize="16sp"
+            android:gravity="center" />
+        <LinearLayout
             android:layout_height="match_parent"
-            android:layout_marginRight="0dp"
-            android:background="@drawable/bg_btn_selector"
-            android:text="Delete"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="10sp"
-            android:layout_marginLeft="180dp"/>
+            android:layout_width="match_parent"
+            android:gravity="right">
+            <Button
+                android:id="@+id/btn_deleteEnroledCourses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_btn_selector"
+                android:text="@string/delete"
+                android:textColor="@color/colorPrimaryDark" />
+        </LinearLayout>
     </LinearLayout>
 
     <ListView
         android:id="@+id/lv_enrolledCourses"
         android:layout_width="match_parent"
-        android:layout_height="135dp"
+        android:layout_height="@dimen/enrol_course_height"
         android:choiceMode="multipleChoice"
         android:hint="@string/enrolled_courses"
-        android:layout_below="@id/ll0"
-        android:layout_marginBottom="5dp"
-        android:paddingTop="3dp"/>
+        android:layout_below="@id/ll1"
+        android:layout_marginBottom="@dimen/enrol_item_margin" />
 
     <TextView
         android:id="@+id/tv_titleRecommendCourses"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/recommend_courses_title"
+        android:text="@string/recommend_courses_title"
+        android:textSize="16sp"
+        android:gravity="start"
         android:layout_below="@id/lv_enrolledCourses"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginBottom="@dimen/enrol_item_margin" />
 
     <ListView
         android:id="@+id/lv_recommendCourses"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="@dimen/recommen_course_height"
         android:paddingLeft="5dp"
         android:hint="@string/recommend_courses"
         android:layout_below="@id/tv_titleRecommendCourses"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginBottom="@dimen/enrol_item_margin" />
 
     <LinearLayout
-        android:id="@+id/ll1"
+        android:id="@+id/ll2"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginBottom="5dp"
+        android:layout_height="@dimen/enrol_button_height"
+        android:layout_marginBottom="@dimen/enrol_item_margin"
         android:orientation="horizontal"
-        android:layout_marginTop="5dp"
         android:layout_below="@id/lv_recommendCourses">
 
         <Button
@@ -71,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/course_id"
-            android:padding="5dp"
+            android:padding="@dimen/enrol_item_margin"
             android:background="@drawable/bg_btn_selector"
             android:textColor="@color/colorPrimaryDark"/>
 
@@ -87,51 +89,57 @@
         android:id="@+id/tv_lectureDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ll1"
+        android:layout_below="@id/ll2"
         android:scrollbars="vertical"
-        android:maxLines="5" />
+        android:layout_marginBottom="@dimen/enrol_item_margin"
+        android:maxLines="4" />
 
-    <Button
-        android:id="@+id/btn_tutorial"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
+    <LinearLayout
+        android:id="@+id/ll3"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/enrol_button_height"
+        android:orientation="horizontal"
         android:layout_below="@id/tv_lectureDetails"
-        android:padding="5dp"
-        android:layout_marginBottom="5dp"
-        android:text="@string/tutorial"
-        android:background="@drawable/bg_btn_selector"
-        android:textColor="@color/colorPrimaryDark"/>
+        android:layout_marginBottom="@dimen/enrol_item_margin">
+        <Button
+            android:id="@+id/btn_tutorial"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:padding="@dimen/enrol_item_margin"
+            android:text="@string/tutorial"
+            android:background="@drawable/bg_btn_selector"
+            android:textColor="@color/colorPrimaryDark"/>
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:gravity="right">
+            <Button
+                android:id="@+id/btn_enrol"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_btn_selector"
+                android:text="@string/enrol"
+                android:textColor="@color/colorPrimaryDark" />
+        </LinearLayout>
+    </LinearLayout>
 
     <ListView
         android:id="@+id/lv_tutorials"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:choiceMode="multipleChoice"
-        android:layout_below="@id/btn_tutorial"
-        android:layout_marginBottom="10dp" />
-
-    <Button
-        android:id="@+id/btn_enrol"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_below="@id/tv_lectureDetails"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="175dp"
-        android:layout_toRightOf="@id/btn_tutorial"
-        android:gravity="center"
-        android:background="@drawable/bg_btn_selector"
-        android:text="@string/enrol"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="10sp" />
+        android:layout_below="@id/ll3" />
 
     <Button
         android:id="@+id/btn_addnewcourse"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/add_icon_width"
+        android:layout_height="@dimen/add_icon_width"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:background="@drawable/icon_add_course" />
 
 </RelativeLayout>

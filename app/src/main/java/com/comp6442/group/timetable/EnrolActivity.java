@@ -11,19 +11,22 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
+import android.util.DisplayMetrics;
 import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import android.widget.CheckedTextView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,9 +40,11 @@ public class EnrolActivity extends AppCompatActivity {
     private TextView mTvCourseID, mTvLectureDetails, mTvRecommend;
     private Button mBtnSearchCourse, mBtnSearchTutorial, mBtnDelete, mBtnEnrol, mBtnAdd;
     private ListView mLvEnrolledCourses, mLvTutorial, mLvRecommend;
+    private LinearLayout mLl1, mLl2, mLl3;
     private ArrayList<String> courseList, lectureList, tutorialList, recommendList;
     private String courseID;
     private HashMap<String, ArrayList<String>> userCourseList;
+    private int screenWidth, screenHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,35 @@ public class EnrolActivity extends AppCompatActivity {
         mBtnAdd = findViewById(R.id.btn_addnewcourse);
         mBtnSearchCourse = findViewById(R.id.btn_course);
         mBtnSearchTutorial = findViewById(R.id.btn_tutorial);
+        mLl1 = findViewById(R.id.ll1);
+        mLl2 = findViewById(R.id.ll2);
+        mLl3 = findViewById(R.id.ll3);
+
+        // Set items height to fit different devices size
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        screenWidth = dm.widthPixels;
+        screenHeight = dm.heightPixels;
+
+        RelativeLayout.LayoutParams mLl1Params = (RelativeLayout.LayoutParams) mLl1.getLayoutParams();
+        mLl1Params.height = screenHeight / 20;
+        mLl1.setLayoutParams(mLl1Params);
+
+        RelativeLayout.LayoutParams mLl2Params = (RelativeLayout.LayoutParams) mLl2.getLayoutParams();
+        mLl2Params.height = screenHeight / 20;
+        mLl2.setLayoutParams(mLl2Params);
+
+        RelativeLayout.LayoutParams mLl3Params = (RelativeLayout.LayoutParams) mLl3.getLayoutParams();
+        mLl3Params.height = screenHeight / 20;
+        mLl3.setLayoutParams(mLl3Params);
+
+        RelativeLayout.LayoutParams mLvEnrolledCoursesLayoutParams = (RelativeLayout.LayoutParams) mLvEnrolledCourses.getLayoutParams();
+        mLvEnrolledCoursesLayoutParams.height = screenHeight / 8;
+        mLvEnrolledCourses.setLayoutParams(mLvEnrolledCoursesLayoutParams);
+
+        RelativeLayout.LayoutParams mLvRecommendLayoutParams = (RelativeLayout.LayoutParams) mLvRecommend.getLayoutParams();
+        mLvRecommendLayoutParams.height = screenHeight / 8;
+        mLvRecommend.setLayoutParams(mLvRecommendLayoutParams);
 
         // Get a list containing all ANU courses
         final Course course = Course.getCourseInstance(this);
@@ -134,7 +168,7 @@ public class EnrolActivity extends AppCompatActivity {
                         for (String s : lectureList) {
                             builder.append(s + "\n");
                         }
-                        mTvLectureDetails.setText(builder.toString());
+                        mTvLectureDetails.setText(builder.toString().substring(0, builder.length() - 1));
                         dialog.dismiss();
                     }
                 });

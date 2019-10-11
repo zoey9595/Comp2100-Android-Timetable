@@ -4,6 +4,7 @@
     <string name="course_id">Search CourseID</string>
     <string name="tutorial">Search Tutorial</string>
     <string name="enrol">Enrol</string>
+    <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="enrolled_courses_title">You have enrolled in:</string>
     <string name="enrolled_courses">Seems you need to enrol some courses :)</string>

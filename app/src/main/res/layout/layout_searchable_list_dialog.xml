@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         app:iconifiedByDefault="false"
         android:queryHint="Search here"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginBottom="@dimen/enrol_item_margin"/>
 
     <ListView
         android:id="@+id/lv_course"
