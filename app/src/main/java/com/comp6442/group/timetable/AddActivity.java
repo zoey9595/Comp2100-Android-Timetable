@@ -2,7 +2,9 @@
 package com.comp6442.group.timetable;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -91,6 +93,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                 btn_add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //**********************
                         System.out.println(courseDetail.size()+":::"+mAddAdapter.getItem(flag - 1));
                         element = new HashMap<>();
                         element.put("nameType",null);
@@ -107,6 +110,30 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                 });
             }
         });
+
+        mLvCDetail.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                final int itemIndex = position;
+
+                new AlertDialog.Builder(AddActivity.this)
+                        .setTitle("Are you sure?")
+                        .setMessage("Do you want to delete this course detail?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                courseDetail.remove(itemIndex);
+                                mLvCDetail.setAdapter(mAddAdapter);
+                            }
+                        })
+                        .setNegativeButton("No",null).show();
+                //*************************
+                System.out.println(courseDetail.size());
+                return true;
+            }
+        });
+
 
 
         //spinner that choose semester or spring/summer/autumn/winter section of the courses
