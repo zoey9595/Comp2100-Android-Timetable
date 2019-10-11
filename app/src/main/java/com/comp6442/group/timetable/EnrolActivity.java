@@ -61,7 +61,7 @@ public class EnrolActivity extends AppCompatActivity {
 
         // Get a list containing all ANU courses
         final Course course = Course.getCourseInstance(this);
-        courseList = (ArrayList) course.getCourseList();
+        courseList = (ArrayList) course.getUnEnrolledCourseList(this);
 
         // Get a list containing all student enrolled courses
         final User user = User.getUserInstance(this);
@@ -235,7 +235,7 @@ public class EnrolActivity extends AppCompatActivity {
                         Map<String, String> temp2 = user.save(temp);
                         if (temp2.get("status").equals("false")) {
                             // Make a custom toast
-                            MyToast myToast = MyToast.makeText(view.getContext(), temp2.get("message"), Toast.LENGTH_SHORT);
+                            MyToast myToast = MyToast.makeText(view.getContext(), temp2.get("message"), Toast.LENGTH_LONG);
                             myToast.setGravity(Gravity.CENTER, 0, 0);
                             myToast.show();
                             //Toast.makeText(view.getContext(), temp2.get("message"), Toast.LENGTH_SHORT).show();
