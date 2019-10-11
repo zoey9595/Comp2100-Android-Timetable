@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.SparseBooleanArray;
@@ -116,9 +117,7 @@ public class EnrolActivity extends AppCompatActivity {
                     public boolean onQueryTextChange(String newText) {
                         if (TextUtils.isEmpty(newText)) {
                             mLvCourse.clearTextFilter();
-                            //myAdapter.getFilter().filter(null);
                         } else {
-                            //mLvCourse.setFilterText(newText);
                             myAdapter.getFilter().filter(newText);
                         }
                         return true;
@@ -238,7 +237,6 @@ public class EnrolActivity extends AppCompatActivity {
                             MyToast myToast = MyToast.makeText(view.getContext(), temp2.get("message"), Toast.LENGTH_LONG);
                             myToast.setGravity(Gravity.CENTER, 0, 0);
                             myToast.show();
-                            //Toast.makeText(view.getContext(), temp2.get("message"), Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(view.getContext(), temp2.get("message"), Toast.LENGTH_SHORT).show();
                             // Return to the main activity
@@ -253,11 +251,6 @@ public class EnrolActivity extends AppCompatActivity {
                     }
                 });
                 alertDialog.show();
-            }
-
-            // Recommendation algorithm
-            private ArrayList<String> recommendCourses(ArrayList<String> enrolledCourses) {
-                return enrolledCourses;
             }
         });
     }

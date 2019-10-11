@@ -1,9 +1,7 @@
 /**
  * Author: Yuqing Zhai
  * UID: u6865190
- *
  * MyAdapter is a custom adapter for ListView to make it searchable.
- *
  */
 package com.comp6442.group.timetable;
 
@@ -48,8 +46,8 @@ public class MyAdapter extends BaseAdapter implements Filterable {
                 if (charSequence != null) {
                     if (orig != null && orig.size() > 0) {
                         for (final String g : orig) {
-                            if (g.toLowerCase()
-                                    .contains(charSequence.toString()))
+                            if (g.contains(charSequence.toString()) ||
+                                    g.toLowerCase().contains(charSequence.toString()))
                                 results.add(g);
                         }
                     }
