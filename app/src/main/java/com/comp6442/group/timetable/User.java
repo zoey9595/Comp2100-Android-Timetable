@@ -135,7 +135,7 @@ public class User {
 
                     if(isConflict.equals("true"))
                     {
-                        String conflictMessage= toEnrollLesson + " is conflicted with "+enrolledLesson +"(" +startEnrolled+" - "+endEnrolled + ")";
+                        String conflictMessage= toEnrollLesson + " is conflicted with "+enrolledLesson +"(" +startEnrolled+" - "+endEnrolled + ") on "+enrolledWeekday;
 
                         conflict.put(Utility.STATUS,isConflict);
                         conflict.put(Utility.MESSAGE,conflictMessage);
@@ -273,12 +273,13 @@ public class User {
                 isIncompatibility = stringBooleanExpression(incompatibility);
 
             //both Requisite and incompatibility are not satisfied
+            String rMessage =compatibility.get(Utility.REQUISITE);
+            String iMessage =compatibility.get(Utility.INCOMPATIBILITY);
+            String  or = Pattern.quote("||");
+            String  and = Pattern.quote("&&");
             if(!isRequisited && isIncompatibility)
             {
-                String rMessage =compatibility.get(Utility.REQUISITE);
-                String iMessage =compatibility.get(Utility.INCOMPATIBILITY);
-                String  or = Pattern.quote("||");
-                String  and = Pattern.quote("&&");
+
                 rMessage = rMessage.replaceAll(or,"OR").replaceAll(and,"AND");
                 iMessage = iMessage.replaceAll(or,"OR").replaceAll(and,"AND");
                 conflict.put(Utility.STATUS,"false");
@@ -286,21 +287,15 @@ public class User {
                         +"; and You are not able to enrol in this course if you have completed "+iMessage);
             } else if(!isRequisited)
             {
-                String message =compatibility.get(Utility.REQUISITE);
-                String  or = Pattern.quote("||");
-                String  and = Pattern.quote("&&");
-                message = message.replace(or,"OR").replace(and,"AND");
+                rMessage = rMessage.replace(or,"OR").replace(and,"AND");
                 conflict.put(Utility.STATUS,"false");
-                conflict.put(Utility.MESSAGE,"To enrol in this course you must have completed "+message);
+                conflict.put(Utility.MESSAGE,"To enrol in this course you must have completed "+rMessage);
                 return conflict;
             }else if(isIncompatibility)
             {
-                String message =compatibility.get(Utility.INCOMPATIBILITY);
-                String  or = Pattern.quote("||");
-                String  and = Pattern.quote("&&");
-                message = message.replaceAll(or,"OR").replaceAll(and,"AND");
+                iMessage = iMessage.replaceAll(or,"OR").replaceAll(and,"AND");
                 conflict.put(Utility.STATUS,"false");
-                conflict.put(Utility.MESSAGE,"You are not able to enrol in this course if you have completed "+message);
+                conflict.put(Utility.MESSAGE,"You are not able to enrol in this course if you have completed "+iMessage);
                 return conflict;
             }
 
