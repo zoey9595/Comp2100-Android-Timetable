@@ -203,7 +203,9 @@ public class User {
         for (String s : toEnrollCourse.keySet()) {
              key = s;
         }
-        conflict =  isCourseConflict(key);
+        if(conflict.size()<=0)
+            conflict =  isCourseConflict(key);
+
         if(conflict.size()>0)
             hasError = true;
 
