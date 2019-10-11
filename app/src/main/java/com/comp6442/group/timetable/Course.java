@@ -303,6 +303,7 @@ public class Course {
     {
         Map<String,String> saveStatus = new HashMap<>();
         String courseKey =  course.get(0).get("courseKey");//ACST3001_S1
+        Boolean success = false;
         try
         {
             JSONObject courseDetails = new JSONObject();
@@ -331,11 +332,42 @@ public class Course {
 
             courseDetails.put("courseKey",courseDetails);
 
+
+            if(success)
+            {
+                saveStatus.put(Utility.STATUS,"true");
+                saveStatus.put(Utility.MESSAGE,"Save successful!");
+            }else
+            {
+                saveStatus.put(Utility.STATUS,"false");
+                saveStatus.put(Utility.MESSAGE,"Saving failed, please contact administrator to get help!");
+            }
+
+
         }catch (Exception ex)
         {
             Log.e(getClass().getSimpleName(), ex.getMessage());
         }
 
         return saveStatus;
+    }
+
+    public Map<String, String> delete(String courseKey)
+    {
+        Map<String,String> deleteStatus = new HashMap<>();
+        Boolean success = false;
+
+
+        if(success)
+        {
+            deleteStatus.put(Utility.STATUS,"true");
+            deleteStatus.put(Utility.MESSAGE,"Save successful!");
+        }else
+        {
+            deleteStatus.put(Utility.STATUS,"false");
+            deleteStatus.put(Utility.MESSAGE,"Saving failed, please contact administrator to get help!");
+        }
+
+        return deleteStatus;
     }
 }
