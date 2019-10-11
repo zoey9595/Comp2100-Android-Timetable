@@ -9,20 +9,19 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class AddAdapter extends BaseAdapter {
 
     private Context mContext;
-    public Course course;
+    private Course course;
     private LayoutInflater mLayoutInflater;
-    public List<Map<String,String>> courseDetails;
-    public String courseID;
+    private ArrayList<Map<String,String>> courseDetails;
+    private Map<String,String> element = null;
+    private String courseID;
 
-
-
-    public AddAdapter(Context context,Course course, List<Map<String,String>> courseDetails){
+    public AddAdapter(Context context,Course course, ArrayList<Map<String,String>> courseDetails){
         super();
         this.mContext = context;
         this.course = course;
@@ -33,13 +32,13 @@ public class AddAdapter extends BaseAdapter {
     // length of list
     @Override
     public int getCount() {
-        int i = courseDetails.size();
-        return i;
+        return courseDetails.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return courseDetails.get(position);
+        if (courseDetails.size() == 0) return null;
+        else return courseDetails.get(position);
     }
 
     @Override
@@ -112,6 +111,21 @@ public class AddAdapter extends BaseAdapter {
         return convertView;
     }
 
-    
+
+    public void addItem(int position, Map<String,String> element){
+        if (courseDetails == null){
+            courseDetails = new ArrayList<>();
+        }
+        courseDetails.add(position, element);
+        notifyDataSetChanged();
+    }
+
+    public void removeItem(int position){
+        if (courseDetails != null){
+            courseDetails.remove(position);
+        }
+        notifyDataSetChanged();
+    }
+
 
 }
