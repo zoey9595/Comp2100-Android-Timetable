@@ -243,59 +243,34 @@ public class User {
 
 
             //Check if incompatibility courses have been enrolled
-            String enrolledIncompatibleCourse="";
             for (int i = 0; i <incompatibilityCourses.size() ; i++) {
                 boolean isIncompatibleCourseEnrolled = false;
 
                 String incompatibleCourseKey =incompatibilityCourses.get(i);
-
-                String userCourseKey = incompatibleCourseKey+"_S1";
-                isIncompatibleCourseEnrolled = isEnrolledCourse(userCourseKey);
-
-                if(!isIncompatibleCourseEnrolled)
-                {
-                    userCourseKey = incompatibleCourseKey+"_S2";
-                    isIncompatibleCourseEnrolled = isEnrolledCourse(userCourseKey);
-                }
-                if(isIncompatibleCourseEnrolled)
-                    enrolledIncompatibleCourse = incompatibleCourseKey;
-                if(i < incompatibilityCourses.size() -1)
-                    enrolledIncompatibleCourse+=", ";
+                isIncompatibleCourseEnrolled = isEnrolledCourse(incompatibleCourseKey);
 
                 //replace COMP1110 to true or false
                 incompatibility= incompatibility.replaceAll(incompatibleCourseKey,String.valueOf(isIncompatibleCourseEnrolled));
             }
 
             //Check if requisite courses have been enrolled
-            String enrolledRequisitedCourse="";
             for (int i = 0; i <requisiteCourses.size() ; i++) {
                 boolean isRequisiteEnrolled = false;
 
                 String requisiteCourseKey =requisiteCourses.get(i);
-
-                String userCourseKey = requisiteCourseKey+"_S1";
-                isRequisiteEnrolled = isEnrolledCourse(userCourseKey);
-
-                if(!isRequisiteEnrolled)
-                {
-                    userCourseKey = requisiteCourseKey+"_S2";
-                    isRequisiteEnrolled = isEnrolledCourse(userCourseKey);
-                }
-
-                if(isRequisiteEnrolled)
-                {
-                    enrolledRequisitedCourse = requisiteCourseKey;
-                    if(i < requisiteCourses.size() -1)
-                        enrolledRequisitedCourse+=", ";
-                }
-
+                isRequisiteEnrolled = isEnrolledCourse(requisiteCourseKey);
 
                 //replace COMP1110 to 'true' or 'false'
                 requisite= requisite.replaceAll(requisiteCourseKey,String.valueOf(isRequisiteEnrolled));
             }
 
-            Boolean isRequisited = stringBooleanExpression(requisite);
-            Boolean isIncompatibility = stringBooleanExpression(incompatibility);
+            Boolean isRequisited = true;
+            Boolean isIncompatibility = false;
+
+            if(!requisite.equals(""))
+                isRequisited = stringBooleanExpression(requisite);
+            if(!incompatibility.equals(""))
+                isIncompatibility = stringBooleanExpression(incompatibility);
 
             //both Requisite and incompatibility are not satisfied
             if(!isRequisited && isIncompatibility)
@@ -361,7 +336,7 @@ public class User {
             while (courseIds.hasNext()) {
                 String courseId = courseIds.next();
 
-                if(courseId.equals(courseKey))
+                if(courseId.contains(courseKey))
                     isEnrolledCourse = true;
             }
 
