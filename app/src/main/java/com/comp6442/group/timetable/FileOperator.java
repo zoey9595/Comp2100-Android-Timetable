@@ -3,8 +3,6 @@ package com.comp6442.group.timetable;
 import android.content.Context;
 import android.util.Log;
 
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,7 +50,7 @@ public class FileOperator {
     public void placeInternalFile(int rID) {
         try {
             File internalFile = new File(this.filePath);
-            if(!internalFile.exists()) {
+            if (!internalFile.exists()) {
                 String rawString = readRawFile(rID);
                 if (rawString != null) {
                     FileOutputStream outputStream;
@@ -88,5 +86,17 @@ public class FileOperator {
         }
 
         return null;
+    }
+
+    public void writeInternalFile(String jsonString) {
+        try {
+            FileOutputStream outputStream;
+            outputStream = this.context.openFileOutput(this.fileName, 0);
+            outputStream.write(jsonString.getBytes());
+            outputStream.close();
+
+        } catch (Exception ex) {
+            Log.e(getClass().getSimpleName(), ex.getMessage());
+        }
     }
 }
