@@ -278,36 +278,79 @@ public class Course extends FileOperator {
         return names;
     }
 
+    public boolean setCourses(String courseKey,JSONObject course) {
+        try {
+
+            this.courses.put(courseKey, course);
+
+            // Write to the internal file
+            this.writeInternalFile(this.courses.toString());
+
+        } catch (Exception ex) {
+            Log.e(getClass().getSimpleName(), ex.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean deleteCourse(String courseKey)
+    {
+        try {
+            this.courses.remove(courseKey);
+
+            // Write to the internal file
+            this.writeInternalFile(this.courses.toString());
+
+        } catch (Exception ex) {
+            Log.e(getClass().getSimpleName(), ex.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
     public Map<String, String> save(List<Map<String, String>> course) {
         Map<String, String> saveStatus = new HashMap<>();
-        String courseKey = course.get(0).get("courseKey");//ACST3001_S1
+
         Boolean success = false;
         try {
             JSONObject courseDetails = new JSONObject();
             JSONArray lessonArray = new JSONArray();
             JSONObject lesson = new JSONObject();
 
-            if (course.size() > 0) {
-                courseDetails.put("id", course.get(0).get("id")); //ACST3001
-                courseDetails.put("name", course.get(0).get("courseName"));
-                courseDetails.put("semester", course.get(0).get("semester"));
+            String courseKey ="";
+            courseKey = course.get(0).get("courseKey");//ACST3001_S1
+
+            if(courseKey.equals(""))
+                success = false;
+            else
+            {
+                if (course.size() > 0) {
+
+                    courseDetails.put("id", course.get(0).get("id")); //ACST3001
+                    courseDetails.put("name", course.get(0).get("courseName"));
+                    courseDetails.put("semester", course.get(0).get("semester"));
+                }
+
+                for (int i = 0; i < course.size(); i++) {
+
+                    //add lesson into lesson list
+                    lesson.put("name", course.get(i).get("name"));
+                    lesson.put("description", "");//no description of new course
+                    lesson.put("weekday", course.get(i).get("weekday"));
+                    lesson.put("start", course.get(i).get("start"));
+                    lesson.put("end", course.get(i).get("end"));
+                    lesson.put("duration", course.get(i).get("duration"));
+                    lesson.put("weeks", "");//no week info of new course
+                    lesson.put("location", "");//no location info of new course
+                    lessonArray.put(lesson);
+                }
+
+                //add lesson list into course object
+                courseDetails.put("lesson", lessonArray);
+                success = setCourses(courseKey,courseDetails);
             }
-
-            for (int i = 0; i < course.size(); i++) {
-
-                lesson.put("name", course.get(i).get("name"));
-                lesson.put("description", "");//no description of new course
-                lesson.put("weekday", course.get(i).get("weekday"));
-                lesson.put("start", course.get(i).get("start"));
-                lesson.put("end", course.get(i).get("end"));
-                lesson.put("duration", course.get(i).get("duration"));
-                lesson.put("weeks", "");//no week info of new course
-                lesson.put("location", "");//no location info of new course
-                lessonArray.put(lesson);
-            }
-
-            courseDetails.put("courseKey", courseDetails);
-
 
             if (success) {
                 saveStatus.put(Utility.STATUS, "true");
@@ -325,11 +368,12 @@ public class Course extends FileOperator {
         return saveStatus;
     }
 
-    public Map<String, String> delete(String courseKey) {
+    public Map<String,String > delete(String courseKey)
+    {
         Map<String, String> deleteStatus = new HashMap<>();
-        Boolean success = false;
 
-
+        boolean success = false;
+        success = deleteCourse(courseKey);
         if (success) {
             deleteStatus.put(Utility.STATUS, "true");
             deleteStatus.put(Utility.MESSAGE, "Save successful!");
@@ -337,7 +381,7 @@ public class Course extends FileOperator {
             deleteStatus.put(Utility.STATUS, "false");
             deleteStatus.put(Utility.MESSAGE, "Saving failed, please contact administrator to get help!");
         }
-
         return deleteStatus;
     }
+
 }
