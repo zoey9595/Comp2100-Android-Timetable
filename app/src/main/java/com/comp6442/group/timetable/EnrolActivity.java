@@ -105,7 +105,7 @@ public class EnrolActivity extends AppCompatActivity {
         // Display enrolled courses
         final ArrayList<String> enrolledCourses = new ArrayList<>();
         for (String s : userCourseList.keySet()) {
-            enrolledCourses.add(course.getCourseName(s));
+            enrolledCourses.add(s + ": " + course.getCourseName(s));
         }
         final ArrayAdapter<String> enrolAdapter = new ArrayAdapter<>(this,
                 R.layout.layout_custom_row, enrolledCourses);
@@ -220,6 +220,7 @@ public class EnrolActivity extends AppCompatActivity {
                             String temp = mCtv.getText().toString();
                             if (mCtv.isChecked()) {
                                 // Delete selected courses from user.json
+                                user.delete(temp.substring(0,7));
                                 enrolAdapter.remove(temp);
                             }
                         }
