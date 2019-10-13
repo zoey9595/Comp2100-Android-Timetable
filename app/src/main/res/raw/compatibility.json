@@ -1,22 +1,382 @@
 {
+  "COMP8420": {
+    "name": "Neural Networks, Deep Learning and Bio-inspired Computing",
+    "requisite": "COMP6670",
+    "incompatibility": "COMP1140 || COMP1510 || COMP2140 || COMP6710"
+  },
+  "COMP1100": {
+    "name": "Programming as Problem Solving",
+    "requisite": "",
+    "incompatibility": "COMP1130"
+  },
   "COMP1110": {
     "name": "Structured Programming",
     "requisite": "COMP1100 || COMP1130 || COMP1730",
-    "incompatibility":  "COMP1140 || COMP1510 || COMP2140 || COMP6710"
+    "incompatibility": "COMP1140 || COMP1510 || COMP2140 || COMP6710"
+  },
+  "COMP1130": {
+    "name": "Programming as Problem Solving (Advanced)",
+    "requisite": "",
+    "incompatibility": "COMP1100"
+  },
+  "COMP1140": {
+    "name": "Structured Programming (Advanced)",
+    "requisite": "COMP1130",
+    "incompatibility": "COMP1110 || COMP1510"
+  },
+  "COMP1600": {
+    "name": "Foundations of Computing",
+    "requisite": "COMP1100 || COMP1130",
+    "incompatibility": "COMP2600 || COMP6260"
+  },
+  "COMP1710": {
+    "name": "Web Development and Design",
+    "requisite": "",
+    "incompatibility": "COMP6780"
+  },
+  "COMP1720": {
+    "name": "Art and Interaction in New Media",
+    "requisite": "",
+    "incompatibility": "COMP6720"
+  },
+  "COMP1730": {
+    "name": "Programming for Scientists",
+    "requisite": "",
+    "incompatibility": "COMP6730"
+  },
+  "COMP2120": {
+    "name": "Software Engineering",
+    "requisite": "COMP2100 || COMP2500",
+    "incompatibility": "COMP2130 || COMP6120 || COMP6311"
+  },
+  "COMP2400": {
+    "name": "Relational Databases",
+    "requisite": "",
+    "incompatibility": "COMP6240 || COMP7240"
+  },
+  "COMP2420": {
+    "name": "Introduction to Data Management, Analysis and Security",
+    "requisite": "COMP1100 || COMP1130",
+    "incompatibility": ""
+  },
+  "COMP2100": {
+    "name": "Software Design Methodologies",
+    "requisite": "COMP1100 || COMP1130 || COMP1110 || COMP1140 || COMP1510",
+    "incompatibility": "COMP2500 || COMP6442"
+  },
+  "COMP2300": {
+    "name": "Computer Organisation and Program Execution",
+    "requisite": "COMP1100 || COMP1130 || COMP1730",
+    "incompatibility": "COMP6300 || ENGN2219 || COMP6719"
   },
   "COMP2310": {
     "name": "Systems, Networks and Concurrency",
     "requisite": "(COMP1130 || COMP1140 || COMP1110 || COMP1510) && COMP2300",
-    "incompatibility":  "COMP6310"
+    "incompatibility": "COMP6310"
+  },
+  "COMP2410": {
+    "name": "Networked Information Systems",
+    "requisite": "",
+    "incompatibility": "COMP6340"
+  },
+  "COMP2610": {
+    "name": "Information Theory",
+    "requisite": "",
+    "incompatibility": "COMP6261 || ENGN8534"
+  },
+  "COMP2620": {
+    "name": "Logic",
+    "requisite": "",
+    "incompatibility": "PHIL2080"
+  },
+  "COMP2700": {
+    "name": "Cyber Security Foundations",
+    "requisite": "(COMP1100 || COMP1130) && COMP1600",
+    "incompatibility": ""
+  },
+  "COMP3120": {
+    "name": "Managing Software Development",
+    "requisite": "COMP2130 || COMP2120 || INFS2024 || COMP3110",
+    "incompatibility": "COMP8110"
+  },
+  "COMP3310": {
+    "name": "Computer Networks",
+    "requisite": "COMP2100 || COMP2300",
+    "incompatibility": "COMP6331"
+  },
+  "COMP3425": {
+    "name": "Data Mining",
+    "requisite": "(COMP1100 || COMP1130 || COMP1730) && COMP2400",
+    "incompatibility": "COMP3420 || COMP8400 "
+  },
+  "COMP3430": {
+    "name": "Data Wrangling",
+    "requisite": "(COMP1030 || COMP1100 || COMP1130 || COMP1730) && (COMP1040 || COMP1110 || COMP1140)",
+    "incompatibility": ""
+  },
+  "COMP3500": {
+    "name": "Software Engineering Project",
+    "requisite": "(COMP2500 || COMP2100) && (COMP2120 || COMP2130 || COMP2510)",
+    "incompatibility": "COMP3100"
+  },
+  "COMP3530": {
+    "name": "Systems Engineering for Software Engineers",
+    "requisite": "ENGN1211 && (COMP2130 || COMP2120)",
+    "incompatibility": "ENGN2225 || COMP6353"
+  },
+  "COMP3550": {
+    "name": "Advanced Computing R&D Project",
+    "requisite": "COMP2130 && COMP2560",
+    "incompatibility": ""
+  },
+  "COMP3600": {
+    "name": "Algorithms",
+    "requisite": "COMP1110 || COMP1140 || COMP1510",
+    "incompatibility": "COMP6466"
+  },
+  "COMP3620": {
+    "name": "Artificial Intelligence",
+    "requisite": "(COMP1110 || COMP1140) && COMP2620",
+    "incompatibility": "COMP6320"
+  },
+  "COMP3670": {
+    "name": "Introduction to Machine Learning",
+    "requisite": "COMP1110 || COMP1140",
+    "incompatibility": "COMP6670"
+  },
+  "COMP3701": {
+    "name": "Defensive Cyber Security Operations",
+    "requisite": "COMP2700",
+    "incompatibility": ""
+  },
+  "COMP3702": {
+    "name": "Offensive Cyber Security Operations",
+    "requisite": "COMP2700",
+    "incompatibility": ""
+  },
+  "COMP3900": {
+    "name": "Human Computer Interface Design and Evaluation",
+    "requisite": "COMP1110 || COMP1140 || COMP1510",
+    "incompatibility": "COMP6390"
+  },
+  "COMP6261": {
+    "name": "Information Theory",
+    "requisite": "",
+    "incompatibility": "COMP2610 || ENGN8534"
+  },
+  "COMP6331": {
+    "name": "Computer Networks",
+    "requisite": "COMP6710 || COMP6310 || COMP6442",
+    "incompatibility": "COMP3310"
+  },
+  "COMP6442": {
+    "name": "Software Construction",
+    "requisite": "(COMP6700 || COMP6710) && (MATH6005 || COMP6260)",
+    "incompatibility": "COMP2100"
+  },
+  "COMP6445": {
+    "name": "Advanced Computing Research Methods",
+    "requisite": "",
+    "incompatibility": "COMP4450"
+  },
+  "COMP6490": {
+    "name": "Document Analysis",
+    "requisite": "",
+    "incompatibility": "COMP4650"
+  },
+  "COMP6670": {
+    "name": "Introduction to Machine Learning",
+    "requisite": "COMP6710 || COMP6730",
+    "incompatibility": "COMP3670"
+  },
+  "COMP6730": {
+    "name": "Programming for Scientists",
+    "requisite": "",
+    "incompatibility": "COMP1730 || COMP7230 || COMP1040"
+  },
+  "COMP6120": {
+    "name": "Software Engineering",
+    "requisite": "COMP6442",
+    "incompatibility": "COMP2120 || COMP2130 || COMP6311"
+  },
+  "COMP6240": {
+    "name": "Relational Databases",
+    "requisite": "",
+    "incompatibility": "COMP2400 || COMP7240"
+  },
+  "COMP6260": {
+    "name": "Foundations of Computing",
+    "requisite": "",
+    "incompatibility": "COMP1600"
+  },
+  "COMP6310": {
+    "name": "Systems, Networks and Concurrency",
+    "requisite": "COMP6300 && (COMP6700 || COMP6710)",
+    "incompatibility": "COMP2310"
+  },
+  "COMP6320": {
+    "name": "Artificial Intelligence",
+    "requisite": "COMP6710 && COMP6262",
+    "incompatibility": "COMP3620"
+  },
+  "COMP6340": {
+    "name": "Networked Information Systems",
+    "requisite": "",
+    "incompatibility": "COMP2410"
+  },
+  "COMP6466": {
+    "name": "Algorithms",
+    "requisite": "COMP6700 || COMP6710",
+    "incompatibility": "COMP3600"
+  },
+  "COMP6300": {
+    "name": "Computer Organisation and Program Execution",
+    "requisite": "COMP6700",
+    "incompatibility": "COMP2300 || ENGN2219 || COMP6719"
+  },
+  "COMP6353": {
+    "name": "Systems Engineering for Software Engineers",
+    "requisite": "",
+    "incompatibility": "COMP3530"
+  },
+  "COMP6390": {
+    "name": "HCI and Usability Engineering",
+    "requisite": "COMP6442",
+    "incompatibility": "COMP3900"
+  },
+  "COMP6420": {
+    "name": "Introduction to Data Management, Analysis and Security",
+    "requisite": "COMP6710",
+    "incompatibility": "COMP2420"
+  },
+  "COMP6461": {
+    "name": "Computer Graphics",
+    "requisite": "COMP6700 || COMP6710",
+    "incompatibility": "COMP4610"
+  },
+  "COMP6710": {
+    "name": "Structured Programming",
+    "requisite": "",
+    "incompatibility": "COMP6700 || COMP1110"
+  },
+  "COMP6719": {
+    "name": "Computer Architecture and Simulation",
+    "requisite": "COMP6700 || COMP6710",
+    "incompatibility": "ENGN2219 || COMP2300 || COMP6300"
+  },
+  "COMP6720": {
+    "name": "Art and Interaction in New Media",
+    "requisite": "",
+    "incompatibility": "COMP1720"
+  },
+  "COMP6780": {
+    "name": "Web Development and Design",
+    "requisite": "",
+    "incompatibility": "COMP1710"
   },
   "COMP7230": {
     "name": "Introduction to Programming for Data Scientists",
     "requisite": "",
-    "incompatibility":  "(COMP1730 || COMP6730) && COMP1040"
+    "incompatibility": "(COMP1730 || COMP6730) && COMP1040"
+  },
+  "COMP7240": {
+    "name": "Introduction to Database Concepts",
+    "requisite": "",
+    "incompatibility": "COMP2400 || COMP6240"
+  },
+  "COMP4500": {
+    "name": "Software Engineering Practice",
+    "requisite": "COMP2130 && COMP3120 && COMP3500",
+    "incompatibility": "COMP4540"
+  },
+  "COMP4610": {
+    "name": "Computer Graphics",
+    "requisite": "",
+    "incompatibility": "COMP6461"
   },
   "COMP4670": {
-    "name": "Introduction to Programming for Data Scientists",
-    "requisite": "COMP3670|| ((COMP1110 || COMP1140 )&&( MATH1014 || MATH1115))",
-    "incompatibility":  "COMP8600"
+    "name": "Statistical Machine Learning",
+    "requisite": "COMP3670 || ((COMP1110 || COMP1140 ) && ( MATH1014 || MATH1115))",
+    "incompatibility": "COMP8600"
+  },
+  "COMP4691": {
+    "name": "Optimisation",
+    "requisite": "COMP3620 && (MATH1013 || MATH1115)",
+    "incompatibility": "COMP8691"
+  },
+  "COMP4620": {
+    "name": "Advanced Topics in Artificial Intelligence",
+    "requisite": "COMP3620",
+    "incompatibility": "COMP8620"
+  },
+  "COMP4650": {
+    "name": "Document Analysis",
+    "requisite": "COMP2600 || COMP1600",
+    "incompatibility": "COMP6490"
+  },
+  "COMP4680": {
+    "name": "Advanced Topics in Machine Learning",
+    "requisite": "COMP4670",
+    "incompatibility": "COMP8650"
+  },
+  "COMP4330": {
+    "name": "Real-Time & Embedded Systems",
+    "requisite": "COMP2310 || ENGN3213",
+    "incompatibility": "COMP8330"
+  },
+  "COMP4130": {
+    "name": "Managing Software Quality and Process",
+    "requisite": "COMP3120 && COMP1600 && (COMP3100 || COMP3500)",
+    "incompatibility": ""
+  },
+  "COMP8430": {
+    "name": "Data Wrangling",
+    "requisite": "(COMP7230 || COMP6730 || COMP6710) && (COMP7240 || COMP6240 || COMP6420)",
+    "incompatibility": "COMP3430"
+  },
+  "COMP8670": {
+    "name": "Advanced Topics in Logic and Computation",
+    "requisite": "COMP6700 || COMP6710",
+    "incompatibility": ""
+  },
+  "COMP8800": {
+    "name": "Computing Research Project",
+    "requisite": "COMP6442 && COMP8260 && COMP6445",
+    "incompatibility": ""
+  },
+  "COMP8410": {
+    "name": "Data Mining",
+    "requisite": "(COMP7240 || COMP6240 || COMP2400) && (COMP6730 || COMP7230 || COMP6710)",
+    "incompatibility": "COMP3420 || COMP3425 || COMP8400"
+  },
+  "COMP8600": {
+    "name": "Statistical Machine Learning",
+    "requisite": "COMP6670 || (COMP8410 && STAT6039)",
+    "incompatibility": "COMP4670"
+  },
+  "COMP8650": {
+    "name": "Advanced Topics in Machine Learning",
+    "requisite": " COMP6670 || COMP8600",
+    "incompatibility": "COMP4680"
+  },
+  "COMP8715": {
+    "name": "Computing Project",
+    "requisite": "COMP8260 && COMP6442",
+    "incompatibility": "COMP8755 && COMP8830"
+  },
+  "COMP8880": {
+    "name": "Computational Methods for Network Science",
+    "requisite": "COMP6710 && COMP6670",
+    "incompatibility": ""
+  },
+  "COMP8110": {
+    "name": "Managing Software Projects in a System Context",
+    "requisite": "COMP6700 || COMP6710",
+    "incompatibility": "COMP3120"
+  },
+  "COMP8260": {
+    "name": "Professional Practice 2",
+    "requisite": "COMP6250 || COMP8701",
+    "incompatibility": ""
   }
 }

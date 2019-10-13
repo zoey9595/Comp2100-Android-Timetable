@@ -6,9 +6,6 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,25 +13,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class Course {
+public class Course extends FileOperator {
     private static Course courseInstance = null;
     private static User userInstance = null;
     private JSONObject courses = new JSONObject();
 
     private Course(Context context) {
+        super(context, "courses.json");
+
         try {
-            InputStream inputStream = context.getResources().openRawResource(R.raw.courses);
-            BufferedReader bReader = new BufferedReader(new InputStreamReader(inputStream));
-
-            StringBuilder stringBuilder = new StringBuilder();
-
-            String jsonFileLine = bReader.readLine();
-            while (jsonFileLine != null) {
-                stringBuilder.append(jsonFileLine);
-                jsonFileLine = bReader.readLine();
-            }
-
-            this.courses = new JSONObject(stringBuilder.toString());
+            this.placeInternalFile(R.raw.courses);
+            String jsonString = this.readInternalFile();
+            if (jsonString != null)
+                this.courses = new JSONObject(jsonString);
 
         } catch (Exception ex) {
             Log.e(getClass().getSimpleName(), ex.getMessage());
@@ -118,15 +109,14 @@ public class Course {
         List<String> lectureList = new ArrayList<>();
         try {
             List<Map<String, String>> lessonList = new ArrayList<>();
-            lessonList= getLessons(courseKey);
+            lessonList = getLessons(courseKey);
             for (int i = 0; i < lessonList.size(); i++) {
                 Map<String, String> lessonInfo = new HashMap<>();
                 lessonInfo = reformatLessonInfo(lessonList.get(i));
-                if(lessonInfo.get(Utility.NAME_TYPE).equals(Utility.LEC))
-                {
-                    String combine = lessonInfo.get(Utility.NAME_TYPE)+lessonInfo.get(Utility.NAME_ALP)+'/'+lessonInfo.get(Utility.NAME_INDEX)
-                            +", "+lessonInfo.get(Utility.WEEKDAY)+", "+lessonInfo.get(Utility.START)+"-"+lessonInfo.get(Utility.END);
-                    if(!lectureList.contains(combine))
+                if (lessonInfo.get(Utility.NAME_TYPE).equals(Utility.LEC)) {
+                    String combine = lessonInfo.get(Utility.NAME_TYPE) + lessonInfo.get(Utility.NAME_ALP) + '/' + lessonInfo.get(Utility.NAME_INDEX)
+                            + ", " + lessonInfo.get(Utility.WEEKDAY) + ", " + lessonInfo.get(Utility.START) + "-" + lessonInfo.get(Utility.END);
+                    if (!lectureList.contains(combine))
                         lectureList.add(combine);
                 }
             }
@@ -141,15 +131,14 @@ public class Course {
         List<String> lectureList = new ArrayList<>();
         try {
             List<Map<String, String>> lessonList = new ArrayList<>();
-            lessonList= getLessons(courseKey);
+            lessonList = getLessons(courseKey);
             for (int i = 0; i < lessonList.size(); i++) {
                 Map<String, String> lessonInfo = new HashMap<>();
                 lessonInfo = reformatLessonInfo(lessonList.get(i));
-                if(!lessonInfo.get(Utility.NAME_TYPE).equals(Utility.LEC))
-                {
-                    String combine = lessonInfo.get(Utility.NAME_TYPE)+lessonInfo.get(Utility.NAME_ALP)+'/'+lessonInfo.get(Utility.NAME_INDEX)
-                            +", "+lessonInfo.get(Utility.WEEKDAY)+", "+lessonInfo.get(Utility.START)+"-"+lessonInfo.get(Utility.END);
-                    if(!lectureList.contains(combine))
+                if (!lessonInfo.get(Utility.NAME_TYPE).equals(Utility.LEC)) {
+                    String combine = lessonInfo.get(Utility.NAME_TYPE) + lessonInfo.get(Utility.NAME_ALP) + '/' + lessonInfo.get(Utility.NAME_INDEX)
+                            + ", " + lessonInfo.get(Utility.WEEKDAY) + ", " + lessonInfo.get(Utility.START) + "-" + lessonInfo.get(Utility.END);
+                    if (!lectureList.contains(combine))
                         lectureList.add(combine);
                 }
             }
@@ -166,7 +155,7 @@ public class Course {
         try {
             JSONObject courseDetail = (JSONObject) this.courses.get(courseKey);
             List<Map<String, String>> lessonList = new ArrayList<>();
-            lessonList= getLessons(courseKey);
+            lessonList = getLessons(courseKey);
             for (int i = 0; i < lessonList.size(); i++) {
                 Map<String, String> lessonInfo = new HashMap<>();
                 lessonInfo = reformatLessonInfo(lessonList.get(i));
@@ -180,16 +169,14 @@ public class Course {
         return lectureDetailList;
     }
 
-    public Map<String, String> reformatLessonInfo(Map<String, String> lesson)
-    {
+    public Map<String, String> reformatLessonInfo(Map<String, String> lesson) {
         Map<String, String> reformatedLesson = new HashMap<>();
-        try{
+        try {
             String fullName = (String) lesson.get(Utility.FULL_NAME); //COMP1110_S1-ComA/01
-            String [] splitName= splitLessonName(fullName);
+            String[] splitName = splitLessonName(fullName);
             String nameAlp = "";
-            if(splitName[1].length()>=4)
-            {
-                nameAlp = splitName[1].substring(splitName[1].length()-1,splitName[1].length());
+            if (splitName[1].length() >= 4) {
+                nameAlp = splitName[1].substring(splitName[1].length() - 1, splitName[1].length());
                 splitName[1] = splitName[1].substring(0, splitName[1].length() - 1);
             }
             reformatedLesson.put(Utility.NAME_TYPE, splitName[1]); //Com
@@ -198,8 +185,7 @@ public class Course {
             reformatedLesson.put(Utility.WEEKDAY, Utility.WeekdayDisplay((String) lesson.get(Utility.WEEKDAY)));
             reformatedLesson.put(Utility.START, (String) lesson.get(Utility.START));
             reformatedLesson.put(Utility.END, (String) lesson.get(Utility.END));
-        }catch (Exception ex)
-        {
+        } catch (Exception ex) {
             Log.e(getClass().getSimpleName(), ex.getMessage());
         }
         return reformatedLesson;
@@ -207,7 +193,7 @@ public class Course {
     }
 
     //Added on 8 Oct 2019
-    public Map<String, String> getLessonsByCourseIdAndLessonName(String courseKey,String lessonName) {
+    public Map<String, String> getLessonsByCourseIdAndLessonName(String courseKey, String lessonName) {
         Map<String, String> lessonInfo = new HashMap<>();
         try {
             JSONObject courseDetail = (JSONObject) this.courses.get(courseKey);
@@ -216,12 +202,11 @@ public class Course {
                 JSONObject lesson = (JSONObject) lessonArray.get(index);
                 String lessonFullName = (String) lesson.get(Utility.FULL_NAME);
 
-                if(lessonFullName.contains(lessonName))
-                {
+                if (lessonFullName.contains(lessonName)) {
                     lessonInfo.put(Utility.FULL_NAME, (String) lesson.get(Utility.FULL_NAME));
                     lessonInfo.put(Utility.START, (String) lesson.get(Utility.START));
                     lessonInfo.put(Utility.END, (String) lesson.get(Utility.END));
-                    lessonInfo.put(Utility.WEEKDAY,(String) lesson.get(Utility.WEEKDAY));
+                    lessonInfo.put(Utility.WEEKDAY, (String) lesson.get(Utility.WEEKDAY));
                 }
             }
         } catch (Exception ex) {
@@ -245,22 +230,19 @@ public class Course {
             enrolledCourseName.add(s);
         }
 
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             boolean isEnrolled = false;
             String courseId = (String) iterator.next();
-            if(enrolledCourseName.size()>0)
-            {
+            if (enrolledCourseName.size() > 0) {
                 for (int i = 0; i < enrolledCourseName.size(); i++) {
-                    String [] name = splitCourseName(enrolledCourseName.get(i));
-                    if(courseId.contains(name[0].toString()))
-                    {
+                    String[] name = splitCourseName(enrolledCourseName.get(i));
+                    if (courseId.contains(name[0].toString())) {
                         isEnrolled = true;
                     }
                 }
             }
             //if not enroll, list the course in UI
-            if(!isEnrolled)
+            if (!isEnrolled)
                 courseList.add(courseId);
 
         }
@@ -271,32 +253,91 @@ public class Course {
     }
 
     //get master data of weekdays and nameType
-    public Map<String,List> getMasterList()
-    {
-        Map<String,List> master = new HashMap<>();
+    public Map<String, List> getMasterList() {
+        Map<String, List> master = new HashMap<>();
         List<String> weekdays = new ArrayList<>();
         List<String> lessonType = new ArrayList<>();
         weekdays = Utility.getWeekdayList();
         lessonType = Utility.getLessonTypeList();
-        master.put(Utility.WEEKDAY,weekdays);
-        master.put(Utility.NAME_TYPE,lessonType);
+        master.put(Utility.WEEKDAY, weekdays);
+        master.put(Utility.NAME_TYPE, lessonType);
         return master;
     }
 
     //get split lesson name
-    public static String[]  splitLessonName(String Name)
-    {
+    public static String[] splitLessonName(String Name) {
         String[] names = new String[4];
         names = Name.split("-|\\/+");
         return names;
     }
 
     //get split lesson name
-    public static String[]  splitCourseName(String Name)
-    {
+    public static String[] splitCourseName(String Name) {
         String[] names = new String[4];
         names = Name.split("_");
         return names;
     }
 
+    public Map<String, String> save(List<Map<String, String>> course) {
+        Map<String, String> saveStatus = new HashMap<>();
+        String courseKey = course.get(0).get("courseKey");//ACST3001_S1
+        Boolean success = false;
+        try {
+            JSONObject courseDetails = new JSONObject();
+            JSONArray lessonArray = new JSONArray();
+            JSONObject lesson = new JSONObject();
+
+            if (course.size() > 0) {
+                courseDetails.put("id", course.get(0).get("id")); //ACST3001
+                courseDetails.put("name", course.get(0).get("courseName"));
+                courseDetails.put("semester", course.get(0).get("semester"));
+            }
+
+            for (int i = 0; i < course.size(); i++) {
+
+                lesson.put("name", course.get(i).get("name"));
+                lesson.put("description", "");//no description of new course
+                lesson.put("weekday", course.get(i).get("weekday"));
+                lesson.put("start", course.get(i).get("start"));
+                lesson.put("end", course.get(i).get("end"));
+                lesson.put("duration", course.get(i).get("duration"));
+                lesson.put("weeks", "");//no week info of new course
+                lesson.put("location", "");//no location info of new course
+                lessonArray.put(lesson);
+            }
+
+            courseDetails.put("courseKey", courseDetails);
+
+
+            if (success) {
+                saveStatus.put(Utility.STATUS, "true");
+                saveStatus.put(Utility.MESSAGE, "Save successful!");
+            } else {
+                saveStatus.put(Utility.STATUS, "false");
+                saveStatus.put(Utility.MESSAGE, "Saving failed, please contact administrator to get help!");
+            }
+
+
+        } catch (Exception ex) {
+            Log.e(getClass().getSimpleName(), ex.getMessage());
+        }
+
+        return saveStatus;
+    }
+
+    public Map<String, String> delete(String courseKey) {
+        Map<String, String> deleteStatus = new HashMap<>();
+        Boolean success = false;
+
+
+        if (success) {
+            deleteStatus.put(Utility.STATUS, "true");
+            deleteStatus.put(Utility.MESSAGE, "Save successful!");
+        } else {
+            deleteStatus.put(Utility.STATUS, "false");
+            deleteStatus.put(Utility.MESSAGE, "Saving failed, please contact administrator to get help!");
+        }
+
+        return deleteStatus;
+    }
 }
