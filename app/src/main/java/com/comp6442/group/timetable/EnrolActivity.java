@@ -270,7 +270,7 @@ public class EnrolActivity extends AppCompatActivity {
                                 }
                             }
                         }
-                        Map<String, List> temp = new HashMap<>();
+                        Map<String, List<String>> temp = new HashMap<>();
                         temp.put(selectedcourseID, newEnrolCourses);
                         // Add the selected course to userCourseList
                         Map<String, String> temp2 = user.save(temp);
