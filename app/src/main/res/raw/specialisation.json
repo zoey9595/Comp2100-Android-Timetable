@@ -1,11 +1,11 @@
 {
   "basicCourses": [
+    "MATH6005",
     "COMP6250",
     "COMP6442",
     "COMP6710",
     "COMP8110",
     "COMP8260",
-    "MATH6005",
     "COMP6120/COMP8190",
     "COMP6240/COMP6420",
     "COMP6331/COMP6340",
@@ -13,8 +13,8 @@
   ],
   "machineLearning": [
     "COMP6670",
-    "COMP8420",
     "COMP6490",
+    "COMP8420",
     "COMP8600",
     "COMP8650",
     "ENGN6528"

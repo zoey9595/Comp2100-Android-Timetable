@@ -19,16 +19,17 @@ import javax.script.ScriptEngineManager;
 
 public class User extends FileOperator{
     private static User userInstance = null;
-    private static Course courseInstance;
-    private static Compatibility compatibilityInstance = null;
+
+    private Course courseInstance = null;
+    private Compatibility compatibilityInstance = null;
     private JSONObject userCourses = new JSONObject();
 
     private User(Context context) {
         super(context, "user.json");
 
         try {
-            courseInstance = Course.getCourseInstance(context);
-            compatibilityInstance = Compatibility.getCompatibilityInstance(context);
+            this.courseInstance = Course.getCourseInstance(context);
+            this.compatibilityInstance = Compatibility.getCompatibilityInstance(context);
 
             this.placeInternalFile(R.raw.user);
             String jsonString = this.readInternalFile();
@@ -157,7 +158,7 @@ public class User extends FileOperator{
         for (String s : enrolledCourseInfo.keySet()) {
             List<String> lessons = enrolledCourseInfo.get(s);
             for (int i = 0; i < lessons.size(); i++) {
-                Map<String, String> enrolledLessonInfo = courseInstance.getLessonsByCourseIdAndLessonName(s, lessons.get(i));
+                Map<String, String> enrolledLessonInfo = this.courseInstance.getLessonsByCourseIdAndLessonName(s, lessons.get(i));
                 if (enrolledCourseInfo.size() > 0)
                     enrolledLessonInfoList.add(enrolledLessonInfo);
             }
@@ -176,7 +177,7 @@ public class User extends FileOperator{
         for (String s : toEnrollCourse.keySet()) {
             List<String> lessons = toEnrollCourse.get(s);
             for (int i = 0; i < lessons.size(); i++) {
-                Map<String, String> enrolledLessonInfo = courseInstance.getLessonsByCourseIdAndLessonName(s, lessons.get(i));
+                Map<String, String> enrolledLessonInfo = this.courseInstance.getLessonsByCourseIdAndLessonName(s, lessons.get(i));
                 if (enrolledLessonInfo.size() > 0)
                     timeToEnrollList.add(enrolledLessonInfo);
             }
@@ -250,7 +251,7 @@ public class User extends FileOperator{
 
         try {
             String courseId = courseKey.replaceAll("_S1", "").replaceAll("_S2", "");
-            Map<String, String> compatibility = compatibilityInstance.getCoursesCompatiblityById(courseId);
+            Map<String, String> compatibility = this.compatibilityInstance.getCoursesCompatiblityById(courseId);
             String requisite = compatibility.get(Utility.REQUISITE);
             String incompatibility = compatibility.get(Utility.INCOMPATIBILITY);
 

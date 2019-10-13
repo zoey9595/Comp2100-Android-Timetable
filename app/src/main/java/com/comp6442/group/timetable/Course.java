@@ -38,11 +38,25 @@ public class Course extends FileOperator {
         return courseInstance;
     }
 
-    public List<String> getCourseList() {
+    public List<String> getCourseNameList() {
         Iterator iterator = this.courses.keys();
         List<String> courseList = new ArrayList<>();
         while (iterator.hasNext())
             courseList.add((String) iterator.next());
+        Collections.sort(courseList);
+        return courseList;
+    }
+
+    public List<String> getCompCourseNameList() {
+        List<String> courseList = new ArrayList<>();
+
+        Iterator iterator = this.courses.keys();
+        while (iterator.hasNext()){
+            String courseName = (String) iterator.next();
+            if (courseName.contains("COMP"))
+                courseList.add(courseName);
+        }
+
         Collections.sort(courseList);
         return courseList;
     }
