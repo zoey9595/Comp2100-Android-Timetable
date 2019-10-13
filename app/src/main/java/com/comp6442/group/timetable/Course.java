@@ -294,6 +294,22 @@ public class Course extends FileOperator {
         return true;
     }
 
+    public boolean deleteCourse(String courseKey)
+    {
+        try {
+            this.courses.remove(courseKey);
+
+            // Write to the internal file
+            this.writeInternalFile(this.courses.toString());
+
+        } catch (Exception ex) {
+            Log.e(getClass().getSimpleName(), ex.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
     public Map<String, String> save(List<Map<String, String>> course) {
         Map<String, String> saveStatus = new HashMap<>();
 
@@ -352,11 +368,12 @@ public class Course extends FileOperator {
         return saveStatus;
     }
 
-    public Map<String, String> delete(String courseKey) {
+    public Map<String,String > delete(String courseKey)
+    {
         Map<String, String> deleteStatus = new HashMap<>();
-        Boolean success = false;
 
-
+        boolean success = false;
+        success = deleteCourse(courseKey);
         if (success) {
             deleteStatus.put(Utility.STATUS, "true");
             deleteStatus.put(Utility.MESSAGE, "Save successful!");
@@ -364,7 +381,7 @@ public class Course extends FileOperator {
             deleteStatus.put(Utility.STATUS, "false");
             deleteStatus.put(Utility.MESSAGE, "Saving failed, please contact administrator to get help!");
         }
-
         return deleteStatus;
     }
+
 }
