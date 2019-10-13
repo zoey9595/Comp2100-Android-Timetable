@@ -278,16 +278,34 @@ public class Course extends FileOperator {
         return names;
     }
 
+    public boolean setCourses(String courseKey,JSONObject course) {
+        try {
+
+            this.courses.put(courseKey, course);
+
+            // Write to the internal file
+            this.writeInternalFile(this.courses.toString());
+
+        } catch (Exception ex) {
+            Log.e(getClass().getSimpleName(), ex.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
     public Map<String, String> save(List<Map<String, String>> course) {
         Map<String, String> saveStatus = new HashMap<>();
-        String courseKey = course.get(0).get("courseKey");//ACST3001_S1
+
         Boolean success = false;
         try {
             JSONObject courseDetails = new JSONObject();
             JSONArray lessonArray = new JSONArray();
             JSONObject lesson = new JSONObject();
 
+            String courseKey ="";
             if (course.size() > 0) {
+                courseKey = course.get(0).get("courseKey");//ACST3001_S1
                 courseDetails.put("id", course.get(0).get("id")); //ACST3001
                 courseDetails.put("name", course.get(0).get("courseName"));
                 courseDetails.put("semester", course.get(0).get("semester"));
@@ -295,6 +313,7 @@ public class Course extends FileOperator {
 
             for (int i = 0; i < course.size(); i++) {
 
+                //add lesson into lesson list
                 lesson.put("name", course.get(i).get("name"));
                 lesson.put("description", "");//no description of new course
                 lesson.put("weekday", course.get(i).get("weekday"));
@@ -306,8 +325,9 @@ public class Course extends FileOperator {
                 lessonArray.put(lesson);
             }
 
-            courseDetails.put("courseKey", courseDetails);
-
+            //add lesson list into course object
+            courseDetails.put("lessonArray", lessonArray);
+            success = setCourses(courseKey,courseDetails);
 
             if (success) {
                 saveStatus.put(Utility.STATUS, "true");
