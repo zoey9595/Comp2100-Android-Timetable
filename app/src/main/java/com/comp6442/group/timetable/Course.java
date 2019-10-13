@@ -376,10 +376,10 @@ public class Course extends FileOperator {
         success = deleteCourse(courseKey);
         if (success) {
             deleteStatus.put(Utility.STATUS, "true");
-            deleteStatus.put(Utility.MESSAGE, "Save successful!");
+            deleteStatus.put(Utility.MESSAGE, "Delete successful!");
         } else {
             deleteStatus.put(Utility.STATUS, "false");
-            deleteStatus.put(Utility.MESSAGE, "Saving failed, please contact administrator to get help!");
+            deleteStatus.put(Utility.MESSAGE, "Delete failed, please contact administrator to get help!");
         }
         return deleteStatus;
     }
