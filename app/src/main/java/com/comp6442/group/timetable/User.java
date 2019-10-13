@@ -171,7 +171,7 @@ public class User extends FileOperator{
     }
 
     //  get lectures to be enrolled and check conflict
-    public Map<String, String> isConflict(Map<String, List> toEnrollCourse) {
+    public Map<String, String> isConflict(Map<String, List<String>> toEnrollCourse) {
         Map<String, String> conflict = new HashMap<>();
 
 
@@ -194,7 +194,7 @@ public class User extends FileOperator{
 
 
     //enroll course
-    public Map<String, String> save(Map<String, List> toEnrollCourse) {
+    public Map<String, String> save(Map<String, List<String>> toEnrollCourse) {
         boolean hasError = false;
         Map<String, String> conflict = new HashMap<>();
         Map<String, String> saveStatus = new HashMap<>();
@@ -210,13 +210,42 @@ public class User extends FileOperator{
         if (conflict.size() > 0)
             hasError = true;
 
-        if (hasError) {
-            saveStatus.put(Utility.STATUS, "false");
-            saveStatus.put(Utility.MESSAGE, conflict.get("message"));
-        } else {
-            saveStatus.put(Utility.STATUS, "true");
-            saveStatus.put(Utility.MESSAGE, "Save Successful!");
+        if(hasError)
+        {
+            saveStatus.put(Utility.STATUS,"false");
+            saveStatus.put(Utility.MESSAGE,conflict.get("message"));
         }
+        else
+        {
+            boolean success = true;
+            try {
+                JSONObject enrollUserCourse = new JSONObject();
+                //get all lessons info by courseID
+                for (String s : toEnrollCourse.keySet()) {
+                    List<String> lessons = toEnrollCourse.get(s);
+                    enrollUserCourse.put(s,lessons);
+                }
+
+                success = setUserCourses(toEnrollCourse, false);
+
+            } catch (Exception e)
+            {
+                Log.e(getClass().getSimpleName(), e.getMessage());
+            }
+
+            if(success)
+            {
+                saveStatus.put(Utility.STATUS,"true");
+                saveStatus.put(Utility.MESSAGE,"Save Successful!");
+            }else
+            {
+                saveStatus.put(Utility.STATUS,"false");
+                saveStatus.put(Utility.MESSAGE,"Save failed, please try again ");
+            }
+
+
+        }
+
 
         return saveStatus;
     }
