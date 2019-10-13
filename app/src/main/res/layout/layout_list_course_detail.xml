@@ -26,20 +26,13 @@
             <Spinner
                 android:id="@+id/spinner_CType"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                 />
+                android:layout_height="wrap_content"/>
 
             <Spinner
                 android:id="@+id/spinner_CAlph"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                 />
+                android:layout_height="wrap_content"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="/"
-                android:textSize="25sp"/>
 
             <Spinner
                 android:id="@+id/spinner_CNum"
@@ -74,26 +67,11 @@
                 android:layout_height="wrap_content"
                 />
 
-            <TextView
-                android:id="@+id/tv_to"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="-"
-                android:background="@color/colorWhite"
-                />
-
             <Spinner
                 android:id="@+id/spinner_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <Button
-                android:id="@+id/btn_del"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginLeft="40dp"
-                android:background="@drawable/icon_add_delete"/>
         </LinearLayout>
 
 

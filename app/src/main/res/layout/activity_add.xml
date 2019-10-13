@@ -6,13 +6,13 @@
     android:padding="10dp"
     tools:context=".AddActivity">
 
-    <LinearLayout
-        android:id="@+id/ll_add"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:orientation="vertical"
-        android:background="@color/colorWhite">
+    <!--<LinearLayout-->
+        <!--android:id="@+id/ll_add"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_margin="10dp"-->
+        <!--android:orientation="vertical"-->
+        <!--android:background="@color/colorWhite">-->
 
         <LinearLayout
             android:id="@+id/ll_add1"
@@ -48,8 +48,6 @@
                 android:layout_height="25dp"
                 android:background="@drawable/icon_add_search"
                 />
-
-
         </LinearLayout>
 
 
@@ -57,7 +55,8 @@
             android:id="@+id/ll_add2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/ll_add1"
             android:orientation="horizontal"
             android:background="@color/colorWhite">
 
@@ -79,16 +78,20 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:paddingTop="10dp"
+            android:padding="5dp"
+            android:layout_below="@+id/ll_add2"
             android:background="@color/colorGrey"
             />
-            
+
         <LinearLayout
+            android:id="@+id/ll_add3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/ll_add2"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:background="@color/colorWhite">
-            
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -99,30 +102,34 @@
                 android:textColor="@color/colorGrey" />
 
             <Button
-                android:id="@+id/btn_add_class"
+                android:id="@+id/btn_addclass"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="190dp"
                 android:background="@drawable/icon_add_add"
                 />
-            
+
         </LinearLayout>
 
         <ListView
-            android:id="@+id/lv_c_detail"
+            android:id="@+id/lv_add_detail"
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:layout_marginTop="10dp"
+            android:layout_below="@id/ll_add3"
             android:divider="@color/colorGrey"
-            android:dividerHeight="2dp"></ListView>
+            android:dividerHeight="2dp">
+        </ListView>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@id/lv_add_detail"
             android:background="@color/colorWhite">
         </LinearLayout>
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
     <Button
         android:id="@+id/btn_save"
