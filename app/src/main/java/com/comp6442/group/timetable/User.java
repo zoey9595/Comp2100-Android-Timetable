@@ -68,12 +68,8 @@ public class User extends FileOperator{
         return selectedCourses;
     }
 
-    public boolean setUserCourses(Map<String, List<String>> userCourse, boolean override) {
+    public boolean setUserCourses(Map<String, List<String>> userCourse) {
         try {
-            // Override whole user data
-            if (override)
-                this.userCourses = new JSONObject();
-
             // Convert data structure and update to userCourses
             for (String courseID: userCourse.keySet()) {
                 JSONArray lessonList = new JSONArray();
@@ -83,6 +79,40 @@ public class User extends FileOperator{
                 // Add a new course or update a exist course
                 this.userCourses.put(courseID, lessonList);
             }
+
+            // Write to the internal file
+            this.writeInternalFile(this.userCourses.toString());
+
+        } catch (Exception ex) {
+            Log.e(getClass().getSimpleName(), ex.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    //delete user course in user.json file
+    public Map<String,String > delete(String courseKey)
+    {
+        Map<String, String> deleteStatus = new HashMap<>();
+
+        boolean success = false;
+        success = deleteUserCourse(courseKey);
+        if (success) {
+            deleteStatus.put(Utility.STATUS, "true");
+            deleteStatus.put(Utility.MESSAGE, "Delete successful!");
+        } else {
+            deleteStatus.put(Utility.STATUS, "false");
+            deleteStatus.put(Utility.MESSAGE,"Save failed, please try again! ");
+        }
+        return deleteStatus;
+    }
+
+    //call the function to delete user course in user.json file
+    public boolean deleteUserCourse(String courseKey)
+    {
+        try {
+            this.userCourses.remove(courseKey);
 
             // Write to the internal file
             this.writeInternalFile(this.userCourses.toString());
@@ -171,7 +201,7 @@ public class User extends FileOperator{
     }
 
     //  get lectures to be enrolled and check conflict
-    public Map<String, String> isConflict(Map<String, List> toEnrollCourse) {
+    public Map<String, String> isConflict(Map<String, List<String>> toEnrollCourse) {
         Map<String, String> conflict = new HashMap<>();
 
 
@@ -192,9 +222,8 @@ public class User extends FileOperator{
         return conflict;
     }
 
-
     //enroll course
-    public Map<String, String> save(Map<String, List> toEnrollCourse) {
+    public Map<String, String> save(Map<String, List<String>> toEnrollCourse) {
         boolean hasError = false;
         Map<String, String> conflict = new HashMap<>();
         Map<String, String> saveStatus = new HashMap<>();
@@ -210,13 +239,42 @@ public class User extends FileOperator{
         if (conflict.size() > 0)
             hasError = true;
 
-        if (hasError) {
-            saveStatus.put(Utility.STATUS, "false");
-            saveStatus.put(Utility.MESSAGE, conflict.get("message"));
-        } else {
-            saveStatus.put(Utility.STATUS, "true");
-            saveStatus.put(Utility.MESSAGE, "Save Successful!");
+        if(hasError)
+        {
+            saveStatus.put(Utility.STATUS,"false");
+            saveStatus.put(Utility.MESSAGE,conflict.get("message"));
         }
+        else
+        {
+            boolean success = true;
+            try {
+                JSONObject enrollUserCourse = new JSONObject();
+                //get all lessons info by courseID
+                for (String s : toEnrollCourse.keySet()) {
+                    List<String> lessons = toEnrollCourse.get(s);
+                    enrollUserCourse.put(s,lessons);
+                }
+
+                success = setUserCourses(toEnrollCourse);
+
+            } catch (Exception e)
+            {
+                Log.e(getClass().getSimpleName(), e.getMessage());
+            }
+
+            if(success)
+            {
+                saveStatus.put(Utility.STATUS,"true");
+                saveStatus.put(Utility.MESSAGE,"Save Successful!");
+            }else
+            {
+                saveStatus.put(Utility.STATUS,"false");
+                saveStatus.put(Utility.MESSAGE,"Save failed, please try again! ");
+            }
+
+
+        }
+
 
         return saveStatus;
     }

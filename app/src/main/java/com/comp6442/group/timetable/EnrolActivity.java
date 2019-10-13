@@ -14,6 +14,7 @@ import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -104,7 +105,7 @@ public class EnrolActivity extends AppCompatActivity {
         // Display enrolled courses
         final ArrayList<String> enrolledCourses = new ArrayList<>();
         for (String s : userCourseList.keySet()) {
-            enrolledCourses.add(course.getCourseName(s));
+            enrolledCourses.add(s + ": " + course.getCourseName(s));
         }
         final ArrayAdapter<String> enrolAdapter = new ArrayAdapter<>(this,
                 R.layout.layout_custom_row, enrolledCourses);
@@ -219,6 +220,7 @@ public class EnrolActivity extends AppCompatActivity {
                             String temp = mCtv.getText().toString();
                             if (mCtv.isChecked()) {
                                 // Delete selected courses from user.json
+                                user.delete(temp.substring(0,12));
                                 enrolAdapter.remove(temp);
                             }
                         }
@@ -253,8 +255,12 @@ public class EnrolActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         List<String> newEnrolCourses = new ArrayList<>();
                         String selectedcourseID = mTvCourseID.getText().toString();
-                        String selectedCourseDetails = mTvLectureDetails.getText().toString().substring(0, 7);
-                        newEnrolCourses.add(selectedCourseDetails);
+                        //String selectedCourseDetails = mTvLectureDetails.getText().toString().substring(0, 7);
+                        String[] selectedCourseDetails = mTvLectureDetails.getText().toString().split("\n");
+                        for (String s : selectedCourseDetails) {
+                            newEnrolCourses.add(s.substring(0,7));
+                        }
+                        //newEnrolCourses.add(selectedCourseDetails);
                         SparseBooleanArray checked = mLvTutorial.getCheckedItemPositions();
                         if (checked != null) {
                             for (int j = 0; j < checked.size(); j++) {
@@ -265,7 +271,7 @@ public class EnrolActivity extends AppCompatActivity {
                                 }
                             }
                         }
-                        Map<String, List> temp = new HashMap<>();
+                        Map<String, List<String>> temp = new HashMap<>();
                         temp.put(selectedcourseID, newEnrolCourses);
                         // Add the selected course to userCourseList
                         Map<String, String> temp2 = user.save(temp);

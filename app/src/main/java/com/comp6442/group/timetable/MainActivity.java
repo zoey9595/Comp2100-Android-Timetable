@@ -31,6 +31,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        TimeTableLayout timeTable = findViewById(R.id.timeTable);
+        timeTable.showCourse();
+    }
+
     private void showInfoDialog(String courseName, final Map<String, String> lesson) {
         String message = String.format(
                 Locale.ENGLISH, "%s%s\n%s%s\n%s%s",
@@ -67,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
             // Start EnrolActivity
             intent = new Intent(MainActivity.this, EnrolActivity.class);
             startActivity(intent);
+
         } else if (id == R.id.btn_question) {
             // Start GuideActivity
             intent = new Intent(MainActivity.this, GuideActivity.class);
