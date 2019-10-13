@@ -304,30 +304,37 @@ public class Course extends FileOperator {
             JSONObject lesson = new JSONObject();
 
             String courseKey ="";
-            if (course.size() > 0) {
-                courseKey = course.get(0).get("courseKey");//ACST3001_S1
-                courseDetails.put("id", course.get(0).get("id")); //ACST3001
-                courseDetails.put("name", course.get(0).get("courseName"));
-                courseDetails.put("semester", course.get(0).get("semester"));
+            courseKey = course.get(0).get("courseKey");//ACST3001_S1
+
+            if(courseKey.equals(""))
+                success = false;
+            else
+            {
+                if (course.size() > 0) {
+
+                    courseDetails.put("id", course.get(0).get("id")); //ACST3001
+                    courseDetails.put("name", course.get(0).get("courseName"));
+                    courseDetails.put("semester", course.get(0).get("semester"));
+                }
+
+                for (int i = 0; i < course.size(); i++) {
+
+                    //add lesson into lesson list
+                    lesson.put("name", course.get(i).get("name"));
+                    lesson.put("description", "");//no description of new course
+                    lesson.put("weekday", course.get(i).get("weekday"));
+                    lesson.put("start", course.get(i).get("start"));
+                    lesson.put("end", course.get(i).get("end"));
+                    lesson.put("duration", course.get(i).get("duration"));
+                    lesson.put("weeks", "");//no week info of new course
+                    lesson.put("location", "");//no location info of new course
+                    lessonArray.put(lesson);
+                }
+
+                //add lesson list into course object
+                courseDetails.put("lesson", lessonArray);
+                success = setCourses(courseKey,courseDetails);
             }
-
-            for (int i = 0; i < course.size(); i++) {
-
-                //add lesson into lesson list
-                lesson.put("name", course.get(i).get("name"));
-                lesson.put("description", "");//no description of new course
-                lesson.put("weekday", course.get(i).get("weekday"));
-                lesson.put("start", course.get(i).get("start"));
-                lesson.put("end", course.get(i).get("end"));
-                lesson.put("duration", course.get(i).get("duration"));
-                lesson.put("weeks", "");//no week info of new course
-                lesson.put("location", "");//no location info of new course
-                lessonArray.put(lesson);
-            }
-
-            //add lesson list into course object
-            courseDetails.put("lessonArray", lessonArray);
-            success = setCourses(courseKey,courseDetails);
 
             if (success) {
                 saveStatus.put(Utility.STATUS, "true");
