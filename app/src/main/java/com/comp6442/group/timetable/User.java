@@ -68,12 +68,8 @@ public class User extends FileOperator{
         return selectedCourses;
     }
 
-    public boolean setUserCourses(Map<String, List<String>> userCourse, boolean override) {
+    public boolean setUserCourses(Map<String, List<String>> userCourse) {
         try {
-            // Override whole user data
-            if (override)
-                this.userCourses = new JSONObject();
-
             // Convert data structure and update to userCourses
             for (String courseID: userCourse.keySet()) {
                 JSONArray lessonList = new JSONArray();
@@ -192,7 +188,6 @@ public class User extends FileOperator{
         return conflict;
     }
 
-
     //enroll course
     public Map<String, String> save(Map<String, List<String>> toEnrollCourse) {
         boolean hasError = false;
@@ -226,7 +221,7 @@ public class User extends FileOperator{
                     enrollUserCourse.put(s,lessons);
                 }
 
-                success = setUserCourses(toEnrollCourse, false);
+                success = setUserCourses(toEnrollCourse);
 
             } catch (Exception e)
             {

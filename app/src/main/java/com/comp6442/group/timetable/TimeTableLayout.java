@@ -132,7 +132,7 @@ public class TimeTableLayout extends LinearLayout {
         return colorArray;
     }
 
-    private void showCourse() {
+    public void showCourse() {
         resetCourseTable();
 
         int currentWeek = UserCourse.getCurrentWeek();

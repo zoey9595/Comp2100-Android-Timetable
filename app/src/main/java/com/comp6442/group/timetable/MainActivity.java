@@ -1,5 +1,6 @@
 package com.comp6442.group.timetable;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -29,6 +30,14 @@ public class MainActivity extends AppCompatActivity {
                 showInfoDialog(lesson.get("name"), lesson);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        TimeTableLayout timeTable = findViewById(R.id.timeTable);
+        timeTable.showCourse();
     }
 
     private void showInfoDialog(String courseName, final Map<String, String> lesson) {
@@ -67,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
             // Start EnrolActivity
             intent = new Intent(MainActivity.this, EnrolActivity.class);
             startActivity(intent);
+
         } else if (id == R.id.btn_question) {
             // Start GuideActivity
             intent = new Intent(MainActivity.this, GuideActivity.class);
