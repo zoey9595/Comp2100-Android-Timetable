@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,7 +17,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class AddActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener, AdapterView.OnItemLongClickListener {
@@ -32,7 +32,8 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private String mCourseID,mCourseName;
     private Course mCourse = Course.getCourseInstance(AddActivity.this);
     private CourseDetailAdapter mCourseDetailAdapter;
-    private List<CourseDetailInfo> mCourseDetailInfos;
+    public ArrayList<CourseDetailInfo> mCourseDetailInfos = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
 
 
-
         mBtnFind.setOnClickListener(this);
         mBtnAdd.setOnClickListener(this);
         mSpSemester.setAdapter(adapterSemester);
@@ -74,7 +74,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 mCourseName = mCourse.getCourseName(mCourseID);
                 mEditCName.setText(mCourseName);
                 index = mCourse.getLecDetailsInsplit(mCourseID).size();
-                mCourseDetailInfos = new ArrayList<>();
+                //mCourseDetailInfos = new ArrayList<>();
                 for (int i=0;i<index;i++){
                     String a = mCourse.getLecDetailsInsplit(mCourseID).get(i).get(Utility.NAME_TYPE);
                     String b = mCourse.getLecDetailsInsplit(mCourseID).get(i).get(Utility.NAME_ALP);
@@ -89,16 +89,19 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 mListViewDetail.setAdapter(mCourseDetailAdapter);
                 mCourseDetailAdapter.notifyDataSetChanged();
 
-                if (mCourseName.length()==0)
+                if (mCourseName.length()==0){
                     Toast.makeText(AddActivity.this,"Please add the course information by yourself",Toast.LENGTH_LONG).show();
+                    }
                 break;
 
 
             case R.id.btn_addclass:
+                mCourseDetailAdapter = new CourseDetailAdapter(AddActivity.this,mCourseDetailInfos);
                 mCourseDetailInfos.add(index,new CourseDetailInfo("","","","","",""));
                 mCourseDetailAdapter.refreshData(mCourseDetailInfos);
                 mListViewDetail.setAdapter(mCourseDetailAdapter);
                 index++;
+                Log.d("AddActivity","index"+index);
                 break;
         }
 

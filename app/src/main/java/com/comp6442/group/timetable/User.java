@@ -92,6 +92,40 @@ public class User extends FileOperator{
         return true;
     }
 
+    //delete user course in user.json file
+    public Map<String,String > delete(String courseKey)
+    {
+        Map<String, String> deleteStatus = new HashMap<>();
+
+        boolean success = false;
+        success = deleteUserCourse(courseKey);
+        if (success) {
+            deleteStatus.put(Utility.STATUS, "true");
+            deleteStatus.put(Utility.MESSAGE, "Delete successful!");
+        } else {
+            deleteStatus.put(Utility.STATUS, "false");
+            deleteStatus.put(Utility.MESSAGE,"Save failed, please try again! ");
+        }
+        return deleteStatus;
+    }
+
+    //call the function to delete user course in user.json file
+    public boolean deleteUserCourse(String courseKey)
+    {
+        try {
+            this.userCourses.remove(courseKey);
+
+            // Write to the internal file
+            this.writeInternalFile(this.userCourses.toString());
+
+        } catch (Exception ex) {
+            Log.e(getClass().getSimpleName(), ex.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
     //Added on 8 Oct 2019
     //check if the lectures to be enrolled are conflicted with existing lectures
     public Map<String, String> isTimeConflict(List<Map<String, String>> timeToEnrollList) {
@@ -236,7 +270,7 @@ public class User extends FileOperator{
             }else
             {
                 saveStatus.put(Utility.STATUS,"false");
-                saveStatus.put(Utility.MESSAGE,"Save failed, please try again ");
+                saveStatus.put(Utility.MESSAGE,"Save failed, please try again! ");
             }
 
 
