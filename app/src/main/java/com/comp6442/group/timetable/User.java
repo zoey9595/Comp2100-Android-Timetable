@@ -68,8 +68,24 @@ public class User extends FileOperator{
         return selectedCourses;
     }
 
-    public boolean setUserCourses(Map<String, List> userCourse) {
+    public boolean setUserCourses(Map<String, List<String>> userCourse, boolean override) {
         try {
+            // Override whole user data
+            if (override)
+                this.userCourses = new JSONObject();
+
+            // Convert data structure and update to userCourses
+            for (String courseID: userCourse.keySet()) {
+                JSONArray lessonList = new JSONArray();
+                for (String lesson: userCourse.get(courseID)) {
+                    lessonList.put(lesson);
+                }
+                // Add a new course or update a exist course
+                this.userCourses.put(courseID, lessonList);
+            }
+
+            // Write to the internal file
+            this.writeInternalFile(this.userCourses.toString());
 
         } catch (Exception ex) {
             Log.e(getClass().getSimpleName(), ex.getMessage());

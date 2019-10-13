@@ -92,7 +92,7 @@ public class FileOperator {
         try {
             FileOutputStream outputStream;
             outputStream = this.context.openFileOutput(this.fileName, 0);
-            outputStream.write(jsonString.getBytes());
+            outputStream.write(jsonString.replace("\\", "").getBytes());
             outputStream.close();
 
         } catch (Exception ex) {
