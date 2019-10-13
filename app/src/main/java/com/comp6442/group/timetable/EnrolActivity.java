@@ -14,6 +14,7 @@ import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -253,8 +254,12 @@ public class EnrolActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         List<String> newEnrolCourses = new ArrayList<>();
                         String selectedcourseID = mTvCourseID.getText().toString();
-                        String selectedCourseDetails = mTvLectureDetails.getText().toString().substring(0, 7);
-                        newEnrolCourses.add(selectedCourseDetails);
+                        //String selectedCourseDetails = mTvLectureDetails.getText().toString().substring(0, 7);
+                        String[] selectedCourseDetails = mTvLectureDetails.getText().toString().split("\n");
+                        for (String s : selectedCourseDetails) {
+                            newEnrolCourses.add(s.substring(0,7));
+                        }
+                        //newEnrolCourses.add(selectedCourseDetails);
                         SparseBooleanArray checked = mLvTutorial.getCheckedItemPositions();
                         if (checked != null) {
                             for (int j = 0; j < checked.size(); j++) {
