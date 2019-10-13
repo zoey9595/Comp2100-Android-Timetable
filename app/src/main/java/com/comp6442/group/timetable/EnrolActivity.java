@@ -220,7 +220,7 @@ public class EnrolActivity extends AppCompatActivity {
                             String temp = mCtv.getText().toString();
                             if (mCtv.isChecked()) {
                                 // Delete selected courses from user.json
-                                user.delete(temp.substring(0,7));
+                                user.delete(temp.substring(0,12));
                                 enrolAdapter.remove(temp);
                             }
                         }
