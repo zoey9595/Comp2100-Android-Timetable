@@ -69,10 +69,12 @@ public class Recommend extends FileOperator {
         Iterator<String> sNames = this.specialisation.keys();
         while (sNames.hasNext()) {
             String sName = sNames.next();
-            int count = countMatchCourses(sName, enrolledCourses);
-            if (count > maxCount) {
-                maxCount = count;
-                bestMatch = sName;
+            if (!sName.equals("basicCourses")) {
+                int count = countMatchCourses(sName, enrolledCourses);
+                if (count > maxCount) {
+                    maxCount = count;
+                    bestMatch = sName;
+                }
             }
         }
 
@@ -113,10 +115,8 @@ public class Recommend extends FileOperator {
         for (String candidate: candidateCourses)
             for (String course: this.courseInstance.getCompCourseNameList())
                 if (course.contains(candidate) &&
-                        !availableCourses.contains(course)) {
+                        !availableCourses.contains(course))
                     availableCourses.add(course);
-                    break;
-                }
         return availableCourses;
     }
 
@@ -138,6 +138,8 @@ public class Recommend extends FileOperator {
                         (JSONArray) this.specialisation.get(bestMatch));
                 candidateCourses.addAll(getCandidates(enrolledCourses, specialCourseList));
             }
+
+            recommendCourses = filterAvailableCourses(candidateCourses);
 
         } catch (Exception ex) {
             Log.e(getClass().getSimpleName(), ex.getMessage());
