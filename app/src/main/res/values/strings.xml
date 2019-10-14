@@ -10,6 +10,15 @@
     <string name="enrolled_courses">Seems you need to enrol some courses :)</string>
     <string name="recommend_courses_title">We would recommend you to enrol:</string>
     <string name="recommend_courses">You need to enrol some courses, then we can make recommendation:)</string>
+    <string name="guide_title">Welcome! This is a timetable app made for ANU students.</string>
+    <string name="guide_enrol_title">Enrol Page Introduction</string>
+    <string name="guide_enrol_list">You can easily check which courses you have enrolled in this page!
+        You can delete these courses from your list as well. \n \nIf you don\'t know which course you can choose.
+        Here is the answer! We made personal recommendation for ANU COMP students based on ANU computing specializations
+        and course conflict descriptions. \n
+        \nClick the search button. You can search all ANU courses with ANU course code. \n
+        \nYou can select which tutorial you want to enrol. If there are conflicts,
+        you will see a detailed message when you click the enrol button.</string>
 
     <string-array name="semester">
         <item>S1</item>
