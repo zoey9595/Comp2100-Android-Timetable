@@ -146,7 +146,10 @@ public class User extends FileOperator{
                 String enrolledLesson = timeEnrolledList.get(j).get(Utility.FULL_NAME);
                 String enrolledWeekday = timeEnrolledList.get(j).get(Utility.WEEKDAY);
 
-                if (toEnrollWeekday.equals(enrolledWeekday)) {
+                String semesterEnrolled = enrolledLesson.substring(9,11);
+                String semesterToEnrolled = toEnrollLesson.substring(9,11);
+
+                if (toEnrollWeekday.equals(enrolledWeekday) && semesterEnrolled.equals(semesterToEnrolled)) {
                     //Enrolled : 13:00 - 15:00
                     //To Enroll :  12:00 - 14:00 or 12:00 - 15:00 or 12:00 - 17:00
                     if (Utility.compareTimeInString(startToEnroll, startEnrolled) < 0 &&
@@ -171,7 +174,6 @@ public class User extends FileOperator{
 
                     if (isConflict.equals("true")) {
                         String conflictMessage = toEnrollLesson + " is conflicted with " + enrolledLesson + "(" + startEnrolled + " - " + endEnrolled + ") on " + enrolledWeekday;
-
                         conflict.put(Utility.STATUS, isConflict);
                         conflict.put(Utility.MESSAGE, conflictMessage);
                         break;
