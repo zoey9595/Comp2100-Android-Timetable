@@ -19,7 +19,17 @@ public class CourseDetailInfo {
         return mLessonType;
     }
 
+    public String setLessonType(String str){
+        mLessonType = str;
+        return mLessonType;
+    }
+
     public String getLessonAlph() {
+        return mLessonAlph;
+    }
+
+    public String setLessonAlph(String str){
+        mLessonAlph = str;
         return mLessonAlph;
     }
 
@@ -27,7 +37,17 @@ public class CourseDetailInfo {
         return mLessonNum;
     }
 
+    public String setLessonNum(String str){
+        mLessonNum = str;
+        return mLessonNum;
+    }
+
     public String getLessonDay() {
+        return mLessonDay;
+    }
+
+    public String setLessonDay(String str){
+        mLessonDay = str;
         return mLessonDay;
     }
 
@@ -35,7 +55,17 @@ public class CourseDetailInfo {
         return mLessonStart;
     }
 
+    public String setLessonStart(String str){
+        mLessonStart = str;
+        return mLessonStart;
+    }
+
     public String getLessonEnd() {
+        return mLessonEnd;
+    }
+
+    public String setLessonEnd(String str){
+        mLessonEnd = str;
         return mLessonEnd;
     }
 

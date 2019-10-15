@@ -4,9 +4,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +25,7 @@ public class CourseDetailAdapter extends BaseAdapter  {
 
 
     public CourseDetailAdapter(Context context, List<CourseDetailInfo> courseDetailInfos) {
-
+        super();
         mContext = context;
         //mCourseDetails = courseDetails;
         mCourseDetailInfos = courseDetailInfos;
@@ -61,23 +64,30 @@ public class CourseDetailAdapter extends BaseAdapter  {
             viewerHolder.spDay = convertView.findViewById(R.id.spinner_day);
             viewerHolder.spStart = convertView.findViewById(R.id.spinner_start);
             viewerHolder.spEnd = convertView.findViewById(R.id.spinner_end);
-
+            viewerHolder.btnLesson = convertView.findViewById(R.id.btn_editclass);
 
             convertView.setTag(viewerHolder);
         }else{
 
             viewerHolder = (ViewerHolder) convertView.getTag();
+
         }
 
         // spinner of the day
         setSpinner(position, viewerHolder);
 
+        //监听
+
+
+
 
 
         return convertView;
     }
-
+    public int itemPos ,tempType, tempAlph,tempNum,tempDay,tempStart,tempEnd;
     private void setSpinner(int position, final ViewerHolder viewerHolder) {
+        itemPos = position;
+
         final ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(mContext,R.array.day,android.R.layout.simple_spinner_item);
         viewerHolder.spDay.setAdapter(adapter1);
         int posDay = adapter1.getPosition(mCourseDetailInfos.get(position).getLessonDay());
@@ -96,7 +106,7 @@ public class CourseDetailAdapter extends BaseAdapter  {
         viewerHolder.spEnd.setSelection(posEnd,true);
 
         //spinner of the class type
-        ArrayAdapter<CharSequence> adapter4 = ArrayAdapter.createFromResource(mContext,R.array.classType,android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> adapter4 = ArrayAdapter.createFromResource(mContext,R.array.classType,android.R.layout.simple_spinner_item);
         viewerHolder.spType.setAdapter(adapter4);
         int posType = adapter4.getPosition(mCourseDetailInfos.get(position).getLessonType());
         viewerHolder.spType.setSelection(posType,true);
@@ -112,87 +122,100 @@ public class CourseDetailAdapter extends BaseAdapter  {
         int posNum= adapter6.getPosition(mCourseDetailInfos.get(position).getLessonNum());
         viewerHolder.spNum.setSelection(posNum,true);
 
+        //set listeners
+        viewerHolder.spType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, final View view, int position, long id) {
+                tempType = position;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
 
-//        viewerHolder.spType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                int posT = viewerHolder.spType.getSelectedItemPosition();
-//                viewerHolder.spType.setSelection(posT,true);
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
-//
-//        viewerHolder.spAlph.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                int posA = viewerHolder.spAlph.getSelectedItemPosition();
-//                viewerHolder.spAlph.setSelection(posA,true);
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) { }
-//        });
-//
-//        viewerHolder.spNum.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                int posN = viewerHolder.spNum.getSelectedItemPosition();
-//                viewerHolder.spNum.setSelection(posN,true);
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
-//
-//        viewerHolder.spDay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                int posD = viewerHolder.spDay.getSelectedItemPosition();
-//                viewerHolder.spDay.setSelection(posD,true);
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
-//
-//        viewerHolder.spStart.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                int posS = viewerHolder.spStart.getSelectedItemPosition();
-//                viewerHolder.spStart.setSelection(posS,true);
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
-//
-//        viewerHolder.spEnd.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                int posE = viewerHolder.spEnd.getSelectedItemPosition();
-//                viewerHolder.spEnd.setSelection(posE,true);
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
+        viewerHolder.spAlph.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, final View view, int position, long id) {
+                tempAlph = position;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
+
+        viewerHolder.spNum.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, final View view, int position, long id) {
+                tempNum = position;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
+
+        viewerHolder.spDay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, final View view, int position, long id) {
+                tempDay = position;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
+
+        viewerHolder.spStart.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, final View view, int position, long id) {
+                tempStart = position;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
+
+        viewerHolder.spEnd.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, final View view, int position, long id) {
+                tempEnd = position;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
+
+
+        viewerHolder.btnLesson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println(itemPos);
+                System.out.println(viewerHolder.spType.getSelectedItem().toString());
+                mCourseDetailInfos.get(0).setLessonType(viewerHolder.spType.getSelectedItem().toString());
+                viewerHolder.spType.setSelection(tempType,true);
+
+                viewerHolder.spAlph.setSelection(tempAlph);
+                System.out.println(viewerHolder.spAlph.getSelectedItem().toString());
+                mCourseDetailInfos.get(itemPos).setLessonAlph(viewerHolder.spAlph.getSelectedItem().toString());
+
+                viewerHolder.spNum.setSelection(tempNum);
+                System.out.println(viewerHolder.spNum.getSelectedItem().toString());
+                mCourseDetailInfos.get(itemPos).setLessonNum(viewerHolder.spNum.getSelectedItem().toString());
+
+                viewerHolder.spDay.setSelection(tempDay);
+                System.out.println(viewerHolder.spDay.getSelectedItem().toString());
+                mCourseDetailInfos.get(itemPos).setLessonDay(viewerHolder.spDay.getSelectedItem().toString());
+
+                viewerHolder.spStart.setSelection(tempStart);
+                System.out.println(viewerHolder.spStart.getSelectedItem().toString());
+                mCourseDetailInfos.get(itemPos).setLessonStart(viewerHolder.spStart.getSelectedItem().toString());
+
+                viewerHolder.spEnd.setSelection(tempEnd);
+                System.out.println(viewerHolder.spEnd.getSelectedItem().toString());
+                mCourseDetailInfos.get(itemPos).setLessonAlph(viewerHolder.spEnd.getSelectedItem().toString());
+            }
+        });
+
     }
+
+
 
 
     class ViewerHolder{
         Spinner spStart, spEnd, spDay, spType, spAlph, spNum;
+        Button btnLesson;
     }
 
     //update information

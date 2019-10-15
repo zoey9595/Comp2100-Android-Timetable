@@ -27,12 +27,16 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private Button mBtnFind, mBtnAdd;
     private ListView mListViewDetail;
 
+    private Spinner mSpType;
+
     private int index = 0;
 
     private String mCourseID,mCourseName;
     private Course mCourse = Course.getCourseInstance(AddActivity.this);
-    private CourseDetailAdapter mCourseDetailAdapter;
+    private CourseDetailAdapter mCourseDetailAdapter, tempCourseDeatilAdapter;
     public ArrayList<CourseDetailInfo> mCourseDetailInfos = new ArrayList<>();
+
+
 
 
     @Override
@@ -56,13 +60,13 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         ArrayAdapter<CharSequence> adapterSemester = ArrayAdapter.createFromResource(AddActivity.this, R.array.semester,android.R.layout.simple_spinner_item);
         adapterSemester.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 
-
-
         mBtnFind.setOnClickListener(this);
         mBtnAdd.setOnClickListener(this);
         mSpSemester.setAdapter(adapterSemester);
         mSpSemester.setOnItemSelectedListener(this);
         mListViewDetail.setOnItemLongClickListener(this);
+
+        mSpType = findViewById(R.id.spinner_CType);
     }
 
 
@@ -70,6 +74,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.btn_findCourse:
+                mCourseDetailInfos.clear();
                 mCourseID = mEditCID.getText().toString()+"_"+mSpSemester.getSelectedItem().toString();
                 mCourseName = mCourse.getCourseName(mCourseID);
                 mEditCName.setText(mCourseName);
@@ -89,9 +94,9 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 mListViewDetail.setAdapter(mCourseDetailAdapter);
                 mCourseDetailAdapter.notifyDataSetChanged();
 
-                if (mCourseName.length()==0){
-                    Toast.makeText(AddActivity.this,"Please add the course information by yourself",Toast.LENGTH_LONG).show();
-                    }
+                if (mCourseName.length()==0) {
+                    Toast.makeText(AddActivity.this, "Please add the course information by yourself", Toast.LENGTH_LONG).show();
+                }
                 break;
 
 
@@ -101,7 +106,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 mCourseDetailAdapter.refreshData(mCourseDetailInfos);
                 mListViewDetail.setAdapter(mCourseDetailAdapter);
                 index++;
-                Log.d("AddActivity","index"+index);
                 break;
         }
 
@@ -121,6 +125,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         final int itemPos = position;
+        Toast.makeText(AddActivity.this, "You are long----------------click"+id, Toast.LENGTH_SHORT).show();
         new AlertDialog.Builder(AddActivity.this)
                 .setTitle("Are you sure?")
                 .setMessage("Do you want to delete this course detail?")
@@ -136,9 +141,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 .setNegativeButton("No",null).show();
         return true;
     }
-
-
-
 
 }
 
