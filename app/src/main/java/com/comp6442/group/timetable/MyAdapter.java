@@ -62,8 +62,7 @@ public class MyAdapter extends BaseAdapter implements Filterable {
 
             @SuppressWarnings("unchecked")
             @Override
-            protected void publishResults(CharSequence charSequence,
-                                          FilterResults filterResults) {
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 courseidlist = (ArrayList<String>) filterResults.values;
                 notifyDataSetChanged();
             }
@@ -89,7 +88,8 @@ public class MyAdapter extends BaseAdapter implements Filterable {
     public View getView(int i, View view, ViewGroup viewGroup) {
         MyCourseHolder holder;
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.layout_two_lines_listview, viewGroup, false);
+            view = LayoutInflater.from(context).inflate(R.layout.layout_two_lines_listview,
+                    viewGroup, false);
             holder = new MyCourseHolder();
             holder.courseID = view.findViewById(R.id.text1);
             holder.courseName = view.findViewById(R.id.text2);
