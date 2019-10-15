@@ -1,3 +1,9 @@
+/**
+ * Author: Yuqing Zhai
+ * UID: u6865190
+ * <p>
+ * This is the guide page introducing how to use this app.
+ */
 package com.comp6442.group.timetable;
 
 import android.support.v7.app.AppCompatActivity;

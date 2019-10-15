@@ -1,7 +1,8 @@
 /**
  * Author: Yuqing Zhai
  * UID: u6865190
- * MyAdapter is a custom adapter for ListView to make it searchable.
+ * <p>
+ * This is a custom adapter for ListView to make it searchable.
  */
 package com.comp6442.group.timetable;
 
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class MyAdapter extends BaseAdapter implements Filterable {
+
     public Context context;
     public ArrayList<String> courseidlist;
     public ArrayList<String> orig;
@@ -35,6 +37,7 @@ public class MyAdapter extends BaseAdapter implements Filterable {
     }
 
 
+    // Filter the courseID
     public Filter getFilter() {
         return new Filter() {
             @Override
@@ -46,6 +49,7 @@ public class MyAdapter extends BaseAdapter implements Filterable {
                 if (charSequence != null) {
                     if (orig != null && orig.size() > 0) {
                         for (final String g : orig) {
+                            // Ignore the difference between upper case and lower case
                             if (g.contains(charSequence.toString()) ||
                                     g.toLowerCase().contains(charSequence.toString()))
                                 results.add(g);
@@ -58,8 +62,7 @@ public class MyAdapter extends BaseAdapter implements Filterable {
 
             @SuppressWarnings("unchecked")
             @Override
-            protected void publishResults(CharSequence charSequence,
-                                          FilterResults filterResults) {
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 courseidlist = (ArrayList<String>) filterResults.values;
                 notifyDataSetChanged();
             }
@@ -85,7 +88,8 @@ public class MyAdapter extends BaseAdapter implements Filterable {
     public View getView(int i, View view, ViewGroup viewGroup) {
         MyCourseHolder holder;
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.layout_two_lines_listview, viewGroup, false);
+            view = LayoutInflater.from(context).inflate(R.layout.layout_two_lines_listview,
+                    viewGroup, false);
             holder = new MyCourseHolder();
             holder.courseID = view.findViewById(R.id.text1);
             holder.courseName = view.findViewById(R.id.text2);
