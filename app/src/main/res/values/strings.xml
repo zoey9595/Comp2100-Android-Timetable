@@ -4,6 +4,7 @@
     <string name="course_id">Search CourseID</string>
     <string name="tutorial">Search Tutorial</string>
     <string name="enrol">Enrol</string>
+    <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="enrolled_courses_title">You have enrolled in:</string>
@@ -25,6 +26,14 @@
         \nIt displays the calender of current week for the courses you already enrolled.\n
         \nWhen clicking one of the course blocks, a dialogue will pop up and show the time and location of this lesson.\n
         \nThere is a button named \"DETAIL\" at the right bottom corner of this dialog, which will open a web browser to display the detail info of this course.\n
+    </string>
+    <string name="guide_add_title">Add page introduction</string>
+    <string name="guide_add_list">
+        You can add and edit course information in this page!\n
+        \nInput the course ID and choose the semester of it.Press the search button to get information.\n
+        \nYou can press yellow add button to add information and edit the information.Press the little button after it to make sure this detail information is correct\n
+        \nIf you want to delete some information, you can long press it and choose YES.\n
+        \nPress SAVE button to save the information you add. Press the DELETE button to delete the course from the course list.
     </string>
 
     <string-array name="semester">
