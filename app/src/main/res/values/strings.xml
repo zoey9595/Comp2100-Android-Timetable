@@ -150,7 +150,7 @@
         <item>08:00</item>
         <item>08:30</item>
         <item>09:00</item>
-        <item>9:30</item>
+        <item>09:30</item>
         <item>10:00</item>
         <item>10:30</item>
         <item>11:00</item>
@@ -179,9 +179,11 @@
     </string-array>
 
     <string-array name="end">
-        <item>    </item>
-        <item>9:00</item>
-        <item>9:30</item>
+        <item>     </item>
+        <item>08:00</item>
+        <item>08:30</item>
+        <item>09:00</item>
+        <item>09:30</item>
         <item>10:00</item>
         <item>10:30</item>
         <item>11:00</item>

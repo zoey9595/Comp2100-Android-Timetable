@@ -17,6 +17,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <Button
+                android:id="@+id/btn_editclass"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:background="@drawable/icon_add_class"/>
+
             <Spinner
                 android:id="@+id/spinner_CType"
                 android:layout_width="wrap_content"
@@ -43,11 +49,11 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-            <!--<Button-->
-                <!--android:id="@+id/btn_Day"-->
-                <!--android:layout_width="25dp"-->
-                <!--android:layout_height="25dp"-->
-                <!--android:background="@drawable/icon_add_time"/>-->
+            <Button
+                android:id="@+id/btn_Day"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/icon_add_time"/>
 
             <Spinner
                 android:id="@+id/spinner_day"
@@ -65,13 +71,6 @@
                 android:id="@+id/spinner_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/btn_editclass"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/icon_add_class"/>
 
         </LinearLayout>
 
