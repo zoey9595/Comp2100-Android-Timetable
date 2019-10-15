@@ -1,6 +1,11 @@
 /**
  * Author: Yuqing Zhai
  * UID： u6865190
+ * <p>
+ * This is the enrol page. You can find the enrolled courses list and the recommendation course list.
+ * You can search any ANU courses in this page, and add it to the calender page.
+ * If there are any conflicts between the course you select and the courses you have enrolled, you
+ * will get a notice.
  */
 package com.comp6442.group.timetable;
 
@@ -36,22 +41,24 @@ import java.util.Map;
 
 public class EnrolActivity extends AppCompatActivity {
 
+    // Set up all elements
     private TextView mTvCourseID, mTvLectureDetails, mTvRecommend;
     private Button mBtnSearchCourse, mBtnSearchTutorial, mBtnDelete, mBtnEnrol, mBtnAdd;
     private ListView mLvEnrolledCourses, mLvTutorial, mLvRecommend;
     private LinearLayout mLl1, mLl2, mLl3;
-    private ArrayList<String> courseList, lectureList, tutorialList, recommendList;
+    private ArrayList<String> courseList, lectureList, tutorialList;
     private String courseID;
     private HashMap<String, ArrayList<String>> userCourseList;
-    private int screenWidth, screenHeight;
+    private int screenHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enrol);
+        // Reset the page name
         setTitle("Enrol");
 
-        // Set up variables
+        // Set up local variables
         mTvCourseID = findViewById(R.id.tv_courseID);
         mTvLectureDetails = findViewById(R.id.tv_lectureDetails);
         mTvRecommend = findViewById(R.id.tv_titleEnrolledCourses);
@@ -70,7 +77,6 @@ public class EnrolActivity extends AppCompatActivity {
         // Set items height to fit different devices size
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-        screenWidth = dm.widthPixels;
         screenHeight = dm.heightPixels;
 
         RelativeLayout.LayoutParams mLl1Params = (RelativeLayout.LayoutParams) mLl1.getLayoutParams();
@@ -93,11 +99,11 @@ public class EnrolActivity extends AppCompatActivity {
         mLvRecommendLayoutParams.height = screenHeight / 8;
         mLvRecommend.setLayoutParams(mLvRecommendLayoutParams);
 
-        // Get a list containing all ANU courses
+        // Get a list containing all ANU courses from Course
         final Course course = Course.getCourseInstance(this);
         courseList = (ArrayList) course.getUnEnrolledCourseList(this);
 
-        // Get a list containing all student enrolled courses
+        // Get a list containing all student enrolled courses from User
         final User user = User.getUserInstance(this);
         userCourseList = (HashMap) user.getUserCourses();
         // Display enrolled courses
@@ -110,26 +116,27 @@ public class EnrolActivity extends AppCompatActivity {
         mLvEnrolledCourses.setAdapter(enrolAdapter);
         mLvEnrolledCourses.setDivider(null);
 
-        // Make recommendation
+        // Make recommendation based on Recommend class
         Recommend recommend = Recommend.getRecommendInstance(this);
         ArrayList<String> recommendList = (ArrayList<String>) recommend.getRecommendCourses();
         MyAdapter recommendAdapter = new MyAdapter(this, course, recommendList);
         mLvRecommend.setAdapter(recommendAdapter);
 
-        // Make lecture details can be scrolled
+        // Make the TextView containing lecture details scrollable
         mTvLectureDetails.setMovementMethod(new ScrollingMovementMethod());
 
-        // Set up an OnClickListener on the SearchView
+        // Set up the OnClickListener on the search button
         mBtnSearchCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Generate a new dialog to show search process
                 final Dialog dialog = new Dialog(view.getContext());
                 LayoutInflater inflater = LayoutInflater.from(view.getContext());
                 View searchableView = inflater.inflate(R.layout.layout_searchable_list_dialog, null);
                 final ListView mLvCourse = searchableView.findViewById(R.id.lv_course);
                 final SearchView mSvCourse = searchableView.findViewById(R.id.sv_course);
 
-                // Set adapter
+                // Set MyAdapter on the ListView containing all ANU courses
                 final MyAdapter myAdapter = new MyAdapter(view.getContext(), course, courseList);
                 mLvCourse.setAdapter(myAdapter);
                 mLvCourse.setTextFilterEnabled(true);
@@ -152,6 +159,7 @@ public class EnrolActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+
                 // make ListView show the selected course lecture time
                 mLvCourse.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -186,6 +194,7 @@ public class EnrolActivity extends AppCompatActivity {
             }
         });
 
+        // Click the add button to go to the add page
         mBtnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -195,7 +204,7 @@ public class EnrolActivity extends AppCompatActivity {
             }
         });
 
-        // Set delete button
+        // Click the delete button to delete enrolled courses from the list and the calender
         mBtnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -210,16 +219,17 @@ public class EnrolActivity extends AppCompatActivity {
                         for (int j = 0; j < mLvEnrolledCourses.getCount(); j++) {
                             CheckedTextView mCtv = (CheckedTextView) mLvEnrolledCourses
                                     .getChildAt(j - mLvEnrolledCourses.getFirstVisiblePosition());
-                            String temp = mCtv.getText().toString();
                             if (mCtv.isChecked()) {
+                                String temp = mCtv.getText().toString();
                                 // Delete selected courses from user.json
-                                user.delete(temp.substring(0,11));
+                                user.delete(temp.substring(0, 11));
                                 enrolAdapter.remove(temp);
                             }
                         }
+                        // Uncheck the boxes that have been checked
                         SparseBooleanArray tmp = mLvEnrolledCourses.getCheckedItemPositions();
-                        for (int k = 0; k<tmp.size(); k++) {
-                            mLvEnrolledCourses.setItemChecked(k,false);
+                        for (int k = 0; k < tmp.size(); k++) {
+                            mLvEnrolledCourses.setItemChecked(k, false);
                         }
                         enrolAdapter.notifyDataSetChanged();
                     }
@@ -234,7 +244,8 @@ public class EnrolActivity extends AppCompatActivity {
             }
         });
 
-        // Set enrol button
+        // Set the enrol button to check conflicts, and if there is no conflict, the course will be
+        // add to the list and the calender
         mBtnEnrol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -250,7 +261,7 @@ public class EnrolActivity extends AppCompatActivity {
                         String selectedcourseID = mTvCourseID.getText().toString();
                         String[] selectedCourseDetails = mTvLectureDetails.getText().toString().split("\n");
                         for (String s : selectedCourseDetails) {
-                            newEnrolCourses.add(s.substring(0,7));
+                            newEnrolCourses.add(s.substring(0, 7));
                         }
                         SparseBooleanArray checked = mLvTutorial.getCheckedItemPositions();
                         if (checked != null) {
