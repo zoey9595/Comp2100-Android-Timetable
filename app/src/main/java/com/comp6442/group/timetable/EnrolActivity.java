@@ -14,12 +14,10 @@ import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -113,12 +111,8 @@ public class EnrolActivity extends AppCompatActivity {
         mLvEnrolledCourses.setDivider(null);
 
         // Make recommendation
-        recommendList = new ArrayList<>();
-        recommendList.add("COMP8715_S1");
-        recommendList.add("COMP8110_S1");
-        recommendList.add("COMP8420_S1");
-        recommendList.add("COMP8600_S1");
-        //ArrayAdapter<String> recommendAdapter = new ArrayAdapter<>(this, android.R.layout.test_list_item, recommendList);
+        Recommend recommend = Recommend.getRecommendInstance(this);
+        ArrayList<String> recommendList = (ArrayList<String>) recommend.getRecommendCourses();
         MyAdapter recommendAdapter = new MyAdapter(this, course, recommendList);
         mLvRecommend.setAdapter(recommendAdapter);
 
@@ -192,7 +186,6 @@ public class EnrolActivity extends AppCompatActivity {
             }
         });
 
-        // go to AddActivity (Xiaochan Zhang)
         mBtnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,7 +213,7 @@ public class EnrolActivity extends AppCompatActivity {
                             String temp = mCtv.getText().toString();
                             if (mCtv.isChecked()) {
                                 // Delete selected courses from user.json
-                                user.delete(temp.substring(0,12));
+                                user.delete(temp.substring(0,11));
                                 enrolAdapter.remove(temp);
                             }
                         }
@@ -255,12 +248,10 @@ public class EnrolActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         List<String> newEnrolCourses = new ArrayList<>();
                         String selectedcourseID = mTvCourseID.getText().toString();
-                        //String selectedCourseDetails = mTvLectureDetails.getText().toString().substring(0, 7);
                         String[] selectedCourseDetails = mTvLectureDetails.getText().toString().split("\n");
                         for (String s : selectedCourseDetails) {
                             newEnrolCourses.add(s.substring(0,7));
                         }
-                        //newEnrolCourses.add(selectedCourseDetails);
                         SparseBooleanArray checked = mLvTutorial.getCheckedItemPositions();
                         if (checked != null) {
                             for (int j = 0; j < checked.size(); j++) {
