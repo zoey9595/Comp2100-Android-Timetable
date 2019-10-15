@@ -6,133 +6,115 @@
     android:padding="10dp"
     tools:context=".AddActivity">
 
-    <!--<LinearLayout-->
-        <!--android:id="@+id/ll_add"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_margin="10dp"-->
-        <!--android:orientation="vertical"-->
-        <!--android:background="@color/colorWhite">-->
 
-        <LinearLayout
-            android:id="@+id/ll_add1"
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/ll_add1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorWhite">
+
+        <Button
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/icon_add_courseid"/>
+        <EditText
+            android:id="@+id/edit_cid"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/colorWhite">
-
-            <Button
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/icon_add_courseid"/>
-
-            <EditText
-                android:id="@+id/edit_cid"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:hint="Course ID"
-                android:maxLines="1"
-                android:background="@null" />
-
-            <Spinner
-                android:id="@+id/spinner_semester"
+            android:layout_marginLeft="10dp"
+            android:hint="Course ID"
+            android:maxLines="1"
+            android:background="@null" />
+        <Spinner
+            android:id="@+id/spinner_semester"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:entries="@array/semester"
                 android:layout_marginLeft="10dp" />
 
-            <Button
-                android:id="@+id/btn_findCourse"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/icon_add_search"
-                />
-        </LinearLayout>
+        <Button
+            android:id="@+id/btn_findCourse"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/icon_add_search"
+            />
+    </LinearLayout>
 
 
-        <LinearLayout
-            android:id="@+id/ll_add2"
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/ll_add2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/ll_add1"
+        android:orientation="horizontal"
+        android:background="@color/colorWhite">
+
+        <Button
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/icon_add_coursename"/>
+
+        <EditText
+            android:id="@+id/edit_cname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:hint="Course Name"
+            android:background="@null" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:padding="5dp"
+        android:layout_below="@+id/ll_add2"
+        android:background="@color/colorGrey"
+        />
+
+    <LinearLayout
+        android:id="@+id/ll_add3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_add2"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:background="@color/colorWhite">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_below="@+id/ll_add1"
-            android:orientation="horizontal"
-            android:background="@color/colorWhite">
+            android:layout_marginLeft="5dp"
+            android:text="Course Detail:"
+            android:textSize="18dp"
+            android:textColor="@color/colorGrey" />
 
-            <Button
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/icon_add_coursename"/>
-
-            <EditText
-                android:id="@+id/edit_cname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:hint="Course Name"
-                android:background="@null" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:padding="5dp"
-            android:layout_below="@+id/ll_add2"
-            android:background="@color/colorGrey"
+        <Button
+            android:id="@+id/btn_addclass"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="190dp"
+            android:background="@drawable/icon_add_add"
             />
 
-        <LinearLayout
-            android:id="@+id/ll_add3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ll_add2"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            android:background="@color/colorWhite">
+    </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"
-                android:text="Course Detail:"
-                android:textSize="18dp"
-                android:textColor="@color/colorGrey" />
-
-            <Button
-                android:id="@+id/btn_addclass"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="190dp"
-                android:background="@drawable/icon_add_add"
-                />
-
-        </LinearLayout>
-
-        <ListView
-            android:id="@+id/lv_add_detail"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_marginTop="10dp"
-            android:layout_below="@id/ll_add3"
-            android:divider="@color/colorGrey"
-            android:dividerHeight="2dp">
-        </ListView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_below="@id/lv_add_detail"
-            android:background="@color/colorWhite">
-        </LinearLayout>
-
-    <!--</LinearLayout>-->
+    <ListView
+        android:id="@+id/lv_add_detail"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/ll_add3"
+        android:divider="@color/colorGrey"
+        android:dividerHeight="2dp">
+    </ListView>
 
     <Button
-        android:id="@+id/btn_save"
+        android:id="@+id/btn_add_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -143,15 +125,15 @@
         android:textColor="@color/colorPrimaryDark" />
 
     <Button
-        android:id="@+id/btn_cancel"
+        android:id="@+id/btn_add_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@id/btn_save"
+        android:layout_toRightOf="@id/btn_add_save"
         android:layout_marginLeft="80dp"
         android:layout_marginBottom="15dp"
         android:background="@drawable/bg_btn"
-        android:text="cancel"
+        android:text="Delete"
         android:textColor="@color/colorPrimaryDark" />
 
 </RelativeLayout>

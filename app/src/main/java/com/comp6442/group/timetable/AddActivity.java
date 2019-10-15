@@ -6,13 +6,16 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -24,29 +27,21 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     //declare all the variables
     private EditText mEditCID, mEditCName;
     private Spinner mSpSemester;
-    private Button mBtnFind, mBtnAdd;
+    private Button mBtnFind, mBtnAdd, mBtnSave, mBtnDelete;
     private ListView mListViewDetail;
-
-    private Spinner mSpType;
-
-    private int index = 0;
-
+    private LinearLayout mlladd1,mlladd2,mlladd3;
+    private int index = 0, screenWid, screenHight;
     private String mCourseID,mCourseName;
     private Course mCourse = Course.getCourseInstance(AddActivity.this);
-    private CourseDetailAdapter mCourseDetailAdapter, tempCourseDeatilAdapter;
+    private CourseDetailAdapter mCourseDetailAdapter;
     public ArrayList<CourseDetailInfo> mCourseDetailInfos = new ArrayList<>();
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
         setTitle("Add Course");
-
         bindViews();
-
     }
 
     private void bindViews() {
@@ -55,18 +50,47 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         mSpSemester = findViewById(R.id.spinner_semester);
         mBtnFind = findViewById(R.id.btn_findCourse);
         mBtnAdd = findViewById(R.id.btn_addclass);
+        mBtnSave = findViewById(R.id.btn_add_save);
+        mBtnDelete = findViewById(R.id.btn_add_delete);
         mListViewDetail = findViewById(R.id.lv_add_detail);
+        mlladd1 = findViewById(R.id.ll_add1);
+        mlladd2 = findViewById(R.id.ll_add2);
+        mlladd3 = findViewById(R.id.ll_add3);
 
+        //Set widgets fit for different screen sizes
+        DisplayMetrics dmAdd = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dmAdd);
+        screenWid = dmAdd.widthPixels;
+        screenHight = dmAdd.heightPixels;
+
+        RelativeLayout.LayoutParams mLladd1Params = (RelativeLayout.LayoutParams) mlladd1.getLayoutParams();
+        mLladd1Params.height = screenHight / 20;
+        mlladd1.setLayoutParams(mLladd1Params);
+
+
+        RelativeLayout.LayoutParams mLladd2Params = (RelativeLayout.LayoutParams) mlladd2.getLayoutParams();
+        mLladd2Params.height = screenHight / 20;
+        mlladd2.setLayoutParams(mLladd2Params);
+
+        RelativeLayout.LayoutParams mLladd3Params = (RelativeLayout.LayoutParams) mlladd3.getLayoutParams();
+        mLladd3Params.height = screenHight / 18;
+        mlladd3.setLayoutParams(mLladd3Params);
+
+        RelativeLayout.LayoutParams mLvCourseDetailLayoutParams = (RelativeLayout.LayoutParams) mListViewDetail.getLayoutParams();
+        mLvCourseDetailLayoutParams.height = screenHight / 2;
+        mListViewDetail.setLayoutParams(mLvCourseDetailLayoutParams);
+
+
+        //set listeners and adapter
         ArrayAdapter<CharSequence> adapterSemester = ArrayAdapter.createFromResource(AddActivity.this, R.array.semester,android.R.layout.simple_spinner_item);
         adapterSemester.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-
-        mBtnFind.setOnClickListener(this);
-        mBtnAdd.setOnClickListener(this);
         mSpSemester.setAdapter(adapterSemester);
         mSpSemester.setOnItemSelectedListener(this);
+        mBtnFind.setOnClickListener(this);
+        mBtnAdd.setOnClickListener(this);
+        mBtnDelete.setOnClickListener(this);
+        mBtnSave.setOnClickListener(this);
         mListViewDetail.setOnItemLongClickListener(this);
-
-        mSpType = findViewById(R.id.spinner_CType);
     }
 
 
@@ -79,7 +103,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 mCourseName = mCourse.getCourseName(mCourseID);
                 mEditCName.setText(mCourseName);
                 index = mCourse.getLecDetailsInsplit(mCourseID).size();
-                //mCourseDetailInfos = new ArrayList<>();
                 for (int i=0;i<index;i++){
                     String a = mCourse.getLecDetailsInsplit(mCourseID).get(i).get(Utility.NAME_TYPE);
                     String b = mCourse.getLecDetailsInsplit(mCourseID).get(i).get(Utility.NAME_ALP);
@@ -89,7 +112,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                     String f = mCourse.getLecDetailsInsplit(mCourseID).get(i).get(Utility.END);
                     mCourseDetailInfos.add(new CourseDetailInfo(a,b,c,d,e,f));
                 }
-
                 mCourseDetailAdapter = new CourseDetailAdapter(AddActivity.this,mCourseDetailInfos);
                 mListViewDetail.setAdapter(mCourseDetailAdapter);
                 mCourseDetailAdapter.notifyDataSetChanged();
@@ -101,11 +123,49 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
 
             case R.id.btn_addclass:
+
                 mCourseDetailAdapter = new CourseDetailAdapter(AddActivity.this,mCourseDetailInfos);
                 mCourseDetailInfos.add(index,new CourseDetailInfo("","","","","",""));
-                mCourseDetailAdapter.refreshData(mCourseDetailInfos);
+               // mCourseDetailAdapter.refreshData(mCourseDetailInfos);
                 mListViewDetail.setAdapter(mCourseDetailAdapter);
                 index++;
+                break;
+            case R.id.btn_add_save:
+                new AlertDialog.Builder(AddActivity.this)
+                        .setTitle("Are you sure?")
+                        .setMessage("Do you want to refresh all the information about this course?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mCourseID = mEditCID.getText().toString()+"_"+mSpSemester.getSelectedItem().toString();
+                                mCourseName = mEditCName.getText().toString();
+                                int a = mListViewDetail.getCount();
+                                System.out.println(mCourseID+"+"+mCourseName+"+"+mListViewDetail.getCount());
+                                for (int i=0;i<a;i++){
+                                    System.out.print(mCourseDetailInfos.get(i).getLessonType()+"///");
+                                }
+
+
+//                                mCourseDetailInfos.clear();
+//                                mCourseDetailAdapter.refreshData(mCourseDetailInfos);
+                            }
+                        })
+                        .setNegativeButton("No",null).show();
+                break;
+            case R.id.btn_add_delete:
+                new AlertDialog.Builder(AddActivity.this)
+                        .setTitle("Are you sure?")
+                        .setMessage("Do you want to delete all the information about this course?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mCourseID = mEditCID.getText().toString()+"_"+mSpSemester.getSelectedItem().toString();
+                                mCourse.delete(mCourseID);
+                                mCourseDetailInfos.clear();
+                                mCourseDetailAdapter.refreshData(mCourseDetailInfos);
+                            }
+                        })
+                        .setNegativeButton("No",null).show();
                 break;
         }
 
@@ -125,7 +185,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         final int itemPos = position;
-        Toast.makeText(AddActivity.this, "You are long----------------click"+id, Toast.LENGTH_SHORT).show();
+
         new AlertDialog.Builder(AddActivity.this)
                 .setTitle("Are you sure?")
                 .setMessage("Do you want to delete this course detail?")
