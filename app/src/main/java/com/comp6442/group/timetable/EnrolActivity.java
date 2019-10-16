@@ -306,4 +306,75 @@ public class EnrolActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Get a list containing all ANU courses from Course
+        final Course course = Course.getCourseInstance(this);
+        courseList = (ArrayList) course.getUnEnrolledCourseList(this);
+
+        // Set up the OnClickListener on the search button
+        mBtnSearchCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Generate a new dialog to show search process
+                final Dialog dialog = new Dialog(view.getContext());
+                LayoutInflater inflater = LayoutInflater.from(view.getContext());
+                View searchableView = inflater.inflate(R.layout.layout_searchable_list_dialog, null);
+                final ListView mLvCourse = searchableView.findViewById(R.id.lv_course);
+                final SearchView mSvCourse = searchableView.findViewById(R.id.sv_course);
+
+                // Set MyAdapter on the ListView containing all ANU courses
+                final MyAdapter myAdapter = new MyAdapter(view.getContext(), course, courseList);
+                mLvCourse.setAdapter(myAdapter);
+                mLvCourse.setTextFilterEnabled(true);
+
+                // Make course SearchView listen to text change
+                mSvCourse.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String newText) {
+                        mSvCourse.clearFocus();
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        if (TextUtils.isEmpty(newText)) {
+                            mLvCourse.clearTextFilter();
+                        } else {
+                            myAdapter.getFilter().filter(newText);
+                        }
+                        return true;
+                    }
+                });
+
+                // make ListView show the selected course lecture time
+                mLvCourse.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        courseID = (String) myAdapter.getItem(i);
+                        mTvCourseID.setText(courseID);
+                        lectureList = (ArrayList) course.getLecDetails(courseID);
+                        if (lectureList.size() != 0) {
+                            StringBuilder builder = new StringBuilder();
+                            for (String s : lectureList) {
+                                builder.append(s + "\n");
+                            }
+                            mTvLectureDetails.setText(builder.toString().substring(0, builder.length() - 1));
+                        } else {
+                            mTvLectureDetails.setText("There is no scheduled lecture for this course.");
+                        }
+                        dialog.dismiss();
+                    }
+                });
+                dialog.setContentView(searchableView);
+                dialog.show();
+                // If the courseID is changed, delete all tutorials in the tutorial ListView.
+                if (tutorialList != null) tutorialList.clear();
+            }
+        });
+
+    }
 }
