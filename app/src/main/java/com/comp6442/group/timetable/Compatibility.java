@@ -13,7 +13,7 @@ public class Compatibility extends FileOperator{
     private JSONObject compatibility = new JSONObject();
 
     /**
-     * @author Yongchao Lyu (u6874539)
+     * @author Yongchao Lyu (u6874539), Jingwei Wang(u6891978)
      *
      * The constructor of the class for initialising
      * 1. Set the filename of the file to be operated
@@ -40,7 +40,7 @@ public class Compatibility extends FileOperator{
     }
 
     /**
-     * @author Yongchao Lyu (u6874539)
+     * @author Yongchao Lyu (u6874539), Jingwei Wang(u6891978)
      *
      * Method for getting the instance of this singleton class
      *
