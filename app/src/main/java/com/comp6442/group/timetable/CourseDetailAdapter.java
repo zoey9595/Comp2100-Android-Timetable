@@ -21,7 +21,6 @@ public class CourseDetailAdapter extends BaseAdapter  {
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private List<Map<String,String>> mCourseDetails;
-
     private List<CourseDetailInfo> mCourseDetailInfolist;
 
     private final String TAG = "detaillist";

@@ -36,7 +36,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private String mCourseID,mCourseName, duration;
     private Course mCourse = Course.getCourseInstance(AddActivity.this);
     private CourseDetailAdapter mCourseDetailAdapter;
-    private ArrayList<CourseDetailInfo> mCourseDetailInfos;
+    private ArrayList<CourseDetailInfo> mCourseDetailInfos = new ArrayList<>();
     private ArrayList<Map<String,String>> mCourseDetails;
     private Map<String,String> courseMap = new HashMap<>();
 
@@ -131,6 +131,10 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 index++;
                 break;
             case R.id.btn_add_save:
+//                if (mEditCID.getText().length()== 0 || mEditCName.getText().length() == 0){
+//                    Toast.makeText(AddActivity.this, "You can not save this course! ", Toast.LENGTH_SHORT).show();
+//                }
+
                 new AlertDialog.Builder(AddActivity.this)
                         .setTitle("Are you sure?")
                         .setMessage("Do you want to refresh all the information about this course?")
