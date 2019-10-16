@@ -34,10 +34,10 @@ public class UtilityTest {
     /**
      * @author  Jingwei Wang(u6891978)
      *
-     * Test for the method  compareTimeInString
+     * Test for the method  getWeekdayList
      */
     @Test
-    public void getWeekdayList() {
+    public void getWeekdayListTest() {
         List<String> weekdays = new ArrayList<>();
         List<String> weekday = new ArrayList<>();
         weekdays.add("Mon");
