@@ -1,3 +1,16 @@
+/**
+ * The User class is a subclass of FileOperator, which implements
+ * methods for operating the user.json file. This file is migrated
+ * to the internal storage if it has not been done yet when initialising
+ * this class. After that, all operation about the file is the copy that
+ * locates at the internal storage. The class contains lots of useful
+ * methods that get or set different part of the user data structure.
+ *
+ * @author  Yongchao Lyu (u6874539), Jingwei Wang (u6891978)
+ * @version 1.0
+ * @since   2019-09-20
+ */
+
 package com.comp6442.group.timetable;
 
 import android.content.Context;
@@ -24,6 +37,19 @@ public class User extends FileOperator{
     private Compatibility compatibilityInstance = null;
     private JSONObject userCourses = new JSONObject();
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * The constructor of the class for initialising
+     * 1. Set the filename of the file to be operated
+     * 2. Migrate the resource file to internal storage if it has not been done yet.
+     * 3. Read the content of this file from internal storage to a member variable
+     *
+     * Note: the modifier is "private", which means we are defining a singleton class
+     *
+     * @param context context of the application
+     *
+     */
     private User(Context context) {
         super(context, "user.json");
 
@@ -41,6 +67,18 @@ public class User extends FileOperator{
         }
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Method for getting the instance of this singleton class
+     *
+     * Note: The class can only be instantiated once for preventing the file
+     * to be read several times. This kind of design fobidden read the same file
+     * more than once such that the limited memory of the device can be saved.
+     *
+     * @param context context of the application
+     *
+     */
     public static User getUserInstance(Context context) {
         if (userInstance == null)
             userInstance = new User(context);
@@ -69,6 +107,13 @@ public class User extends FileOperator{
         return selectedCourses;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is to enroll course
+     *
+     *
+     */
     public boolean setUserCourses(Map<String, List<String>> userCourse) {
         try {
             // Convert data structure and update to userCourses
@@ -92,6 +137,13 @@ public class User extends FileOperator{
         return true;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is to delete the enrolled course
+     *
+     *
+     */
     //delete user course in user.json file
     public Map<String,String > delete(String courseKey)
     {
@@ -109,6 +161,13 @@ public class User extends FileOperator{
         return deleteStatus;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is to delete enrolled course
+     *
+     *
+     */
     //call the function to delete user course in user.json file
     public boolean deleteUserCourse(String courseKey)
     {
@@ -126,6 +185,13 @@ public class User extends FileOperator{
         return true;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is to check if the enrolled course has time conflict with the course to be enrolling.
+     *
+     *
+     */
     //Added on 8 Oct 2019
     //check if the lectures to be enrolled are conflicted with existing lectures
     public Map<String, String> isTimeConflict(List<Map<String, String>> timeToEnrollList) {
@@ -203,6 +269,13 @@ public class User extends FileOperator{
         return enrolledLessonInfoList;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is to check course conflict
+     *
+     *
+     */
     //  get lectures to be enrolled and check conflict
     public Map<String, String> isConflict(Map<String, List<String>> toEnrollCourse) {
         Map<String, String> conflict = new HashMap<>();
@@ -225,6 +298,13 @@ public class User extends FileOperator{
         return conflict;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is to enroll course
+     *
+     *
+     */
     //enroll course
     public Map<String, String> save(Map<String, List<String>> toEnrollCourse) {
         boolean hasError = false;
@@ -282,6 +362,13 @@ public class User extends FileOperator{
         return saveStatus;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is to check course requisite and incompatibility
+     *
+     *
+     */
     public Map<String, String> isCourseConflict(String courseKey) {
         Map<String, String> conflict = new HashMap<>();
 
@@ -358,6 +445,13 @@ public class User extends FileOperator{
         return conflict;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is to retrieve all the course compatibility information
+     *
+     *
+     */
     //get list of compatibility "COMP3670||( (COMP1110 || COMP1140 )&&( MATH1014 || MATH1115))"
     public List<String> getCompatibilityList(String compatibility) {
         List<String> courseMatches = new ArrayList<>();
@@ -373,6 +467,13 @@ public class User extends FileOperator{
         return courseMatches;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is to check if course has been enrolled
+     *
+     *
+     */
     //check if the course has been enrolled
     public boolean isEnrolledCourse(String courseKey) {
         boolean isEnrolledCourse = false;
@@ -393,6 +494,13 @@ public class User extends FileOperator{
         return isEnrolledCourse;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is convert String (False || (True && False)) into Boolean format
+     *
+     *
+     */
     //    convert (False||False && True) to Boolean
     public Boolean stringBooleanExpression(String toBoolean) {
         try {

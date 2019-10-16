@@ -37,7 +37,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private Course mCourse = Course.getCourseInstance(AddActivity.this);
     private CourseDetailAdapter mCourseDetailAdapter;
     private ArrayList<CourseDetailInfo> mCourseDetailInfos = new ArrayList<>();
-    private ArrayList<Map<String,String>> mCourseDetails = new ArrayList<>();
+    private ArrayList<Map<String,String>> mCourseDetails;
     private Map<String,String> courseMap = new HashMap<>();
 
     @Override
@@ -131,6 +131,10 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 index++;
                 break;
             case R.id.btn_add_save:
+//                if (mEditCID.getText().length()== 0 || mEditCName.getText().length() == 0){
+//                    Toast.makeText(AddActivity.this, "You can not save this course! ", Toast.LENGTH_SHORT).show();
+//                }
+
                 new AlertDialog.Builder(AddActivity.this)
                         .setTitle("Are you sure?")
                         .setMessage("Do you want to refresh all the information about this course?")
@@ -140,14 +144,14 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                                 mCourseID = mEditCID.getText().toString()+"_"+mSpSemester.getSelectedItem().toString();
                                 mCourseName = mEditCName.getText().toString();
                                 int size = mListViewDetail.getCount();
-
+                                mCourseDetails = new ArrayList<>();
                                 for (int i=0;i<size;i++){
                                     int durationInt = (mCourseDetailInfos.get(i).getLessonEndInt()-mCourseDetailInfos.get(i).getLessonStartInt());
                                     if (durationInt%2==0){
                                         duration = Integer.toString((durationInt/2))+":00";
                                     }else duration = Integer.toString(durationInt/2)+":30";
-                                    String lessonName = mCourseDetailInfos.get(i).getLessonType()+mCourseDetailInfos.get(i).getLessonAlph()+mCourseDetailInfos.get(i).getLessonNum();
-
+                                    String lessonName = mCourseDetailInfos.get(i).getLessonType()+mCourseDetailInfos.get(i).getLessonAlph()+"/"+mCourseDetailInfos.get(i).getLessonNum();
+                                    courseMap = new HashMap<>();
                                     courseMap.put("id",mEditCID.getText().toString());
                                     courseMap.put("semester", mSpSemester.getSelectedItem().toString());
                                     courseMap.put("courseName",mEditCName.getText().toString());
@@ -156,7 +160,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                                     courseMap.put("start", mCourseDetailInfos.get(i).getLessonStart());
                                     courseMap.put("end",mCourseDetailInfos.get(i).getLessonEnd());
                                     courseMap.put("duration", duration);
-                                    mCourseDetails.add(i,courseMap);
+                                    mCourseDetails.add(courseMap);
                                 }
                                 mCourse.save(mCourseDetails);
                                 mCourseDetailAdapter.refreshData(mCourseDetailInfos);

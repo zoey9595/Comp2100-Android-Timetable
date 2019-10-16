@@ -1,3 +1,14 @@
+/**
+ * The FileOperator class implements methods for operating files,
+ * both resource files that locate at res/raw of the project and
+ * internal files that locate at /data/data/packageName/files of android.
+ * One of the methods is used for migrating files from resource to internal.
+ *
+ * @author  Yongchao Lyu (u6874539)
+ * @version 1.0
+ * @since   2019-09-18
+ */
+
 package com.comp6442.group.timetable;
 
 import android.content.Context;
@@ -17,6 +28,13 @@ public class FileOperator {
     private String fileName;
     private String filePath;
 
+    /**
+     * Constructor of the class for initialise member variables
+     *
+     * @param context application context
+     * @param filename filename of the file to be operated
+     *
+     */
     FileOperator(Context context, String filename) {
         this.context = context;
         this.fileName = filename;
@@ -25,6 +43,13 @@ public class FileOperator {
                 this.fileName).toString();
     }
 
+    /**
+     * Read a resource file using resource ID, such as R.raw.user
+     *
+     * @param rID resource id for the file, eg. R.raw.courses
+     * @return String json string that read from the file
+     *
+     */
     public String readRawFile(int rID) {
         try {
             InputStream inputStream = this.context.getResources().openRawResource(rID);
@@ -47,6 +72,13 @@ public class FileOperator {
         return null;
     }
 
+    /**
+     * Migrate resource files to internal storage, i.e.
+     * From res/raw to /data/data/packageName/files
+     *
+     * @param rID resource id for the file, eg. R.raw.courses
+     *
+     */
     public void placeInternalFile(int rID) {
         try {
             File internalFile = new File(this.filePath);
@@ -65,6 +97,13 @@ public class FileOperator {
         }
     }
 
+    /**
+     * Read a file stored at internal storage,
+     * use the fileName stored at a member variable
+     *
+     * @return String json string that read from the file
+     *
+     */
     public String readInternalFile() {
         try {
             FileInputStream inputStream;
@@ -88,6 +127,12 @@ public class FileOperator {
         return null;
     }
 
+    /**
+     * Write a file stored at internal storage
+     *
+     * @param jsonString a json string to be write into the internal file
+     *
+     */
     public void writeInternalFile(String jsonString) {
         try {
             FileOutputStream outputStream;
