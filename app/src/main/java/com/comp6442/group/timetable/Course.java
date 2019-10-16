@@ -156,6 +156,15 @@ public class Course extends FileOperator {
         return lessonList;
     }
 
+
+
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is to retrieve all the lecture details by CourseKey
+     *
+     *
+     */
     //added on 1 Oct 2019
     public List<String> getLecDetails(String courseKey) { //get lecture details: LecA/01, Mon, 13:00 - 15:00
         List<String> lectureList = new ArrayList<>();
@@ -179,6 +188,12 @@ public class Course extends FileOperator {
         return lectureList;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is to retrieve all the lesson details except lecture by CourseKey
+     *
+     */
     public List<String> getTutWorDetails(String courseKey) {  //get tutorial and workshop details: ComA/01, Mon, 13:00 - 15:00
         List<String> lectureList = new ArrayList<>();
         try {
@@ -201,6 +216,12 @@ public class Course extends FileOperator {
         return lectureList;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is to retrieve all the lecture details in split by CourseKey
+     *
+     */
     //added on 6 Oct 2019
     public List<Map<String, String>> getLecDetailsInsplit(String courseKey) { //get lecture details: LecA/01, Mon, 13:00 - 15:00
         List<Map<String, String>> lectureDetailList = new ArrayList<>();
@@ -221,6 +242,12 @@ public class Course extends FileOperator {
         return lectureDetailList;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is to reformat lesson information
+     *
+     */
     public Map<String, String> reformatLessonInfo(Map<String, String> lesson) {
         Map<String, String> reformatedLesson = new HashMap<>();
         try {
@@ -244,6 +271,12 @@ public class Course extends FileOperator {
 
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is to retrieve specific lesson by courseKey and LessonName
+     *
+     */
     //Added on 8 Oct 2019
     public Map<String, String> getLessonsByCourseIdAndLessonName(String courseKey, String lessonName) {
         Map<String, String> lessonInfo = new HashMap<>();
@@ -267,6 +300,14 @@ public class Course extends FileOperator {
         return lessonInfo;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is to retrieve the course list that have not enrolled yet
+     *
+     * @param context context of the application
+     *
+     */
     //get course list that have not enrolled yet // get context from EnroActivity : this
     public List<String> getUnEnrolledCourseList(Context context) {
         Iterator iterator = this.courses.keys();
@@ -304,6 +345,12 @@ public class Course extends FileOperator {
         return courseList;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is to retrieve all kinds of weekdays(Mon-Fri) and nameType(Lec/Com/Dro) of lessons
+     *
+     */
     //get master data of weekdays and nameType
     public Map<String, List> getMasterList() {
         Map<String, List> master = new HashMap<>();
@@ -316,6 +363,12 @@ public class Course extends FileOperator {
         return master;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is to split the lesson name from COMP1110_S1-LecA/01 into COMP1110_S1, LecA and 01
+     *
+     */
     //get split lesson name
     public static String[] splitLessonName(String Name) {
         String[] names = new String[4];
@@ -323,6 +376,12 @@ public class Course extends FileOperator {
         return names;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is to split the course name from COMP1110_S1 into COMP1110 and S1
+     *
+     */
     //get split lesson name
     public static String[] splitCourseName(String Name) {
         String[] names = new String[4];
@@ -346,6 +405,12 @@ public class Course extends FileOperator {
         return true;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method using to delete the existing course in Json file.
+     *
+     */
     public boolean deleteCourse(String courseKey)
     {
         try {
@@ -362,6 +427,12 @@ public class Course extends FileOperator {
         return true;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method using to save new course into Json file
+     *
+     */
     public Map<String, String> save(List<Map<String, String>> course) {
         Map<String, String> saveStatus = new HashMap<>();
 
@@ -372,7 +443,7 @@ public class Course extends FileOperator {
             JSONObject lesson = new JSONObject();
 
             String courseKey ="";
-            courseKey = course.get(0).get("courseKey");//ACST3001_S1
+            courseKey =course.get(0).get("id")+"_"+course.get(0).get("semester");//ACST3001_S1
 
             if(courseKey.equals(""))
                 success = false;
@@ -388,13 +459,16 @@ public class Course extends FileOperator {
                 for (int i = 0; i < course.size(); i++) {
 
                     //add lesson into lesson list
-                    lesson.put("name", course.get(i).get("name"));
+                    lesson.put("name",courseKey+"-"+ course.get(i).get("name"));
                     lesson.put("description", "");//no description of new course
                     lesson.put("weekday", course.get(i).get("weekday"));
                     lesson.put("start", course.get(i).get("start"));
                     lesson.put("end", course.get(i).get("end"));
                     lesson.put("duration", course.get(i).get("duration"));
-                    lesson.put("weeks", "");//no week info of new course
+                    if(course.get(0).get("semester").equals("S1"))
+                        lesson.put("weeks", "9-22");//default weeks for S1
+                    if(course.get(0).get("semester").equals("S2"))
+                        lesson.put("weeks", "30-43");//default weeks for S2
                     lesson.put("location", "");//no location info of new course
                     lessonArray.put(lesson);
                 }
@@ -420,6 +494,12 @@ public class Course extends FileOperator {
         return saveStatus;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method using to delete the existing course.
+     *
+     */
     public Map<String,String > delete(String courseKey)
     {
         Map<String, String> deleteStatus = new HashMap<>();
