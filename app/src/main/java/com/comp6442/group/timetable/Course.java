@@ -248,6 +248,7 @@ public class Course extends FileOperator {
      * This method is to reformat lesson information
      *
      */
+    //splict the lessonName from COMP1110_S1-ComA/01 into  COMP1110_S1, Com, A, 01
     public Map<String, String> reformatLessonInfo(Map<String, String> lesson) {
         Map<String, String> reformatedLesson = new HashMap<>();
         try {
@@ -440,7 +441,7 @@ public class Course extends FileOperator {
         try {
             JSONObject courseDetails = new JSONObject();
             JSONArray lessonArray = new JSONArray();
-            JSONObject lesson = new JSONObject();
+
 
             String courseKey ="";
             courseKey =course.get(0).get("id")+"_"+course.get(0).get("semester");//ACST3001_S1
@@ -457,6 +458,7 @@ public class Course extends FileOperator {
                 }
 
                 for (int i = 0; i < course.size(); i++) {
+                    JSONObject lesson = new JSONObject();
 
                     //add lesson into lesson list
                     lesson.put("name",courseKey+"-"+ course.get(i).get("name"));
@@ -474,7 +476,7 @@ public class Course extends FileOperator {
                 }
 
                 //add lesson list into course object
-                courseDetails.put("lesson", lessonArray);
+                courseDetails.put("lessons", lessonArray);
                 success = setCourses(courseKey,courseDetails);
             }
 
