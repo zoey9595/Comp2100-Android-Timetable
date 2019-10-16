@@ -1,3 +1,16 @@
+/**
+ * The Course class is a subclass of FileOperator, which implements
+ * methods for operating the courses.json file. This file is migrated
+ * to the internal storage if it has not been done yet when initialising
+ * this class. After that, all operation about the file is the copy that
+ * locates at the internal storage. The class contains lots of useful
+ * methods that get or set different part of the courses data structure.
+ *
+ * @author  Yongchao Lyu (u6874539), Jingwei Wang (u6891978)
+ * @version 1.0
+ * @since   2019-09-20
+ */
+
 package com.comp6442.group.timetable;
 
 import android.content.Context;
@@ -18,6 +31,19 @@ public class Course extends FileOperator {
     private static User userInstance = null;
     private JSONObject courses = new JSONObject();
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * The constructor of the class for initialising
+     * 1. Set the filename of the file to be operated
+     * 2. Migrate the resource file to internal storage if it has not been done yet.
+     * 3. Read the content of this file from internal storage to a member variable
+     *
+     * Note: the modifier is "private", which means we are defining a singleton class
+     *
+     * @param context context of the application
+     *
+     */
     private Course(Context context) {
         super(context, "courses.json");
 
@@ -32,6 +58,18 @@ public class Course extends FileOperator {
         }
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Method for getting the instance of this singleton class
+     *
+     * Note: The class can only be instantiated once for preventing the file
+     * to be read several times. This kind of design fobidden read the same file
+     * more than once such that the limited memory of the device can be saved.
+     *
+     * @param context context of the application
+     *
+     */
     public static Course getCourseInstance(Context context) {
         if (courseInstance == null)
             courseInstance = new Course(context);

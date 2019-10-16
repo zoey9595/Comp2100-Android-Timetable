@@ -12,6 +12,19 @@ public class Compatibility extends FileOperator{
     private static Compatibility compatibilityInstance = null;
     private JSONObject compatibility = new JSONObject();
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * The constructor of the class for initialising
+     * 1. Set the filename of the file to be operated
+     * 2. Migrate the resource file to internal storage if it has not been done yet.
+     * 3. Read the content of this file from internal storage to a member variable
+     *
+     * Note: the modifier is "private", which means we are defining a singleton class
+     *
+     * @param context context of the application
+     *
+     */
     public Compatibility(Context context) {
         super(context, "compatibility.json");
 
@@ -26,6 +39,18 @@ public class Compatibility extends FileOperator{
         }
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Method for getting the instance of this singleton class
+     *
+     * Note: The class can only be instantiated once for preventing the file
+     * to be read several times. This kind of design fobidden read the same file
+     * more than once such that the limited memory of the device can be saved.
+     *
+     * @param context context of the application
+     *
+     */
     public static Compatibility getCompatibilityInstance(Context context) {
         if (compatibilityInstance == null)
             compatibilityInstance = new Compatibility(context);
