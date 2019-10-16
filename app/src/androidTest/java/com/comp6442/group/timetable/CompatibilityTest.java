@@ -50,7 +50,7 @@ public class CompatibilityTest {
 
         Map<String, String> compatibilityDetails = new HashMap<>();
         compatibilityDetails = compatibility.getCoursesCompatiblityById("COMP8420");
-        assertNotNull(compatibilityDetails);
+        assertNotNull(compatibilityDetails); //COMP8420 does not has compatibility
     }
 
 }
