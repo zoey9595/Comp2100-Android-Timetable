@@ -501,7 +501,7 @@ public class User extends FileOperator{
      *
      *
      */
-    //    convert (False||False && True) to Boolean
+    //    convert (false||false && true) to Boolean
     public Boolean stringBooleanExpression(String toBoolean) {
         try {
             ScriptEngineManager manager = new ScriptEngineManager();
@@ -510,6 +510,7 @@ public class User extends FileOperator{
             return Boolean.TRUE.equals(result);
 
         } catch (Exception e) {
+            Log.e(getClass().getSimpleName(), e.getMessage());
         }
 
         return false;
