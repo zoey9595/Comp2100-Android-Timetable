@@ -107,7 +107,7 @@ public class EnrolActivity extends AppCompatActivity {
         final User user = User.getUserInstance(this);
         userCourseList = (HashMap) user.getUserCourses();
         // Display enrolled courses
-        final ArrayList<String> enrolledCourses = new ArrayList<>();
+        ArrayList<String> enrolledCourses = new ArrayList<>();
         for (String s : userCourseList.keySet()) {
             enrolledCourses.add(s + ": " + course.getCourseName(s));
         }
@@ -220,20 +220,17 @@ public class EnrolActivity extends AppCompatActivity {
                 alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        for (int j = 0; j < mLvEnrolledCourses.getCount(); j++) {
-                            CheckedTextView mCtv = (CheckedTextView) mLvEnrolledCourses
-                                    .getChildAt(j - mLvEnrolledCourses.getFirstVisiblePosition());
-                            if (mCtv.isChecked()) {
-                                String temp = mCtv.getText().toString();
-                                // Delete selected courses from user.json
-                                user.delete(temp.substring(0, 11));
-                                enrolAdapter.remove(temp);
-                            }
-                        }
                         // Uncheck the boxes that have been checked
                         SparseBooleanArray tmp = mLvEnrolledCourses.getCheckedItemPositions();
                         for (int k = 0; k < tmp.size(); k++) {
-                            mLvEnrolledCourses.setItemChecked(k, false);
+                            CheckedTextView view1 = (CheckedTextView) mLvEnrolledCourses
+                                    .getChildAt(tmp.keyAt(k) -
+                                            mLvEnrolledCourses.getFirstVisiblePosition());
+                            String temp = view1.getText().toString();
+                            // Delete selected courses from user.json
+                            user.delete(temp.substring(0, 11));
+                            enrolAdapter.remove(temp);
+                            mLvEnrolledCourses.setItemChecked(tmp.keyAt(k), false);
                         }
                         enrolAdapter.notifyDataSetChanged();
                     }
@@ -282,7 +279,7 @@ public class EnrolActivity extends AppCompatActivity {
                         // Add the selected course to userCourseList
                         Map<String, String> temp2 = user.save(temp);
                         if (temp2.get("status").equals("false")) {
-                            enrolledCourses.add(selectedcourseID);
+                            //enrolledCourses.add(selectedcourseID);
                             enrolAdapter.add(selectedcourseID);
                             enrolAdapter.notifyDataSetChanged();
                             // Make a custom toast
