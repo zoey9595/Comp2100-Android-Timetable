@@ -7,6 +7,16 @@ import java.util.Date;
 import java.util.List;
 
 public class Utility {
+    /**
+     * @author Jingwei Wang (u68901978)
+     *
+     * The class is to store the common used functions
+     *
+     * Note: the modifier is "static", which means we are defining a global class
+     *
+     * @param context context of the application
+     *
+     */
 
     //Lesson Properties
     public static final String FULL_NAME = "name";
