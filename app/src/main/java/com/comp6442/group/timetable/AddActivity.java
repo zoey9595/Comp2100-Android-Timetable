@@ -146,7 +146,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                                     if (durationInt%2==0){
                                         duration = Integer.toString((durationInt/2))+":00";
                                     }else duration = Integer.toString(durationInt/2)+":30";
-                                    String lessonName = mCourseDetailInfos.get(i).getLessonType()+mCourseDetailInfos.get(i).getLessonAlph()+mCourseDetailInfos.get(i).getLessonNum();
+                                    String lessonName = mCourseDetailInfos.get(i).getLessonType()+mCourseDetailInfos.get(i).getLessonAlph()+"/"+mCourseDetailInfos.get(i).getLessonNum();
 
                                     courseMap.put("id",mEditCID.getText().toString());
                                     courseMap.put("semester", mSpSemester.getSelectedItem().toString());
