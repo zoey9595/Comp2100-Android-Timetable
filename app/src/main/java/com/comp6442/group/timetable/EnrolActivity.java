@@ -167,11 +167,15 @@ public class EnrolActivity extends AppCompatActivity {
                         courseID = (String) myAdapter.getItem(i);
                         mTvCourseID.setText(courseID);
                         lectureList = (ArrayList) course.getLecDetails(courseID);
-                        StringBuilder builder = new StringBuilder();
-                        for (String s : lectureList) {
-                            builder.append(s + "\n");
+                        if (lectureList.size() != 0) {
+                            StringBuilder builder = new StringBuilder();
+                            for (String s : lectureList) {
+                                builder.append(s + "\n");
+                            }
+                            mTvLectureDetails.setText(builder.toString().substring(0, builder.length() - 1));
+                        } else {
+                            mTvLectureDetails.setText("There is no scheduled lecture for this course.");
                         }
-                        mTvLectureDetails.setText(builder.toString().substring(0, builder.length() - 1));
                         dialog.dismiss();
                     }
                 });
@@ -278,6 +282,9 @@ public class EnrolActivity extends AppCompatActivity {
                         // Add the selected course to userCourseList
                         Map<String, String> temp2 = user.save(temp);
                         if (temp2.get("status").equals("false")) {
+                            enrolledCourses.add(selectedcourseID);
+                            enrolAdapter.add(selectedcourseID);
+                            enrolAdapter.notifyDataSetChanged();
                             // Make a custom toast
                             MyToast myToast = MyToast.makeText(view.getContext(), temp2.get("message"), Toast.LENGTH_LONG);
                             myToast.setGravity(Gravity.CENTER, 0, 0);
