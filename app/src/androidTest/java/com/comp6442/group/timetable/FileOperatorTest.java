@@ -4,7 +4,7 @@
  *
  * @author  Yongchao Lyu (u6874539)
  * @version 1.0
- * @since   2019-10-16
+ * @since   2019-10-15
  */
 
 package com.comp6442.group.timetable;
@@ -46,7 +46,7 @@ public class FileOperatorTest {
             FileOperator fileOperator = new FileOperator(appContext, fileName);
             String rawFileContent = fileOperator.readRawFile(rawFileMap.get(fileName));
             assertTrue(
-                    "Cannot read raw file: " + fileName,
+                    "\nCannot read raw file: " + fileName,
                     rawFileContent != null && !rawFileContent.isEmpty());
         }
     }
@@ -61,7 +61,7 @@ public class FileOperatorTest {
                 FileOperator fileOperator = new FileOperator(appContext, fileName);
                 fileOperator.placeInternalFile(rawFileMap.get(fileName));
             }
-            assertTrue("Cannot migrate raw file: " + fileName, internalFile.exists());
+            assertTrue("\nCannot migrate raw file: " + fileName, internalFile.exists());
         }
     }
 
@@ -71,7 +71,7 @@ public class FileOperatorTest {
         for (String fileName: rawFileMap.keySet()) {
             String filePath = Paths.get(appContext.getFilesDir().getAbsolutePath(), fileName).toString();
             File internalFile = new File(filePath);
-            assertTrue("File doesn't exist: " + fileName, internalFile.exists());
+            assertTrue("\nFile doesn't exist: " + fileName, internalFile.exists());
 
             if (internalFile.exists()) {
                 FileOperator fileOperator = new FileOperator(appContext, fileName);
