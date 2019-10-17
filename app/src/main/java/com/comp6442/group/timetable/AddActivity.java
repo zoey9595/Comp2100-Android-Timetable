@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -164,6 +163,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                                 }
                                 mCourse.save(mCourseDetails);
                                 mCourseDetailAdapter.refreshData(mCourseDetailInfos);
+                                finish();
                             }
                         })
                         .setNegativeButton("No",null).show();
@@ -199,6 +199,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                         mCourseDetailAdapter.refreshData(mCourseDetailInfos);
                         mListViewDetail.setAdapter(mCourseDetailAdapter);
                         index--;
+                        finish();
                     }
                 })
                 .setNegativeButton("No",null).show();
