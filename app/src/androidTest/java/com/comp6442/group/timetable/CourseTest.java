@@ -15,6 +15,7 @@ import android.support.test.InstrumentationRegistry;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -152,5 +153,215 @@ public class CourseTest {
      */
     @Test
     public void setCourses() {
+    }
+
+
+    /**
+     * @author  Jingwei Wang(u6891978)
+     *
+     * Test for the method getLecDetails
+     */
+    @Test
+    public void getLecDetailsTest() {
+        Course course = Course.getCourseInstance(appContext);
+        List<String> lectureList = new ArrayList<>();
+        lectureList = course.getLecDetails("COMP1100_S1");
+        for (int i = 0; i < lectureList.size(); i++) {
+            assertTrue(
+                    "\nThe lesson is not a lecture: " + lectureList.get(i).toString(),
+                    lectureList.get(i).contains("Lec"));
+        }
+
+    }
+
+    /**
+     * @author  Jingwei Wang(u6891978)
+     *
+     * Test for the method getTutWorDetails
+     */
+    @Test
+    public void getTutWorDetailsTest() {
+        Course course = Course.getCourseInstance(appContext);
+        List<String> lectureList = new ArrayList<>();
+        lectureList = course.getTutWorDetails("COMP1100_S1");
+        for (int i = 0; i < lectureList.size(); i++) {
+            assertTrue(
+                    "\nThe lesson is a lecture: " + lectureList.get(i).toString(),
+                    !lectureList.get(i).contains("Lec"));
+        }
+
+    }
+
+
+    /**
+     * @author  Jingwei Wang(u6891978)
+     *
+     * Test for the method getLecDetailsInsplit
+     */
+    @Test
+    public void getLecDetailsInsplitTest() {
+        Course course = Course.getCourseInstance(appContext);
+        List<Map<String, String>> lectureDetailList = new ArrayList<>();
+        lectureDetailList = course.getLecDetailsInsplit("COMP1110_S1");
+        assert (lectureDetailList.size() >0);
+
+    }
+
+    /**
+     * @author  Jingwei Wang(u6891978)
+     *
+     * Test for the method reformatLessonInfo
+     */
+    @Test
+    public void reformatLessonInfoTest() {
+        Course course = Course.getCourseInstance(appContext);
+        Map<String, String> lesson = new HashMap<>();
+        Map<String, String> reformatedLesson = new HashMap<>();
+        lesson.put("name", "CMP1110_S1-ComA/01");
+        lesson.put("weekday", "Friday");
+        lesson.put("start", "13:00");
+        lesson.put("end", "14:00");
+        reformatedLesson.put(Utility.NAME_TYPE, "Com"); //Com
+        reformatedLesson.put(Utility.NAME_ALP, "A");//A
+        reformatedLesson.put(Utility.NAME_INDEX, "01");//01
+        reformatedLesson.put(Utility.WEEKDAY, "Fri");
+        reformatedLesson.put(Utility.START, "13:00");
+        reformatedLesson.put(Utility.END, "14:00");
+
+
+        Map<String, String> ExpecctedReformatedLesson = new HashMap<>();
+        ExpecctedReformatedLesson = course.reformatLessonInfo(lesson);
+        assertEquals(reformatedLesson.size(),ExpecctedReformatedLesson.size());
+    }
+
+
+    /**
+     * @author  Jingwei Wang(u6891978)
+     *
+     * Test for the method getMasterList
+     */
+    @Test
+    public void getMasterListTest() {
+        Course course = Course.getCourseInstance(appContext);
+        Map<String, List> master = new HashMap<>();
+        master = course.getMasterList();
+        assertTrue(
+                "\nThe size of the list of master data abnormal: " + master.size(),
+                master.size() >0) ;
+    }
+
+    /**
+     * @author  Jingwei Wang(u6891978)
+     *
+     * Test for the method splitLessonName
+     */
+    @Test
+    public void splitLessonNameTest() {
+        Course course = Course.getCourseInstance(appContext);
+        String[] expectedNames = new String[4];
+        String[] names = new String[]{"COMP1110_S1","LecA","01"};
+        expectedNames = course.splitLessonName("COMP1110_S1-LecA/01");
+        assertArrayEquals(names,expectedNames); ;
+    }
+
+    /**
+     * @author  Jingwei Wang(u6891978)
+     *
+     * Test for the method splitCourseName
+     */
+    @Test
+    public void splitCourseNameTest() {
+        Course course = Course.getCourseInstance(appContext);
+        String[] expectedNames = new String[4];
+        String[] names = new String[]{"COMP1110","S1"};
+        expectedNames = course.splitCourseName("COMP1110_S1");
+        assertArrayEquals(names,expectedNames); ;
+    }
+
+    /**
+     * @author  Jingwei Wang(u6891978)
+     *
+     * Test for the method deleteCourse
+     */
+    @Test
+    public void deleteCourseTest() {
+        Course course = Course.getCourseInstance(appContext);
+        Map<String, String> deleteStatus = new HashMap<>();
+        deleteStatus = course.delete("CHMD8022_S1");
+        String courseKey = course.getCourseId("CHMD8022_S1");
+        assertTrue(courseKey.isEmpty());
+    }
+
+    /**
+     * @author  Jingwei Wang(u6891978)
+     *
+     * Test for the method deleteCourse
+     */
+    @Test
+    public void saveTest() {
+        Course course = Course.getCourseInstance(appContext);
+        Map<String, String> saveStatus = new HashMap<>();
+        List<Map<String, String>> newCourse = new ArrayList<>();
+        Map<String, String> lessonA = new HashMap<>();
+        lessonA.put("id","COMP8888"); //ACST3001
+        lessonA.put("courseName","New Course for Testing");
+        lessonA.put("semester", "S2");
+        lessonA.put("name","ComA/01");
+        lessonA.put("description", "");//no description of new course
+        lessonA.put("weekday","Thursday");
+        lessonA.put("start", "15:00");
+        lessonA.put("end", "19:00");
+        lessonA.put("duration", "4:00");
+        lessonA.put("weeks", "30-35,38-43");//default weeks for S1
+        lessonA.put("location", "");//no location info of new course
+
+        Map<String, String> lessonB = new HashMap<>();
+        lessonB.put("id","COMP8888"); //ACST3001
+        lessonB.put("courseName","New Course for Testing");
+        lessonB.put("semester", "S2");
+        lessonB.put("name","ComA/02");
+        lessonB.put("description", "");//no description of new course
+        lessonB.put("weekday","Friday");
+        lessonB.put("start", "15:00");
+        lessonB.put("end", "17:00");
+        lessonB.put("duration", "2:00");
+        lessonB.put("weeks", "30-35,38-43");//default weeks for S1
+        lessonB.put("location", "");//no location info of new course
+
+        Map<String, String> lessonC = new HashMap<>();
+        lessonC.put("id","COMP8888"); //ACST3001
+        lessonC.put("courseName","New Course for Testing");
+        lessonC.put("semester", "S2");
+        lessonC.put("name","LecA/01");
+        lessonC.put("description", "");//no description of new course
+        lessonC.put("weekday","Friday");
+        lessonC.put("start", "15:00");
+        lessonC.put("end", "17:00");
+        lessonC.put("duration", "2:00");
+        lessonC.put("weeks", "30-35,38-43");//default weeks for S1
+        lessonC.put("location", "");//no location info of new course
+
+
+        newCourse.add(lessonA);
+        newCourse.add(lessonB);
+        newCourse.add(lessonC);
+
+        saveStatus = course.save(newCourse);
+        String courseKey = course.getCourseId("COMP8888_S2");
+        assertTrue(!courseKey.isEmpty());
+    }
+
+    /**
+     * @author  Jingwei Wang(u6891978)
+     *
+     * Test for the method delete
+     */
+    @Test
+    public void deleteTest() {
+        Course course = Course.getCourseInstance(appContext);
+        Map<String, String> deleteStatus = new HashMap<>();
+        deleteStatus = course.delete("WARS1001_S1");
+        String courseKey = course.getCourseId("WARS1001_S1");
+        assertTrue(courseKey.isEmpty());
     }
 }

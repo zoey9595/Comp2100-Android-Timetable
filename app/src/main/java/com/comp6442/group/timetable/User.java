@@ -125,8 +125,7 @@ public class User extends FileOperator{
                 // Add a new course or update a exist course
                 this.userCourses.put(courseID, lessonList);
             }
-
-            // Write to the internal file
+            // Write to the internal memory
             this.writeInternalFile(this.userCourses.toString());
 
         } catch (Exception ex) {
@@ -181,7 +180,6 @@ public class User extends FileOperator{
             Log.e(getClass().getSimpleName(), ex.getMessage());
             return false;
         }
-
         return true;
     }
 
@@ -200,13 +198,13 @@ public class User extends FileOperator{
         Map<String, String> conflict = new HashMap<>();
         String message = "";
         String isConflict = "false";
-        for (int i = 0; i < timeToEnrollList.size(); i++) {
+        for (int i = 0; i < timeToEnrollList.size(); i++) {//loop the lessons to be enrolled
             String startToEnroll = timeToEnrollList.get(i).get(Utility.START);
             String endToEnroll = timeToEnrollList.get(i).get(Utility.END);
             String toEnrollLesson = timeToEnrollList.get(i).get(Utility.FULL_NAME);
             String toEnrollWeekday = timeToEnrollList.get(i).get(Utility.WEEKDAY);
 
-            for (int j = 0; j < timeEnrolledList.size(); j++) {
+            for (int j = 0; j < timeEnrolledList.size(); j++) {//loop the lessons that have been enrolled
                 String startEnrolled = timeEnrolledList.get(j).get(Utility.START);
                 String endEnrolled = timeEnrolledList.get(j).get(Utility.END);
                 String enrolledLesson = timeEnrolledList.get(j).get(Utility.FULL_NAME);
@@ -215,26 +213,27 @@ public class User extends FileOperator{
                 String semesterEnrolled = enrolledLesson.substring(9,11);
                 String semesterToEnrolled = toEnrollLesson.substring(9,11);
 
+                //check lessons time conflict on the semester and same day
                 if (toEnrollWeekday.equals(enrolledWeekday) && semesterEnrolled.equals(semesterToEnrolled)) {
                     //Enrolled : 13:00 - 15:00
-                    //To Enroll :  12:00 - 14:00 or 12:00 - 15:00 or 12:00 - 17:00
+                    //To be Enroll :  12:00 - 14:00 or 12:00 - 15:00 or 12:00 - 17:00
                     if (Utility.compareTimeInString(startToEnroll, startEnrolled) < 0 &&
                             Utility.compareTimeInString(endToEnroll, startEnrolled) >= 0)
                         isConflict = "true";
 
                     //Enrolled : 13:00 - 15:00
-                    //To Enroll :  14:00 - 16:00 or 14:30 - 16:00
+                    //To be Enroll :  14:00 - 16:00 or 14:30 - 16:00
                     if (Utility.compareTimeInString(startToEnroll, startEnrolled) > 0 &&
                             Utility.compareTimeInString(startToEnroll, endEnrolled) < 0)
                         isConflict = "true";
 
                     //Enrolled : 13:00 - 15:00
-                    //To Enroll :  13:00 - ...
+                    //To be Enroll :  13:00 - ...
                     if (Utility.compareTimeInString(startToEnroll, startEnrolled) == 0)
                         isConflict = "true";
 
                     //Enrolled : 13:00 - 15:00
-                    //To Enroll : ... - 15:00
+                    //To be Enroll : ... - 15:00
                     if (Utility.compareTimeInString(endToEnroll, startEnrolled) == 0)
                         isConflict = "true";
 
@@ -280,7 +279,6 @@ public class User extends FileOperator{
     public Map<String, String> isConflict(Map<String, List<String>> toEnrollCourse) {
         Map<String, String> conflict = new HashMap<>();
 
-
         List<Map<String, String>> timeToEnrollList = new ArrayList<>();
         //get all lessons info by courseID
         for (String s : toEnrollCourse.keySet()) {
@@ -290,7 +288,6 @@ public class User extends FileOperator{
                 if (enrolledLessonInfo.size() > 0)
                     timeToEnrollList.add(enrolledLessonInfo);
             }
-
         }
 
         conflict = isTimeConflict(timeToEnrollList);
@@ -307,7 +304,7 @@ public class User extends FileOperator{
      */
     //enroll course
     public Map<String, String> save(Map<String, List<String>> toEnrollCourse) {
-        boolean hasError = false;
+        boolean hasConflict = false;
         Map<String, String> conflict = new HashMap<>();
         Map<String, String> saveStatus = new HashMap<>();
         conflict = isConflict(toEnrollCourse);
@@ -317,12 +314,12 @@ public class User extends FileOperator{
             key = s;
         }
         if (conflict.size() <= 0)
-            conflict = isCourseConflict(key);
+            conflict = isCourseConflict(key);//check if this course has requisite or incompatibility
 
         if (conflict.size() > 0)
-            hasError = true;
+            hasConflict = true;
 
-        if(hasError)
+        if(hasConflict)
         {
             saveStatus.put(Utility.STATUS,"false");
             saveStatus.put(Utility.MESSAGE,conflict.get("message"));
@@ -335,9 +332,21 @@ public class User extends FileOperator{
                 //get all lessons info by courseID
                 for (String s : toEnrollCourse.keySet()) {
                     List<String> lessons = toEnrollCourse.get(s);
+                    if(lessons.size() ==1)
+                    {
+                        String regex = "(.)*(\\d)(.)*";
+                        Pattern pattern = Pattern.compile(regex);
+                        String lesson =lessons.get(0);
+                        boolean containsNumber = pattern.matcher(lesson).matches();
+                        if(!containsNumber)
+                        {
+                            saveStatus.put(Utility.STATUS,"false");
+                            saveStatus.put(Utility.MESSAGE,"There is no lesson for this course! ");
+                            return saveStatus;
+                        }
+                    }
                     enrollUserCourse.put(s,lessons);
                 }
-
                 success = setUserCourses(toEnrollCourse);
 
             } catch (Exception e)
@@ -369,7 +378,7 @@ public class User extends FileOperator{
      *
      *
      */
-    public Map<String, String> isCourseConflict(String courseKey) {
+    public Map<String, String> isCourseConflict(String courseKey) { //check course requisite and incompatibility
         Map<String, String> conflict = new HashMap<>();
 
         try {
@@ -381,8 +390,8 @@ public class User extends FileOperator{
             List<String> requisiteCourses = new ArrayList<>();
             List<String> incompatibilityCourses = new ArrayList<>();
 
-            requisiteCourses = getCompatibilityList(requisite);
-            incompatibilityCourses = getCompatibilityList(incompatibility);
+            requisiteCourses = getCompatibilityList(requisite); // get requisite
+            incompatibilityCourses = getCompatibilityList(incompatibility); //get incompatibility
 
 
             //Check if incompatibility courses have been enrolled
@@ -420,19 +429,19 @@ public class User extends FileOperator{
             String iMessage = compatibility.get(Utility.INCOMPATIBILITY);
             String or = Pattern.quote("||");
             String and = Pattern.quote("&&");
-            if (!isRequisited && isIncompatibility) {
+            if (!isRequisited && isIncompatibility) {//course has both requisite and incompatibility course
 
                 rMessage = rMessage.replaceAll(or, "OR").replaceAll(and, "AND");
                 iMessage = iMessage.replaceAll(or, "OR").replaceAll(and, "AND");
                 conflict.put(Utility.STATUS, "false");
                 conflict.put(Utility.MESSAGE, "To enrol in this course you must have completed " + rMessage
                         + "; and You are not able to enrol in this course if you have completed " + iMessage);
-            } else if (!isRequisited) {
+            } else if (!isRequisited) {//there are requisite course need to be enrolled first
                 rMessage = rMessage.replace(or, "OR").replace(and, "AND");
                 conflict.put(Utility.STATUS, "false");
                 conflict.put(Utility.MESSAGE, "To enrol in this course you must have completed " + rMessage);
                 return conflict;
-            } else if (isIncompatibility) {
+            } else if (isIncompatibility) {//there are incompatibility course been enrolled
                 iMessage = iMessage.replaceAll(or, "OR").replaceAll(and, "AND");
                 conflict.put(Utility.STATUS, "false");
                 conflict.put(Utility.MESSAGE, "You are not able to enrol in this course if you have completed " + iMessage);
@@ -457,7 +466,8 @@ public class User extends FileOperator{
         List<String> courseMatches = new ArrayList<>();
 
         //pattern COMP1110, COMP1100, COMP6442
-        String rexPattern = "\\.*COMP\\d+";
+        //String rexPattern = "\\.*COMP\\d+";
+        String rexPattern = "[A-Za-z]{4}\\d{4}";
         Pattern pattern = Pattern.compile(rexPattern);
         Matcher match = pattern.matcher(compatibility);
 
@@ -486,11 +496,9 @@ public class User extends FileOperator{
                 if (courseId.contains(courseKey))
                     isEnrolledCourse = true;
             }
-
         } catch (Exception ex) {
             Log.e(getClass().getSimpleName(), ex.getMessage());
         }
-
         return isEnrolledCourse;
     }
 
@@ -501,7 +509,7 @@ public class User extends FileOperator{
      *
      *
      */
-    //    convert (False||False && True) to Boolean
+    //    convert String (false|| (false && true)) to Boolean
     public Boolean stringBooleanExpression(String toBoolean) {
         try {
             ScriptEngineManager manager = new ScriptEngineManager();
@@ -510,8 +518,8 @@ public class User extends FileOperator{
             return Boolean.TRUE.equals(result);
 
         } catch (Exception e) {
+            Log.e(getClass().getSimpleName(), e.getMessage());
         }
-
         return false;
     }
 
