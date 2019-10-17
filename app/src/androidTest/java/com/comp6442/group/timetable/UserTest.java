@@ -124,8 +124,6 @@ public class UserTest {
         assertNotNull(isConflict);
     }
 
-
-
     /**
      * @author  Jingwei Wang(u6891978)
      *
