@@ -1,5 +1,7 @@
 package com.comp6442.group.timetable;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -68,6 +70,7 @@ public class Utility {
     public static final String SCR = "Scr";
 
 
+    //display weekday
     public static String WeekdayDisplay(String weekdays)
     {
         String weekday="";
@@ -94,22 +97,19 @@ public class Utility {
         return weekday;
     }
 
+    //compare String format time
     public static long compareTimeInString(String time1, String time2){
         long elapsed =0;
 
         try{
-//            String startTime = "10:00";
-//            String endTime = "12:00";
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             Date d1 = sdf.parse(time1);
             Date d2 = sdf.parse(time2);
             elapsed = d1.getTime() - d2.getTime();
-            System.out.println(elapsed);
-
         }
         catch (ParseException e)
         {
-
+            Log.e("Utility", e.getMessage());
         }
         return elapsed;
     }

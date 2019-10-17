@@ -278,7 +278,7 @@ public class Course extends FileOperator {
      * This method is to retrieve specific lesson by courseKey and LessonName
      *
      */
-    //Added on 8 Oct 2019
+    //Added on 8 Oct 2019 // get lessons (COMP6490_S2-ComA/01) by courseKey (COMP6490_S2) and lessonName (ComA/01)
     public Map<String, String> getLessonsByCourseIdAndLessonName(String courseKey, String lessonName) {
         Map<String, String> lessonInfo = new HashMap<>();
         try {
@@ -309,7 +309,8 @@ public class Course extends FileOperator {
      * @param context context of the application
      *
      */
-    //get course list that have not enrolled yet // get context from EnroActivity : this
+    //get course list that have not enrolled yet
+    //get context from EnroActivity : this
     public List<String> getUnEnrolledCourseList(Context context) {
         Iterator iterator = this.courses.keys();
         List<String> courseList = new ArrayList<>();
@@ -340,8 +341,6 @@ public class Course extends FileOperator {
                 courseList.add(courseId);
 
         }
-
-
         Collections.sort(courseList);
         return courseList;
     }
@@ -370,7 +369,7 @@ public class Course extends FileOperator {
      * This method is to split the lesson name from COMP1110_S1-LecA/01 into COMP1110_S1, LecA and 01
      *
      */
-    //get split lesson name
+    //get split lesson name, for example, from COMP6490_S2-ComA/01 to COMP6490_S2, ComA and 01
     public static String[] splitLessonName(String Name) {
         String[] names = new String[4];
         names = Name.split("-|\\/+");
@@ -383,13 +382,19 @@ public class Course extends FileOperator {
      * This method is to split the course name from COMP1110_S1 into COMP1110 and S1
      *
      */
-    //get split lesson name
+    //get split lesson name, for example, from COMP6490_S2 to COMP6490 and S2
     public static String[] splitCourseName(String Name) {
         String[] names = new String[4];
         names = Name.split("_");
         return names;
     }
 
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is to save course
+     *
+     */
     public boolean setCourses(String courseKey,JSONObject course) {
         try {
 
@@ -479,7 +484,6 @@ public class Course extends FileOperator {
                 courseDetails.put("lessons", lessonArray);
                 success = setCourses(courseKey,courseDetails);
             }
-
             if (success) {
                 saveStatus.put(Utility.STATUS, "true");
                 saveStatus.put(Utility.MESSAGE, "Save successful!");
@@ -487,8 +491,6 @@ public class Course extends FileOperator {
                 saveStatus.put(Utility.STATUS, "false");
                 saveStatus.put(Utility.MESSAGE,"Save failed, please try again! ");
             }
-
-
         } catch (Exception ex) {
             Log.e(getClass().getSimpleName(), ex.getMessage());
         }
@@ -505,8 +507,8 @@ public class Course extends FileOperator {
     public Map<String,String > delete(String courseKey)
     {
         Map<String, String> deleteStatus = new HashMap<>();
-
         boolean success = false;
+
         success = deleteCourse(courseKey);
         if (success) {
             deleteStatus.put(Utility.STATUS, "true");
