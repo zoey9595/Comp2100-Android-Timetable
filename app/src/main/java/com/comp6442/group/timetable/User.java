@@ -85,6 +85,15 @@ public class User extends FileOperator{
         return userInstance;
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Read user selected courses from inernal file system,
+     * and convert the JSON data to java programming data
+     *
+     * @return Map<String, List<String>>, Key is the courseKey, Value is the list of lessons
+     *
+     */
     public Map<String, List<String>> getUserCourses() {
         Map<String, List<String>> selectedCourses = new HashMap<>();
         try {
@@ -108,10 +117,14 @@ public class User extends FileOperator{
     }
 
     /**
-     * @author Jingwei Wang (u6891978)
+     * @author Yongchao Lyu (u6874539)
      *
-     * This method is to enroll course
+     * Convert the user courses data to JSON format,
+     * and write to internal file system
      *
+     * @param userCourse, Map<String, List<String>>
+     *                    Key is the courseKey, Value is the list of lessons
+     * @return boolean, true if write successful, false otherwise
      *
      */
     public boolean setUserCourses(Map<String, List<String>> userCourse) {
@@ -125,7 +138,7 @@ public class User extends FileOperator{
                 // Add a new course or update a exist course
                 this.userCourses.put(courseID, lessonList);
             }
-            // Write to the internal memory
+            // Write to the internal storage
             this.writeInternalFile(this.userCourses.toString());
 
         } catch (Exception ex) {
