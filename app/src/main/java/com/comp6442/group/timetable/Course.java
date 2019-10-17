@@ -76,6 +76,14 @@ public class Course extends FileOperator {
         return courseInstance;
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Get the list of names of all avaialable courses
+     *
+     * @return List of String, names of all courses
+     *
+     */
     public List<String> getCourseNameList() {
         Iterator iterator = this.courses.keys();
         List<String> courseList = new ArrayList<>();
@@ -85,11 +93,19 @@ public class Course extends FileOperator {
         return courseList;
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Get the list of names of courses start with "COMP"
+     *
+     * @return List of String, names of courses start with "COMP"
+     *
+     */
     public List<String> getCompCourseNameList() {
         List<String> courseList = new ArrayList<>();
 
         Iterator iterator = this.courses.keys();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             String courseName = (String) iterator.next();
             if (courseName.contains("COMP"))
                 courseList.add(courseName);
@@ -99,6 +115,15 @@ public class Course extends FileOperator {
         return courseList;
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Get the courseId for a certain courseKey
+     *
+     * @param courseKey, String, combining courseId and semester, e.g. COMP6442_S2
+     * @return String, representing the courseId, e.g. COMP6442
+     *
+     */
     public String getCourseId(String courseKey) {
         String courseId = "";
         try {
@@ -110,6 +135,15 @@ public class Course extends FileOperator {
         return courseId;
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Get the courseName for a certain courseKey
+     *
+     * @param courseKey, String, combining courseId and semester, e.g. COMP6442_S2
+     * @return String, representing the courseName, e.g. Software Construction
+     *
+     */
     public String getCourseName(String courseKey) {
         String courseName = "";
         try {
@@ -122,6 +156,15 @@ public class Course extends FileOperator {
         return courseName;
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Get the semester for a certain courseKey
+     *
+     * @param courseKey, String, combining courseId and semester, e.g. COMP6442_S2
+     * @return String, representing the semester, e.g. S2
+     *
+     */
     public String getCourseSemester(String courseKey) {
         String semester = "";
         try {
@@ -134,6 +177,15 @@ public class Course extends FileOperator {
         return semester;
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Get the list of available lessons for a certain courseKey
+     *
+     * @param courseKey, String, combining courseId and semester, e.g. COMP6442_S2
+     * @return List of Map, all available lessons for the certain course
+     *
+     */
     public List<Map<String, String>> getLessons(String courseKey) {
         List<Map<String, String>> lessonList = new ArrayList<>();
         try {
@@ -156,13 +208,10 @@ public class Course extends FileOperator {
         return lessonList;
     }
 
-
-
     /**
      * @author Jingwei Wang (u6891978)
      *
      * This method is to retrieve all the lecture details by CourseKey
-     *
      *
      */
     //added on 1 Oct 2019
@@ -390,7 +439,7 @@ public class Course extends FileOperator {
         return names;
     }
 
-    public boolean setCourses(String courseKey,JSONObject course) {
+    public boolean setCourses(String courseKey, JSONObject course) {
         try {
 
             this.courses.put(courseKey, course);
@@ -412,8 +461,7 @@ public class Course extends FileOperator {
      * This method using to delete the existing course in Json file.
      *
      */
-    public boolean deleteCourse(String courseKey)
-    {
+    public boolean deleteCourse(String courseKey) {
         try {
             this.courses.remove(courseKey);
 
@@ -443,13 +491,12 @@ public class Course extends FileOperator {
             JSONArray lessonArray = new JSONArray();
 
 
-            String courseKey ="";
-            courseKey =course.get(0).get("id")+"_"+course.get(0).get("semester");//ACST3001_S1
+            String courseKey = "";
+            courseKey = course.get(0).get("id") + "_" + course.get(0).get("semester");//ACST3001_S1
 
-            if(courseKey.equals(""))
+            if (courseKey.equals(""))
                 success = false;
-            else
-            {
+            else {
                 if (course.size() > 0) {
 
                     courseDetails.put("id", course.get(0).get("id")); //ACST3001
@@ -461,15 +508,15 @@ public class Course extends FileOperator {
                     JSONObject lesson = new JSONObject();
 
                     //add lesson into lesson list
-                    lesson.put("name",courseKey+"-"+ course.get(i).get("name"));
+                    lesson.put("name", courseKey + "-" + course.get(i).get("name"));
                     lesson.put("description", "");//no description of new course
                     lesson.put("weekday", course.get(i).get("weekday"));
                     lesson.put("start", course.get(i).get("start"));
                     lesson.put("end", course.get(i).get("end"));
                     lesson.put("duration", course.get(i).get("duration"));
-                    if(course.get(0).get("semester").equals("S1"))
+                    if (course.get(0).get("semester").equals("S1"))
                         lesson.put("weeks", "9-22");//default weeks for S1
-                    if(course.get(0).get("semester").equals("S2"))
+                    if (course.get(0).get("semester").equals("S2"))
                         lesson.put("weeks", "30-43");//default weeks for S2
                     lesson.put("location", "");//no location info of new course
                     lessonArray.put(lesson);
@@ -477,7 +524,7 @@ public class Course extends FileOperator {
 
                 //add lesson list into course object
                 courseDetails.put("lessons", lessonArray);
-                success = setCourses(courseKey,courseDetails);
+                success = setCourses(courseKey, courseDetails);
             }
 
             if (success) {
@@ -485,7 +532,7 @@ public class Course extends FileOperator {
                 saveStatus.put(Utility.MESSAGE, "Save successful!");
             } else {
                 saveStatus.put(Utility.STATUS, "false");
-                saveStatus.put(Utility.MESSAGE,"Save failed, please try again! ");
+                saveStatus.put(Utility.MESSAGE, "Save failed, please try again! ");
             }
 
 
@@ -502,8 +549,7 @@ public class Course extends FileOperator {
      * This method using to delete the existing course.
      *
      */
-    public Map<String,String > delete(String courseKey)
-    {
+    public Map<String, String> delete(String courseKey) {
         Map<String, String> deleteStatus = new HashMap<>();
 
         boolean success = false;
@@ -513,7 +559,7 @@ public class Course extends FileOperator {
             deleteStatus.put(Utility.MESSAGE, "Delete successful!");
         } else {
             deleteStatus.put(Utility.STATUS, "false");
-            deleteStatus.put(Utility.MESSAGE,"Save failed, please try again! ");
+            deleteStatus.put(Utility.MESSAGE, "Save failed, please try again! ");
         }
         return deleteStatus;
     }
