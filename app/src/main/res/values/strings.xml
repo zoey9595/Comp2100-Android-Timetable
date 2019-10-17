@@ -14,13 +14,10 @@
     <string name="search_hint">Courses that you have enrolled will not appear in search result.</string>
     <string name="guide_title">\n### Welcome to use ANU Timetable ###</string>
     <string name="guide_enrol_title">\n\nEnrol Page Introduction\n</string>
-    <string name="guide_enrol_list">You can easily check which courses you have enrolled in this page!
-        You can delete these courses from your list as well. \n \nIf you don\'t know which course you can choose.
-        Here is the answer! We made personal recommendation for ANU COMP students based on ANU computing specializations
-        and course conflict descriptions. \n
-        \nClick the search button. You can search all ANU courses with ANU course code. \n
-        \nYou can select which tutorial you want to enrol. If there are conflicts,
-        you will see a detailed message when you click the enrol button.</string>
+    <string name="guide_enrol_list">Check courses you have enrolled. You can also delete any enrolled courses.\n
+        \nHere is the personal recommendation for ANU COMP students, based on ANU computing specializations and course conflict descriptions.\n
+        \nYou can search any ANU courses with ANU course code. You can also add custom courses by click the add button below.\n
+        \nYou can enrol any tutorial if there is no conflict.</string>
     <string name="guide_calender_title">\n\nCalender Page Introduction\n</string>
     <string name="guide_calender_description">
         This page is the first page you will see when you opening the application.\n
