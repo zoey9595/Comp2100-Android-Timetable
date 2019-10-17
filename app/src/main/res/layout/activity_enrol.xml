@@ -91,6 +91,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/ll2"
         android:scrollbars="vertical"
+        android:hint="@string/search_hint"
         android:layout_marginBottom="@dimen/enrol_item_margin"
         android:maxLines="4" />
 

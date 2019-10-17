@@ -279,14 +279,14 @@ public class EnrolActivity extends AppCompatActivity {
                         // Add the selected course to userCourseList
                         Map<String, String> temp2 = user.save(temp);
                         if (temp2.get("status").equals("false")) {
-                            //enrolledCourses.add(selectedcourseID);
-                            enrolAdapter.add(selectedcourseID);
-                            enrolAdapter.notifyDataSetChanged();
                             // Make a custom toast
                             MyToast myToast = MyToast.makeText(view.getContext(), temp2.get("message"), Toast.LENGTH_LONG);
                             myToast.setGravity(Gravity.CENTER, 0, 0);
                             myToast.show();
                         } else {
+                            //enrolledCourses.add(selectedcourseID);
+                            enrolAdapter.add(selectedcourseID);
+                            enrolAdapter.notifyDataSetChanged();
                             Toast.makeText(view.getContext(), temp2.get("message"), Toast.LENGTH_SHORT).show();
                             // Return to the main activity
                             finish();
