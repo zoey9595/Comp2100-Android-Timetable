@@ -76,6 +76,14 @@ public class Course extends FileOperator {
         return courseInstance;
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Get the list of names of all avaialable courses
+     *
+     * @return List of String, names of all courses
+     *
+     */
     public List<String> getCourseNameList() {
         Iterator iterator = this.courses.keys();
         List<String> courseList = new ArrayList<>();
@@ -85,6 +93,14 @@ public class Course extends FileOperator {
         return courseList;
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Get the list of names of courses start with "COMP"
+     *
+     * @return List of String, names of courses start with "COMP"
+     *
+     */
     public List<String> getCompCourseNameList() {
         List<String> courseList = new ArrayList<>();
 
@@ -99,6 +115,15 @@ public class Course extends FileOperator {
         return courseList;
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Get the courseId for a certain courseKey
+     *
+     * @param courseKey, String, combining courseId and semester, e.g. COMP6442_S2
+     * @return String, representing the courseId, e.g. COMP6442
+     *
+     */
     public String getCourseId(String courseKey) {
         String courseId = "";
         try {
@@ -110,6 +135,15 @@ public class Course extends FileOperator {
         return courseId;
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Get the courseName for a certain courseKey
+     *
+     * @param courseKey, String, combining courseId and semester, e.g. COMP6442_S2
+     * @return String, representing the courseName, e.g. Software Construction
+     *
+     */
     public String getCourseName(String courseKey) {
         String courseName = "";
         try {
@@ -122,6 +156,15 @@ public class Course extends FileOperator {
         return courseName;
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Get the semester for a certain courseKey
+     *
+     * @param courseKey, String, combining courseId and semester, e.g. COMP6442_S2
+     * @return String, representing the semester, e.g. S2
+     *
+     */
     public String getCourseSemester(String courseKey) {
         String semester = "";
         try {
@@ -134,6 +177,15 @@ public class Course extends FileOperator {
         return semester;
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Get the list of available lessons for a certain courseKey
+     *
+     * @param courseKey, String, combining courseId and semester, e.g. COMP6442_S2
+     * @return List of Map, all available lessons for the certain course
+     *
+     */
     public List<Map<String, String>> getLessons(String courseKey) {
         List<Map<String, String>> lessonList = new ArrayList<>();
         try {
