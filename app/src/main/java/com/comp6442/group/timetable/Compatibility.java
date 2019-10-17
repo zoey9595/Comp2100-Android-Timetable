@@ -57,12 +57,12 @@ public class Compatibility extends FileOperator{
         return compatibilityInstance;
     }
 
+    //get course compatibility information
     public Map<String, String> getCoursesCompatiblityById(String courseKey) {
         Map<String, String> compatibility = new HashMap<>();
 
         try {
             JSONObject courseDetail = (JSONObject) this.compatibility.get(courseKey);
-
             compatibility.put(Utility.FULL_NAME, (String) courseDetail.get(Utility.FULL_NAME));
             compatibility.put(Utility.REQUISITE, (String) courseDetail.get(Utility.REQUISITE));
             compatibility.put(Utility.INCOMPATIBILITY, (String) courseDetail.get(Utility.INCOMPATIBILITY));
@@ -70,7 +70,6 @@ public class Compatibility extends FileOperator{
         } catch (Exception ex) {
             Log.e(getClass().getSimpleName(), ex.getMessage());
         }
-
         return compatibility;
     }
 }

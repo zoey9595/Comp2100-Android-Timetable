@@ -216,22 +216,22 @@ public class CourseTest {
     public void reformatLessonInfoTest() {
         Course course = Course.getCourseInstance(appContext);
         Map<String, String> lesson = new HashMap<>();
-        Map<String, String> toReformatedLesson = new HashMap<>();
+        Map<String, String> reformatedLesson = new HashMap<>();
         lesson.put("name", "CMP1110_S1-ComA/01");
         lesson.put("weekday", "Friday");
         lesson.put("start", "13:00");
         lesson.put("end", "14:00");
-        toReformatedLesson.put(Utility.NAME_TYPE, "Com"); //Com
-        toReformatedLesson.put(Utility.NAME_ALP, "A");//A
-        toReformatedLesson.put(Utility.NAME_INDEX, "01");//01
-        toReformatedLesson.put(Utility.WEEKDAY, "Fri");
-        toReformatedLesson.put(Utility.START, "13:00");
-        toReformatedLesson.put(Utility.END, "14:00");
+        reformatedLesson.put(Utility.NAME_TYPE, "Com"); //Com
+        reformatedLesson.put(Utility.NAME_ALP, "A");//A
+        reformatedLesson.put(Utility.NAME_INDEX, "01");//01
+        reformatedLesson.put(Utility.WEEKDAY, "Fri");
+        reformatedLesson.put(Utility.START, "13:00");
+        reformatedLesson.put(Utility.END, "14:00");
 
 
-        Map<String, String> reformatedLesson = new HashMap<>();
-        reformatedLesson = course.reformatLessonInfo(lesson);
-        assertEquals(toReformatedLesson.size(),reformatedLesson.size());
+        Map<String, String> ExpecctedReformatedLesson = new HashMap<>();
+        ExpecctedReformatedLesson = course.reformatLessonInfo(lesson);
+        assertEquals(reformatedLesson.size(),ExpecctedReformatedLesson.size());
     }
 
 
@@ -258,11 +258,10 @@ public class CourseTest {
     @Test
     public void splitLessonNameTest() {
         Course course = Course.getCourseInstance(appContext);
-        String[] names = new String[4];
-        String[] toNames = new String[]{"COMP1110_S1","LecA","01"};
-        names = course.splitLessonName("COMP1110_S1-LecA/01");
-        System.out.printf(names.toString());
-        assertArrayEquals(toNames,names); ;
+        String[] expectedNames = new String[4];
+        String[] names = new String[]{"COMP1110_S1","LecA","01"};
+        expectedNames = course.splitLessonName("COMP1110_S1-LecA/01");
+        assertArrayEquals(names,expectedNames); ;
     }
 
     /**
@@ -273,11 +272,10 @@ public class CourseTest {
     @Test
     public void splitCourseNameTest() {
         Course course = Course.getCourseInstance(appContext);
-        String[] names = new String[4];
-        String[] toNames = new String[]{"COMP1110","S1"};
-        names = course.splitCourseName("COMP1110_S1");
-        System.out.printf(names.toString());
-        assertArrayEquals(toNames,names); ;
+        String[] expectedNames = new String[4];
+        String[] names = new String[]{"COMP1110","S1"};
+        expectedNames = course.splitCourseName("COMP1110_S1");
+        assertArrayEquals(names,expectedNames); ;
     }
 
     /**

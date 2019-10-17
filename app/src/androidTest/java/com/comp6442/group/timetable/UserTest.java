@@ -189,10 +189,10 @@ public class UserTest {
         String trueString="( true || ( false && true ))";
         String falseString="( true && false )";
 
-        Boolean exp1 = userCourse.stringBooleanExpression(trueString);
-        Boolean exp2 = userCourse.stringBooleanExpression(falseString);
-        assertTrue(exp1);
-        assertFalse(exp2);
+        Boolean expTrue = userCourse.stringBooleanExpression(trueString);
+        Boolean expFalse = userCourse.stringBooleanExpression(falseString);
+        assertTrue(expTrue);
+        assertFalse(expFalse);
 
     }
 

@@ -105,7 +105,7 @@ public class Course extends FileOperator {
         List<String> courseList = new ArrayList<>();
 
         Iterator iterator = this.courses.keys();
-        while (iterator.hasNext()) {
+        while (iterator.hasNext()){
             String courseName = (String) iterator.next();
             if (courseName.contains("COMP"))
                 courseList.add(courseName);
@@ -208,10 +208,13 @@ public class Course extends FileOperator {
         return lessonList;
     }
 
+
+
     /**
      * @author Jingwei Wang (u6891978)
      *
      * This method is to retrieve all the lecture details by CourseKey
+     *
      *
      */
     //added on 1 Oct 2019
@@ -327,7 +330,7 @@ public class Course extends FileOperator {
      * This method is to retrieve specific lesson by courseKey and LessonName
      *
      */
-    //Added on 8 Oct 2019
+    //Added on 8 Oct 2019 // get lessons (COMP6490_S2-ComA/01) by courseKey (COMP6490_S2) and lessonName (ComA/01)
     public Map<String, String> getLessonsByCourseIdAndLessonName(String courseKey, String lessonName) {
         Map<String, String> lessonInfo = new HashMap<>();
         try {
@@ -358,7 +361,8 @@ public class Course extends FileOperator {
      * @param context context of the application
      *
      */
-    //get course list that have not enrolled yet // get context from EnroActivity : this
+    //get course list that have not enrolled yet
+    //get context from EnroActivity : this
     public List<String> getUnEnrolledCourseList(Context context) {
         Iterator iterator = this.courses.keys();
         List<String> courseList = new ArrayList<>();
@@ -389,8 +393,6 @@ public class Course extends FileOperator {
                 courseList.add(courseId);
 
         }
-
-
         Collections.sort(courseList);
         return courseList;
     }
@@ -419,7 +421,7 @@ public class Course extends FileOperator {
      * This method is to split the lesson name from COMP1110_S1-LecA/01 into COMP1110_S1, LecA and 01
      *
      */
-    //get split lesson name
+    //get split lesson name, for example, from COMP6490_S2-ComA/01 to COMP6490_S2, ComA and 01
     public static String[] splitLessonName(String Name) {
         String[] names = new String[4];
         names = Name.split("-|\\/+");
@@ -432,14 +434,20 @@ public class Course extends FileOperator {
      * This method is to split the course name from COMP1110_S1 into COMP1110 and S1
      *
      */
-    //get split lesson name
+    //get split lesson name, for example, from COMP6490_S2 to COMP6490 and S2
     public static String[] splitCourseName(String Name) {
         String[] names = new String[4];
         names = Name.split("_");
         return names;
     }
 
-    public boolean setCourses(String courseKey, JSONObject course) {
+    /**
+     * @author Jingwei Wang (u6891978)
+     *
+     * This method is to save course
+     *
+     */
+    public boolean setCourses(String courseKey,JSONObject course) {
         try {
 
             this.courses.put(courseKey, course);
@@ -461,7 +469,8 @@ public class Course extends FileOperator {
      * This method using to delete the existing course in Json file.
      *
      */
-    public boolean deleteCourse(String courseKey) {
+    public boolean deleteCourse(String courseKey)
+    {
         try {
             this.courses.remove(courseKey);
 
@@ -491,12 +500,13 @@ public class Course extends FileOperator {
             JSONArray lessonArray = new JSONArray();
 
 
-            String courseKey = "";
-            courseKey = course.get(0).get("id") + "_" + course.get(0).get("semester");//ACST3001_S1
+            String courseKey ="";
+            courseKey =course.get(0).get("id")+"_"+course.get(0).get("semester");//ACST3001_S1
 
-            if (courseKey.equals(""))
+            if(courseKey.equals(""))
                 success = false;
-            else {
+            else
+            {
                 if (course.size() > 0) {
 
                     courseDetails.put("id", course.get(0).get("id")); //ACST3001
@@ -508,15 +518,15 @@ public class Course extends FileOperator {
                     JSONObject lesson = new JSONObject();
 
                     //add lesson into lesson list
-                    lesson.put("name", courseKey + "-" + course.get(i).get("name"));
+                    lesson.put("name",courseKey+"-"+ course.get(i).get("name"));
                     lesson.put("description", "");//no description of new course
                     lesson.put("weekday", course.get(i).get("weekday"));
                     lesson.put("start", course.get(i).get("start"));
                     lesson.put("end", course.get(i).get("end"));
                     lesson.put("duration", course.get(i).get("duration"));
-                    if (course.get(0).get("semester").equals("S1"))
+                    if(course.get(0).get("semester").equals("S1"))
                         lesson.put("weeks", "9-22");//default weeks for S1
-                    if (course.get(0).get("semester").equals("S2"))
+                    if(course.get(0).get("semester").equals("S2"))
                         lesson.put("weeks", "30-43");//default weeks for S2
                     lesson.put("location", "");//no location info of new course
                     lessonArray.put(lesson);
@@ -524,18 +534,15 @@ public class Course extends FileOperator {
 
                 //add lesson list into course object
                 courseDetails.put("lessons", lessonArray);
-                success = setCourses(courseKey, courseDetails);
+                success = setCourses(courseKey,courseDetails);
             }
-
             if (success) {
                 saveStatus.put(Utility.STATUS, "true");
                 saveStatus.put(Utility.MESSAGE, "Save successful!");
             } else {
                 saveStatus.put(Utility.STATUS, "false");
-                saveStatus.put(Utility.MESSAGE, "Save failed, please try again! ");
+                saveStatus.put(Utility.MESSAGE,"Save failed, please try again! ");
             }
-
-
         } catch (Exception ex) {
             Log.e(getClass().getSimpleName(), ex.getMessage());
         }
@@ -549,17 +556,18 @@ public class Course extends FileOperator {
      * This method using to delete the existing course.
      *
      */
-    public Map<String, String> delete(String courseKey) {
+    public Map<String,String > delete(String courseKey)
+    {
         Map<String, String> deleteStatus = new HashMap<>();
-
         boolean success = false;
+
         success = deleteCourse(courseKey);
         if (success) {
             deleteStatus.put(Utility.STATUS, "true");
             deleteStatus.put(Utility.MESSAGE, "Delete successful!");
         } else {
             deleteStatus.put(Utility.STATUS, "false");
-            deleteStatus.put(Utility.MESSAGE, "Save failed, please try again! ");
+            deleteStatus.put(Utility.MESSAGE,"Save failed, please try again! ");
         }
         return deleteStatus;
     }

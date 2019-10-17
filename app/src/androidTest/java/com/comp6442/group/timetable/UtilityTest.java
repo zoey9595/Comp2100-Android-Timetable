@@ -22,12 +22,12 @@ public class UtilityTest {
     public void compareTimeInStringTest() {
         String time1="13:00";
         String time2="14:00";
-        long timeDiscrepency1 = Utility.compareTimeInString(time1,time2);
-        long timeDiscrepency2 = Utility.compareTimeInString(time2,time1);
-        long timeDiscrepency3 = Utility.compareTimeInString(time1,time1);
-        assert (timeDiscrepency1 <0);
-        assert (timeDiscrepency2 >0);
-        assertEquals(timeDiscrepency3, 0);
+        long timeDiscrepencyCase1 = Utility.compareTimeInString(time1,time2);
+        long timeDiscrepencyCase2 = Utility.compareTimeInString(time2,time1);
+        long timeDiscrepencyCase3 = Utility.compareTimeInString(time1,time1);
+        assert (timeDiscrepencyCase1 <0);
+        assert (timeDiscrepencyCase2 >0);
+        assertEquals(timeDiscrepencyCase3, 0);
 
     }
 
@@ -38,16 +38,16 @@ public class UtilityTest {
      */
     @Test
     public void getWeekdayListTest() {
-        List<String> weekdays = new ArrayList<>();
         List<String> weekday = new ArrayList<>();
-        weekdays.add("Mon");
-        weekdays.add("Tue");
-        weekdays.add("Wed");
-        weekdays.add("Thu");
-        weekdays.add("Fri");
+        List<String> expectWeekday = new ArrayList<>();
+        weekday.add("Mon");
+        weekday.add("Tue");
+        weekday.add("Wed");
+        weekday.add("Thu");
+        weekday.add("Fri");
 
-        weekday = Utility.getWeekdayList();
-        assertArrayEquals(weekday.toArray(), weekdays.toArray());
+        expectWeekday = Utility.getWeekdayList();
+        assertArrayEquals(weekday.toArray(), expectWeekday.toArray());
 
     }
 
@@ -64,17 +64,17 @@ public class UtilityTest {
         String thu = "Thu";
         String fri = "Fri";
 
-        String toMon= Utility.WeekdayDisplay("Monday");
-        String toTue= Utility.WeekdayDisplay("Tuesday");
-        String toWed= Utility.WeekdayDisplay("Wednesday");
-        String toThu= Utility.WeekdayDisplay("Thursday");
-        String toFri= Utility.WeekdayDisplay("Friday");
+        String expectedMon= Utility.WeekdayDisplay("Monday");
+        String expectedTue= Utility.WeekdayDisplay("Tuesday");
+        String expectedWed= Utility.WeekdayDisplay("Wednesday");
+        String expectedThu= Utility.WeekdayDisplay("Thursday");
+        String expectedFri= Utility.WeekdayDisplay("Friday");
 
-        assertSame(mon,toMon);
-        assertSame(tue,toTue);
-        assertSame(wed,toWed);
-        assertSame(thu,toThu);
-        assertSame(fri,toFri);
+        assertSame(mon,expectedMon);
+        assertSame(tue,expectedTue);
+        assertSame(wed,expectedWed);
+        assertSame(thu,expectedThu);
+        assertSame(fri,expectedFri);
 
     }
 

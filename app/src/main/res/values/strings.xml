@@ -11,6 +11,7 @@
     <string name="enrolled_courses">Seems you need to enrol some courses :)</string>
     <string name="recommend_courses_title">We would recommend you to enrol:</string>
     <string name="recommend_courses">You need to enrol some courses, then we can make recommendation:)</string>
+    <string name="search_hint">Courses that you have enrolled will not appear in search result.</string>
     <string name="guide_title">\n### Welcome to use ANU Timetable ###</string>
     <string name="guide_enrol_title">\n\nEnrol Page Introduction\n</string>
     <string name="guide_enrol_list">You can easily check which courses you have enrolled in this page!
