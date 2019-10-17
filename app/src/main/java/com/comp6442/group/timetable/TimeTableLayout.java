@@ -1,3 +1,18 @@
+/**
+ * The TimeTableLayout class is a subclass of LinearLayout, which
+ * is used to generate timetable layout of the main activity. This
+ * class responsible for initialise layout and invoke methods of view
+ * modules for displaying the courses info on the timetable.
+ *
+ * Reference:
+ * The pattern of the layout referred the below link
+ * https://github.com/yaoandy107/TimetableUI
+ *
+ * @author  Yongchao Lyu (u6874539)
+ * @version 1.0
+ * @since   2019-09-15
+ */
+
 package com.comp6442.group.timetable;
 
 import android.content.Context;
@@ -14,30 +29,60 @@ import java.util.List;
 import java.util.Map;
 
 public class TimeTableLayout extends LinearLayout {
-
+    // Constant variables
     private static final int TABLE_COL = 8;
     private static final int TABLE_ROW = 16;
     private static final int TIME_START = 7;
     private static final List<String> WEEK_DAYS =
             Arrays.asList("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
 
+    // Class variables
     private static int TITLE_ROW_HEIGHT;
     private static int BODY_ROW_HEIGHT;
-    private LinearLayout courseContainer;
 
+    // Instance variables
+    private LinearLayout courseContainer;
     private boolean isInitialized = false;
     private OnClickListener onClickListener = null;
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Public constructor without AttributeSet
+     *
+     * @param context Context: the context of this application
+     *
+     */
     public TimeTableLayout(Context context) {
         super(context);
         inflate(context, R.layout.time_table_layout, this);
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Public constructor with AttributeSet
+     *
+     * @param context Context: the context of this application
+     *
+     */
     public TimeTableLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         inflate(context, R.layout.time_table_layout, this);
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Called from layout when this view should assign a size and position to each of its children.
+     *
+     * @param changed boolean: This is a new size or position for this view
+     * @param left int: Left position, relative to parent
+     * @param top int: Top position, relative to parent
+     * @param right int: Right position, relative to parent
+     * @param bottom int: Bottom position, relative to parent
+     *
+     */
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
@@ -53,6 +98,12 @@ public class TimeTableLayout extends LinearLayout {
         }
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Called as the last phase of inflation, after all child views have been added.
+     *
+     */
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
@@ -60,10 +111,25 @@ public class TimeTableLayout extends LinearLayout {
         courseContainer = findViewById(R.id.course_container);
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Set OnClickListener for a lesson block
+     *
+     * @param onClickListener OnClickListener: the listener for a lesson block
+     *
+     */
     public void setOnClickListener(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Initialize the timetable, display the lines of the table,
+     * headers of weedays, index of day clocks.
+     *
+     */
     private void initCourseTable() {
         courseContainer.removeAllViews();
 
@@ -104,6 +170,12 @@ public class TimeTableLayout extends LinearLayout {
         }
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Clear all existing lesson blocks
+     *
+     */
     private void resetCourseTable() {
         for (int row = 1; row < TABLE_ROW; row++) {
             for (int col = 1; col < TABLE_COL; col++) {
@@ -117,6 +189,13 @@ public class TimeTableLayout extends LinearLayout {
         requestLayout();
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Get color array used for rendering difference lesson blocks
+     *
+     * @return int array, color array for rendering lesson blocks
+     */
     private int[] getColorArray(int colorCount) {
         int[] LessonColors = getContext().getResources().getIntArray(R.array.LessonColors);
         List<Integer> defaultColor = new ArrayList<>();
@@ -132,7 +211,14 @@ public class TimeTableLayout extends LinearLayout {
         return colorArray;
     }
 
+    /**
+     * @author Yongchao Lyu (u6874539)
+     *
+     * Render lesson blocks onto the timetable
+     *
+     */
     public void showCourse() {
+        // Clear existing courses
         resetCourseTable();
 
         int currentWeek = UserCourse.getCurrentWeek();
