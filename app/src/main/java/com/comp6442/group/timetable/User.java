@@ -332,6 +332,19 @@ public class User extends FileOperator{
                 //get all lessons info by courseID
                 for (String s : toEnrollCourse.keySet()) {
                     List<String> lessons = toEnrollCourse.get(s);
+                    if(lessons.size() ==1)
+                    {
+                        String regex = "(.)*(\\d)(.)*";
+                        Pattern pattern = Pattern.compile(regex);
+                        String lesson =lessons.get(0);
+                        boolean containsNumber = pattern.matcher(lesson).matches();
+                        if(!containsNumber)
+                        {
+                            saveStatus.put(Utility.STATUS,"false");
+                            saveStatus.put(Utility.MESSAGE,"There is no lesson for this course! ");
+                            return saveStatus;
+                        }
+                    }
                     enrollUserCourse.put(s,lessons);
                 }
                 success = setUserCourses(toEnrollCourse);
@@ -453,7 +466,8 @@ public class User extends FileOperator{
         List<String> courseMatches = new ArrayList<>();
 
         //pattern COMP1110, COMP1100, COMP6442
-        String rexPattern = "\\.*COMP\\d+";
+        //String rexPattern = "\\.*COMP\\d+";
+        String rexPattern = "[A-Za-z]{4}\\d{4}";
         Pattern pattern = Pattern.compile(rexPattern);
         Matcher match = pattern.matcher(compatibility);
 
