@@ -6,9 +6,9 @@
  * locates at the internal storage. The class contains lots of useful
  * methods that get or set different part of the specialisation data structure.
  *
- * @author  Yongchao Lyu (u6874539), Jingwei Wang (u6891978)
+ * @author  Yongchao Lyu (u6874539)
  * @version 1.0
- * @since   2019-09-20
+ * @since   2019-10-10
  */
 
 package com.comp6442.group.timetable;
@@ -32,8 +32,6 @@ public class Recommend extends FileOperator {
     private JSONObject specialisation = new JSONObject();
 
     /**
-     * @author Yongchao Lyu (u6874539)
-     *
      * The constructor of the class for initialising
      * 1. Set the filename of the file to be operated
      * 2. Migrate the resource file to internal storage if it has not been done yet.
@@ -62,8 +60,6 @@ public class Recommend extends FileOperator {
     }
 
     /**
-     * @author Yongchao Lyu (u6874539)
-     *
      * Method for getting the instance of this singleton class
      *
      * Note: The class can only be instantiated once for preventing the file
@@ -79,6 +75,15 @@ public class Recommend extends FileOperator {
         return recommendInstance;
     }
 
+    /**
+     * Count the courses that appear in a certain specialisation
+     *
+     * @param sName, String: the name of a certain specialisation
+     * @param enrolledCourses List<String>: the list of courses user selected
+     * @return integer, the number of courses that exists
+     * in the course list of a certain specialisation
+     *
+     */
     private int countMatchCourses(String sName, List<String> enrolledCourses) {
         int count = 0;
 
@@ -100,6 +105,13 @@ public class Recommend extends FileOperator {
         return count;
     }
 
+    /**
+     * Find the best matched specialisation name according to the user enrolled courses
+     *
+     * @param enrolledCourses, List<String>: the courses that user enrolled
+     * @return String, the best matched specialisation name
+     *
+     */
     private String getBestMatchSpecialisation(List<String> enrolledCourses) {
         int maxCount = 0;
         String bestMatch = "";
@@ -119,6 +131,14 @@ public class Recommend extends FileOperator {
         return bestMatch;
     }
 
+    /**
+     * Check whether a course has been enrolled
+     *
+     * @param course String: course name to be checked
+     * @param enrolledCourses List<String>: a list of courses that have enrolled
+     * @return boolean, true if the course has not yet enrolled
+     *
+     */
     private boolean isCandidate(String course, List<String> enrolledCourses) {
         for (String enrolled : enrolledCourses)
             if (course.contains(enrolled))
@@ -126,6 +146,14 @@ public class Recommend extends FileOperator {
         return true;
     }
 
+    /**
+     * Get all courses that have not been enrolled yet
+     *
+     * @param enrolledCourses List<String>: a list cf courses that have enrolled
+     * @param courseList List<String>: a list of all available courses
+     * @return List<String>, a list of courses that have not yet enrolled
+     *
+     */
     private List<String> getCandidates(List<String> enrolledCourses, List<String> courseList) {
         List<String> candidateCourses = new ArrayList<>();
         for (String course : courseList)
@@ -134,6 +162,13 @@ public class Recommend extends FileOperator {
         return candidateCourses;
     }
 
+    /**
+     * Convert JSONArray data structure to List
+     *
+     * @param courseArray JSONArray to be converted
+     * @return List<String>, List data type with the same content of the input
+     *
+     */
     private List<String> convertJSONArray(JSONArray courseArray) {
         List<String> courseList = new ArrayList<>();
 
@@ -148,6 +183,13 @@ public class Recommend extends FileOperator {
         return courseList;
     }
 
+    /**
+     * Filter the candidate courses and keep the courses available in certain semester
+     *
+     * @param candidateCourses List<String>: candidate courses without semester info
+     * @return List<String>, available courses filtered from the input appended with semester
+     *
+     */
     private List<String> filterAvailableCourses(List<String> candidateCourses) {
         List<String> availableCourses = new ArrayList<>();
         for (String candidate: candidateCourses)
@@ -158,6 +200,12 @@ public class Recommend extends FileOperator {
         return availableCourses;
     }
 
+    /**
+     * Main functional method of this class for generating a recommendation
+     *
+     * @return List<String>, a list of courses recommended to the user
+     *
+     */
     public List<String> getRecommendCourses() {
         List<String> enrolledCourses = new ArrayList<>();
         List<String> recommendCourses = new ArrayList<>();
