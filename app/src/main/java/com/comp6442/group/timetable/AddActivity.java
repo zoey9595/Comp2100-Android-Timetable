@@ -141,7 +141,16 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                     else flag = false;
                 }
 
-                if (mEditCID.getText().length()== 0 || mEditCName.getText().length() == 0||flag){
+                boolean timeFlag = false;
+                for (int i=0;i<mListViewDetail.getCount();i++){
+                    if (mCourseDetailInfos.get(i).getLessonStartInt() >= mCourseDetailInfos.get(i).getLessonEndInt() ){
+                        timeFlag = true;
+                    }
+                    else timeFlag = false;
+                }
+
+
+                if (mEditCID.getText().length()== 0 || mEditCName.getText().length() == 0||flag||timeFlag){
                     Toast.makeText(AddActivity.this, "You can not save, please edit it again", Toast.LENGTH_SHORT).show();
                 }
 
