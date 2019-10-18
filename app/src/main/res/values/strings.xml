@@ -37,10 +37,6 @@
     <string-array name="semester">
         <item>S1</item>
         <item>S2</item>
-        <item>X1</item>
-        <item>X2</item>
-        <item>X3</item>
-        <item>X4</item>
     </string-array>
 
     <!--Not sure this is all the class type;-->
