@@ -358,6 +358,12 @@ public class User extends FileOperator{
                             return saveStatus;
                         }
                     }
+                    for (int i = 0; i < lessons.size(); i++) {
+                        if (lessons.get(i).equals("There i")) {
+                            lessons.remove(i);
+                        }
+
+                    }
                     enrollUserCourse.put(s,lessons);
                 }
                 success = setUserCourses(toEnrollCourse);
