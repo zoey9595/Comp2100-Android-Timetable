@@ -25,6 +25,7 @@
             android:layout_marginLeft="10dp"
             android:hint="Course ID"
             android:maxLines="1"
+            android:maxLength="8"
             android:background="@null" />
         <Spinner
             android:id="@+id/spinner_semester"
@@ -62,6 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:hint="Course Name"
+            android:maxLines="1"
             android:background="@null" />
 
     </LinearLayout>
