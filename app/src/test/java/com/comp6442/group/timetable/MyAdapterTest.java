@@ -1,3 +1,10 @@
+/**
+ * This is an adapter test for MyAdapter.
+ *
+ * @author Yuqing Zhai (u6865190)
+ * @version 1.0
+ * @since 2019-09-20
+ */
 package com.comp6442.group.timetable;
 
 import android.content.Context;
