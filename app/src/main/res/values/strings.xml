@@ -27,11 +27,10 @@
     </string>
     <string name="guide_add_title">Add page introduction</string>
     <string name="guide_add_list">
-        You can add and edit course information in this page!\n
-        \nInput the course ID and choose the semester of it.Press the search button to get information.\n
-        \nYou can press yellow add button to add information and edit the information.\n
-        \nIf you want to delete some information, you can long press it and choose YES.\n
-        \nPress SAVE button to save the information you add. Press the DELETE button to delete the course from the course list.
+        Enter the courseID, choose the semester, press the search button to get detailed information.\n
+        \nPress the yellow add button to add a blank block. Modify the block as you need.\n
+        \nLong press the block to delete it.\n
+        \nPress SAVE button to save the information you add. Press the DELETE button to delete the course from the backend course list.
     </string>
 
     <string-array name="semester">
