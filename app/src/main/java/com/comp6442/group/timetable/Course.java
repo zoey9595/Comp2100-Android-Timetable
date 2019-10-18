@@ -519,7 +519,7 @@ public class Course extends FileOperator {
 
                     //add lesson into lesson list
                     lesson.put("name",courseKey+"-"+ course.get(i).get("name"));
-                    lesson.put("description", "");//no description of new course
+                    lesson.put("description", "https://www.anu.edu.au");//no description of new course
                     lesson.put("weekday", course.get(i).get("weekday"));
                     lesson.put("start", course.get(i).get("start"));
                     lesson.put("end", course.get(i).get("end"));
@@ -528,7 +528,7 @@ public class Course extends FileOperator {
                         lesson.put("weeks", "9-22");//default weeks for S1
                     if(course.get(0).get("semester").equals("S2"))
                         lesson.put("weeks", "30-43");//default weeks for S2
-                    lesson.put("location", "");//no location info of new course
+                    lesson.put("location", "ANU Canberra ACT 0200");//no location info of new course
                     lessonArray.put(lesson);
                 }
 
