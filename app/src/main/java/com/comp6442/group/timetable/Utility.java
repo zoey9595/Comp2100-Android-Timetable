@@ -97,6 +97,33 @@ public class Utility {
         return weekday;
     }
 
+    //display weekday
+    public static String getFullWeekday(String weekdays)
+    {
+        String weekday="";
+
+        switch (weekdays){
+            case MON:
+                weekday = "Monday";
+                break;
+            case TUE:
+                weekday = "Tuesday";
+                break;
+            case WED:
+                weekday = "Wednesday";
+                break;
+            case THU:
+                weekday = "Thursday";
+                break;
+            case FRI:
+                weekday = "Friday";
+                break;
+        }
+
+
+        return weekday;
+    }
+
     //compare String format time
     public static long compareTimeInString(String time1, String time2){
         long elapsed =0;
