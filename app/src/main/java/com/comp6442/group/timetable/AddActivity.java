@@ -99,7 +99,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         switch(v.getId()){
             case R.id.btn_findCourse:
                 mCourseDetailInfos.clear();
-                mCourseID = mEditCID.getText().toString()+"_"+mSpSemester.getSelectedItem().toString();
+                mCourseID = mEditCID.getText().toString().toUpperCase()+"_"+mSpSemester.getSelectedItem().toString();
                 mCourseName = mCourse.getCourseName(mCourseID);
                 mEditCName.setText(mCourseName);
                 index = mCourse.getLecDetailsInsplit(mCourseID).size();
@@ -129,8 +129,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 break;
 
             case R.id.btn_add_save:
-
-
                 boolean flag = false;
                 for (int i=0;i<mListViewDetail.getCount();i++){
                     if (mCourseDetailInfos.get(i).getLessonType().length()==0||mCourseDetailInfos.get(i).getLessonAlph().length()==0
