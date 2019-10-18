@@ -46,30 +46,12 @@ public class UserTest {
         Map<String, String> addStatus = new HashMap<>();
         Map<String, List<String>> newUserCourse = new HashMap<>();
         List<String> lessons = new ArrayList<>();
-        lessons.add("ComA/01");
-        lessons.add("ComA/02");
-        lessons.add("ComA/03");
+        lessons.add("LecX/01");
         lessons.add("LecA/01");
-        newUserCourse.put("COMP1100_S1",lessons);
+        newUserCourse.put("MGMT2030_S1",lessons);
         Boolean setUserCourse = userCourse.setUserCourses(newUserCourse);
         assertTrue(setUserCourse);
 
-    }
-
-    /**
-     * @author  Jingwei Wang(u6891978)
-     *
-     * Test for the method delete
-     */
-    @Test
-    public void deleteTest() {
-        User userCourse = User.getUserInstance(appContext);
-        List<Map<String, String>> lectureDetailList = new ArrayList<>();
-
-        Map<String, String> deleteStatus = new HashMap<>();
-        deleteStatus = userCourse.delete("COMP1100_S1");
-        Boolean delete = Boolean.valueOf(deleteStatus.get("status"));
-        assertTrue(delete);
     }
 
     /**
@@ -124,6 +106,8 @@ public class UserTest {
         assertNotNull(isConflict);
     }
 
+
+
     /**
      * @author  Jingwei Wang(u6891978)
      *
@@ -139,11 +123,31 @@ public class UserTest {
         lessons.add("ComA/01");
         lessons.add("ComA/02");
         lessons.add("LecA/01");
-        toEnrollCourse.put("COMP6670_S2",lessons);
+        toEnrollCourse.put("MGMT2007_S2",lessons);
 
         saveStatus = userCourse.save(toEnrollCourse);
         assertNotNull(saveStatus);
 
+    }
+
+    /**
+     * @author  Jingwei Wang(u6891978)
+     *
+     * Test for the method delete
+     */
+    @Test
+    public void deleteTest() {
+        User userCourse = User.getUserInstance(appContext);
+        List<Map<String, String>> lectureDetailList = new ArrayList<>();
+
+        Map<String, String> deleteStatus_S1 = new HashMap<>();
+        Map<String, String> deleteStatus_S2 = new HashMap<>();
+        deleteStatus_S1 = userCourse.delete("MGMT2030_S1");
+        deleteStatus_S2 = userCourse.delete("MGMT2007_S2");
+        Boolean delete_S1 = Boolean.valueOf(deleteStatus_S1.get("status"));
+        Boolean delete_S2 = Boolean.valueOf(deleteStatus_S2.get("status"));
+        assertTrue(delete_S1);
+        assertTrue(delete_S2);
     }
 
     /**
