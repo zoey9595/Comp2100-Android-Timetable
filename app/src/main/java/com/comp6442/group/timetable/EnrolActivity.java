@@ -1,11 +1,12 @@
 /**
- * Author: Yuqing Zhai
- * UID： u6865190
- * <p>
  * This is the enrol page. You can find the enrolled courses list and the recommendation course list.
  * You can search any ANU courses in this page, and add it to the calender page.
  * If there are any conflicts between the course you select and the courses you have enrolled, you
  * will get a notice.
+ *
+ * @author Yuqing Zhai (u6865190)
+ * @version 1.0
+ * @since 2019-09-20
  */
 package com.comp6442.group.timetable;
 

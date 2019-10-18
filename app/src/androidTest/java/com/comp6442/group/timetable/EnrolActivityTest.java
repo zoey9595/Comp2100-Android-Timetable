@@ -1,8 +1,9 @@
 /**
- * Author: Yuqing Zhai
- * UID: u6865190
- * <p>
  * This is a UI test for EnrolActivity.
+ *
+ * @author Yuqing Zhai (u6865190)
+ * @version 1.0
+ * @since 2019-09-20
  */
 package com.comp6442.group.timetable;
 
@@ -69,7 +70,7 @@ public class EnrolActivityTest {
     }
 
     @Test
-    public void checkDeleteButton() throws Throwable{
+    public void checkDeleteButton() throws Throwable {
         final Button mBtnDelete = enrolActivity.findViewById(R.id.btn_deleteEnroledCourses);
         final Button mBtnEnrol = enrolActivity.findViewById(R.id.btn_enrol);
         final Button mBtnAdd = enrolActivity.findViewById(R.id.btn_addnewcourse);

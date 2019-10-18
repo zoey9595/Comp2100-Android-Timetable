@@ -1,8 +1,9 @@
 /**
- * Author: Yuqing Zhai
- * UID: u6865190
- * <p>
  * This is a UI test for GuideActivity.
+ *
+ * @author Yuqing Zhai (u6865190)
+ * @version 1.0
+ * @since 2019-09-20
  */
 package com.comp6442.group.timetable;
 
