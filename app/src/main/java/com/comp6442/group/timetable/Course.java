@@ -519,7 +519,7 @@ public class Course extends FileOperator {
 
                     //add lesson into lesson list
                     lesson.put("name",courseKey+"-"+ course.get(i).get("name"));
-                    lesson.put("description", "https://www.anu.edu.au");//no description of new course
+                    lesson.put("description", "");//no description of new course
                     lesson.put("weekday", course.get(i).get("weekday"));
                     lesson.put("start", course.get(i).get("start"));
                     lesson.put("end", course.get(i).get("end"));
