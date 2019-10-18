@@ -121,20 +121,32 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 }
                 break;
 
-
             case R.id.btn_addclass:
-
                 mCourseDetailAdapter = new CourseDetailAdapter(AddActivity.this,mCourseDetailInfos);
                 mCourseDetailInfos.add(index,new CourseDetailInfo("","","","","",""));
                 mListViewDetail.setAdapter(mCourseDetailAdapter);
                 index++;
                 break;
-            case R.id.btn_add_save:
-//                if (mEditCID.getText().length()== 0 || mEditCName.getText().length() == 0){
-//                    Toast.makeText(AddActivity.this, "You can not save this course! ", Toast.LENGTH_SHORT).show();
-//                }
 
-                new AlertDialog.Builder(AddActivity.this)
+            case R.id.btn_add_save:
+
+
+                boolean flag = false;
+                for (int i=0;i<mListViewDetail.getCount();i++){
+                    if (mCourseDetailInfos.get(i).getLessonType().length()==0||mCourseDetailInfos.get(i).getLessonAlph().length()==0
+                            ||mCourseDetailInfos.get(i).getLessonNum().length()==0||mCourseDetailInfos.get(i).getLessonDay().length()==0
+                            ||mCourseDetailInfos.get(i).getLessonStart().length()==0||mCourseDetailInfos.get(i).getLessonEnd().length()==0){
+                        flag = true;
+                    }
+                    else flag = false;
+                }
+
+                if (mEditCID.getText().length()== 0 || mEditCName.getText().length() == 0||flag){
+                    Toast.makeText(AddActivity.this, "You can not save, please edit it again", Toast.LENGTH_SHORT).show();
+                }
+
+                else
+                    { new AlertDialog.Builder(AddActivity.this)
                         .setTitle("Are you sure?")
                         .setMessage("Do you want to refresh all the information about this course?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -161,12 +173,21 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                                     courseMap.put("duration", duration);
                                     mCourseDetails.add(courseMap);
                                 }
-                                mCourse.save(mCourseDetails);
-                                mCourseDetailAdapter.refreshData(mCourseDetailInfos);
-                                finish();
+                                    mCourse.save(mCourseDetails);
+                                    if (mCourse.save(mCourseDetails).get("status")=="true"){
+                                        Toast.makeText(AddActivity.this, mCourse.save(mCourseDetails).get("message"), Toast.LENGTH_LONG).show();
+                                        }
+                                    if (mCourse.save(mCourseDetails).get("status")=="false"){
+                                        Toast.makeText(AddActivity.this, mCourse.save(mCourseDetails).get("message"), Toast.LENGTH_LONG).show();
+                                    }
+                                    mCourseDetailAdapter.refreshData(mCourseDetailInfos);
+                                    finish();
                             }
                         })
                         .setNegativeButton("No",null).show();
+                }
+
+
                 break;
             case R.id.btn_add_delete:
                 new AlertDialog.Builder(AddActivity.this)
@@ -177,6 +198,12 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                             public void onClick(DialogInterface dialog, int which) {
                                 mCourseID = mEditCID.getText().toString()+"_"+mSpSemester.getSelectedItem().toString();
                                 mCourse.delete(mCourseID);
+                                if (mCourse.delete(mCourseID).get("status")=="true"){
+                                    Toast.makeText(AddActivity.this, mCourse.delete(mCourseID).get("message"), Toast.LENGTH_LONG).show();
+                                }
+                                if (mCourse.delete(mCourseID).get("status")=="false"){
+                                    Toast.makeText(AddActivity.this, mCourse.delete(mCourseID).get("message"), Toast.LENGTH_LONG).show();
+                                }
                                 mCourseDetailInfos.clear();
                                 mCourseDetailAdapter.refreshData(mCourseDetailInfos);
                             }
