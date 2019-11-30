@@ -16,7 +16,7 @@
 - Find detailed course information by clicking the course block. 
 - If you click the DETAILS button inside the block, you will go directly to the corresponding ANU official course website.
 
-![course_detail](uploads/53f1aba221184ecc9b93a1551fe1892d/course_detail.gif)
+![](course_detail.gif)
 
 ### Enrol Page
 - Display all courses that you have enrolled.
@@ -25,12 +25,12 @@
 - Search any courses in ANU database using ANU course code.
 - Select corresponding tutorials, and click the enrol button. If there are any conflicts, you will get a red message. Otherwise, you will automatically return to the home page.
 
-![delete](uploads/4cb3376f125eeb1dcc496c9c7e3b9754/delete.gif)
+![](delete.gif)
 
-![enrol](uploads/648cad54d87132e540d23ebbf22be10a/enrol.gif)
+![](enrol.gif)
 
 ### Add Page
 - Modify any courses and tutorials in ANU database.
 - Add custom courses and tutorials.
 
-![add](uploads/7b9d83934b717b16ebf3b2241ba1d560/add.gif)
+![](add.gif)
